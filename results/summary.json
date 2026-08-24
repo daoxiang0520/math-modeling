@@ -14,8 +14,10 @@
     0.234217554
   ],
   "below_threshold_rate": 0.13401109057301294,
+  "beta_precision_phi": 70.6366796700572,
   "sigma_tech_logit": 0.13293552621663884,
   "icc": 0.8094308811313089,
+  "random_effect_structure": "random intercept + centered-GA slope",
   "correlations": {
     "ga_pearson": [
       0.12656002844735784,
@@ -34,6 +36,16 @@
       3.018672242238758e-07
     ]
   },
-  "elapsed_seconds": 3.0108895301818848,
-  "model_note": "logit-normal spline mixed model; executable approximation to Beta-GAMM"
+  "max_sensitivity_changes": {
+    "distribution": 0.11637284139713533,
+    "interaction": 0.0285661294562638,
+    "gc": 0.0004253793427207997,
+    "ga_window": 0.03436841906611943,
+    "ga_date_crosscheck": 0.02519021643718722,
+    "health": 0.014119504504864655
+  },
+  "elapsed_seconds": 4.300631284713745,
+  "model_note": "two-stage Beta-GAMM: Beta likelihood + REML random intercept/slope variance layer",
+  "clinical_threshold": 0.04,
+  "confidence_level_for_intervals": 0.95
 }

@@ -17,6 +17,7 @@
 ├── requirements.generated.txt      # Python 依赖
 ├── results/                        # 模型结果、诊断数据和图表数据源
 ├── figures/                        # PNG / PDF / SVG 与灰度预览
+├── reports/problem1_report.md      # 问题1完整建模报告（含图表引用）
 ├── reports/visualization_report.md # 选图依据和视觉质检记录
 ├── coder_task.md                   # 建模任务与实现约束
 └── coder_task.json                 # 结构化任务描述
@@ -35,7 +36,7 @@
 
 ## 方法框架
 
-主分析在 `logit(Y)` 尺度建立样条混合效应模型：
+主分析采用两阶段 Beta-GAMM：Beta 似然刻画有界 Y 浓度，REML 方差层刻画孕妇随机截距和随机孕周斜率：
 
 ```text
 logit(E[Y_ij]) = beta0
@@ -56,7 +57,7 @@ logit(E[Y_ij]) = beta0
 - 条件预测令随机效应为 0，边缘预测将随机效应方差积分进达标概率；
 - 分位数回归用于独立的阈值反演与概率交叉验证。
 
-当前实现是 Statsmodels 环境下对 Beta-GAMM 的可执行近似，即 **logit-normal 样条混合效应模型**，不是严格的 Beta 似然 GAMM。若论文需严格使用 Beta-GAMM，可进一步使用 R `mgcv` / `gamm4` 或贝叶斯 Beta 混合模型复核。
+当前实现的固定效应分布层是严格 Beta 似然，但 Beta 层与随机效应层为两阶段估计，并非联合极大似然；这一限制已在报告中明确披露。
 
 ## 主要结果
 
@@ -64,11 +65,11 @@ logit(E[Y_ij]) = beta0
 - Y 浓度与 BMI 呈弱负相关：Pearson `r = -0.151`，`p < 0.001`。
 - 平均孕周处随机截距 ICC 约为 `0.809`，孕妇个体差异不可忽略。
 - 技术重复估计的 logit 尺度测量误差标准差约为 `0.133`。
-- BMI 表达形式优于仅体重或“身高 + 体重”，后两者的 Delta AIC 约为 26。
-- 孕周和 BMI 平滑项、IVF 项达到显著；年龄项未达到 0.05。
-- 交互项 Wald 检验显著，但固定效应 AIC 偏向无交互模型，因此交互结论需结合敏感性分析，不宜只依赖单一 p 值。
+- BMI 表达形式优于仅体重或“身高 + 体重”，后两者的 Delta AIC 约为 22。
+- 孕周、BMI、年龄平滑项和 IVF 项达到显著。
+- 孕周-BMI 交互未获 Beta 似然比检验支持（p=0.766；删除交互后 AIC 改善 12.26），报告不把预设交互误写为已证实结论。
 
-详细结果见 [`results/`](results/)；分析说明见 [`reports/visualization_report.md`](reports/visualization_report.md)。
+完整建模报告见 [`reports/problem1_report.md`](reports/problem1_report.md)；详细结果见 [`results/`](results/)；选图与视觉质检见 [`reports/visualization_report.md`](reports/visualization_report.md)。
 
 ## 核心图表
 
@@ -85,7 +86,7 @@ logit(E[Y_ij]) = beta0
 | [`fig_diag_resid`](figures/fig_diag_resid.png) | 残差、Q-Q 图和组水平偏差诊断 |
 | [`fig_model_comparison`](figures/fig_model_comparison.png) | AIC 与按孕妇分组交叉验证比较 |
 
-其余敏感性图覆盖分布假设、交互项、GC 处理、边缘化和孕周窗口。每张图均提供：
+其余敏感性图覆盖分布假设、交互项、GC 处理、边缘化、孕周窗口、孕周日期核验和胎儿健康记录处理。每张图均提供：
 
 - 300 DPI PNG；
 - PDF 矢量图；
@@ -125,11 +126,11 @@ python .\figures.py
 
 - `solution.py` 将统计结果写入 `results/`；
 - `figures.py` 从 `results/` 读取数据并重新生成 `figures/`；
-- 完整执行时间约 25 秒，满足任务中不超过 90 秒的约束。
+- 本机实测 `solution.py` 约 4.3 秒、`figures.py` 约 25.0 秒，总计约 29.3 秒，满足任务中不超过 90 秒的约束。
 
 ## 可视化质量控制
 
-图表采用色盲安全配色、颜色与线型冗余编码、感知均匀色图以及统一中文字体。全部 16 张主题图均完成：
+图表采用色盲安全配色、颜色与线型冗余编码、感知均匀色图以及统一中文字体。全部 18 张主题图均完成：
 
 - 300 DPI 文件检查；
 - 中文与负号缺字检查；

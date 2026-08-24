@@ -191,6 +191,8 @@ def figure_interaction_heatmap() -> None:
 
 def figure_quantiles() -> None:
     df = pd.read_csv(RESULTS / "q1_quantile_curves.csv")
+    median_bmi = float(np.median(np.sort(df["bmi"].unique())))
+    df = df[np.isclose(df["bmi"], median_bmi)]
     chosen = [0.10, 0.25, 0.50, 0.75, 0.90]
     fig, ax = plt.subplots(figsize=(6.7, 3.35), constrained_layout=True)
     for i, tau in enumerate(chosen):
@@ -199,7 +201,7 @@ def figure_quantiles() -> None:
                 markevery=22, markersize=3, label=f"tau={tau:.2f}")
     ax.axhline(4, color=VERMILLION, linestyle="--", linewidth=1.2, label="4%阈值")
     ax.set(xlabel="检测孕周 (周)", ylabel="logit尺度回译的Y浓度分位数 (%)",
-           title="中心BMI下的条件分位数族：阈值穿越位置决定达标概率")
+           title=f"中心BMI={median_bmi:.1f}下的单调条件分位数族")
     ax.set_xlim(10, 25)
     polish(ax, "y")
     ax.legend(frameon=False, ncol=6, loc="upper center", bbox_to_anchor=(0.5, -0.18))
@@ -234,7 +236,7 @@ def figure_diagnostics() -> None:
     fig, axes = plt.subplots(2, 2, figsize=(6.7, 5.0), constrained_layout=True)
     axes[0, 0].scatter(df["fitted"], df["resid"], s=7, alpha=0.28, color=BLUE, edgecolors="none")
     axes[0, 0].axhline(0, color=VERMILLION, linestyle="--", linewidth=1)
-    axes[0, 0].set(xlabel="拟合logit(Y)", ylabel="残差", title="残差-拟合值")
+    axes[0, 0].set(xlabel="Beta模型拟合均值", ylabel="随机分位数残差", title="残差-拟合值")
     q = np.linspace(0.5 / len(df), 1 - 0.5 / len(df), len(df))
     theo = norm.ppf(q)
     sample = np.sort((df["resid"] - df["resid"].mean()) / df["resid"].std())
@@ -245,7 +247,7 @@ def figure_diagnostics() -> None:
     axes[1, 0].hist(df["resid"], bins=35, density=True, color=SKY, alpha=0.8, edgecolor="white")
     xx = np.linspace(df["resid"].min(), df["resid"].max(), 250)
     axes[1, 0].plot(xx, norm.pdf(xx, df["resid"].mean(), df["resid"].std()), color=VERMILLION)
-    axes[1, 0].set(xlabel="残差", ylabel="密度", title="残差分布")
+    axes[1, 0].set(xlabel="随机分位数残差", ylabel="密度", title="Beta分位数残差分布")
     group_mean = df.groupby("mother_id", as_index=False)["resid"].mean()
     axes[1, 1].hist(group_mean["resid"], bins=25, color=GREEN, alpha=0.8, edgecolor="white")
     axes[1, 1].axvline(0, color=GRAY_DARK, linestyle="--", linewidth=0.9)
@@ -272,8 +274,8 @@ def two_curve_sensitivity(filename: str, name: str, cols: tuple[str, str], label
 
 
 def figure_sensitivities() -> None:
-    two_curve_sensitivity("sens_dist.csv", "fig_sens_dist", ("mixed_normal", "quantile"),
-                          ("混合模型边缘概率", "分位数阈值反演"), "分布假设敏感性")
+    two_curve_sensitivity("sens_dist.csv", "fig_sens_dist", ("beta_marginal", "quantile"),
+                          ("Beta-GAMM边缘概率", "分位数阈值反演"), "分布假设敏感性")
     two_curve_sensitivity("sens_interaction.csv", "fig_sens_interaction",
                           ("with_interaction", "without_interaction"), ("含孕周-BMI交互", "无交互"),
                           "交互项敏感性")
@@ -283,6 +285,11 @@ def figure_sensitivities() -> None:
                           ("边缘预测", "条件预测"), "个体随机效应积分的影响")
     two_curve_sensitivity("sens_ga_window.csv", "fig_sens_ga_window", ("all_records", "only_10_25"),
                           ("全部记录拟合", "仅10-25周拟合"), "孕周建模窗口敏感性")
+    two_curve_sensitivity("sens_ga_crosscheck.csv", "fig_sens_ga_crosscheck",
+                          ("all_records", "date_crosscheck_pass"),
+                          ("全部解析成功记录", "日期核验差异≤1周"), "孕周日期交叉核验敏感性")
+    two_curve_sensitivity("sens_health.csv", "fig_sens_health", ("retain_all", "exclude_unhealthy"),
+                          ("保留不健康记录", "剔除不健康记录"), "胎儿健康记录处理敏感性")
 
 
 def figure_threshold_anchor() -> None:
@@ -343,7 +350,7 @@ def figure_model_principle() -> None:
     for start in [(0.27, 0.79), (0.27, 0.55), (0.27, 0.31), (0.61, 0.79), (0.61, 0.45)]:
         axes[0].annotate("", xy=(0.73, 0.59), xytext=start, xycoords=axes[0].transAxes,
                          arrowprops=dict(arrowstyle="->", color=GRAY_DARK, lw=1))
-    axes[0].text(0.5, 0.04, "expit(eta)给出条件均值；方差层决定越过4%阈值的概率",
+    axes[0].text(0.5, 0.04, "Beta分布给出有界响应；随机效应积分决定新孕妇越过4%阈值的概率",
                  transform=axes[0].transAxes, ha="center", color=GRAY_DARK)
     axes[0].set_title("关系模型的组成")
 
@@ -365,7 +372,7 @@ def figure_model_principle() -> None:
 
 def figure_model_comparison() -> None:
     df = pd.read_csv(RESULTS / "table_model_comparison.csv")
-    order = df.sort_values("delta_AIC", ascending=True)
+    order = df[df["分布族"].eq("beta")].sort_values("delta_AIC", ascending=True)
     fig, axes = plt.subplots(1, 2, figsize=(6.7, 2.8), constrained_layout=True)
     y = np.arange(len(order))
     axes[0].barh(y, order["delta_AIC"], color=[BLUE] + [GRAY_LIGHT] * (len(order) - 1))
@@ -377,7 +384,7 @@ def figure_model_comparison() -> None:
     axes[1].scatter(rm["RMSE"], yy, s=38, color=ORANGE)
     axes[1].set_yticks(yy, rm["模型"])
     axes[1].invert_yaxis()
-    axes[1].set(xlabel="按孕妇分组5折CV RMSE（logit尺度）", title="泛化误差")
+    axes[1].set(xlabel="按孕妇分组5折CV RMSE（Y浓度比例）", title="泛化误差")
     for ax in axes:
         polish(ax, "x")
     panel_labels(fig, axes)
@@ -417,7 +424,7 @@ def main() -> None:
         "fig_q1_smooth_bmi_int", "fig_q1_quantile_curves", "fig_q1_prob_curves",
         "fig_model_principle", "fig_model_comparison", "fig_diag_resid", "fig_sens_dist",
         "fig_sens_interaction", "fig_sens_gc", "fig_sens_marginal", "fig_sens_ga_window",
-        "fig_anchor_threshold",
+        "fig_sens_ga_crosscheck", "fig_sens_health", "fig_anchor_threshold",
     ]
     contact_sheet(names)
     print(f"generated {len(names)} figures in {FIGURES}")

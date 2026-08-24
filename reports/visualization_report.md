@@ -6,18 +6,18 @@
 
 ## 信息结构
 
-1. `fig_roadmap` 与 `fig_model_principle` 解释逻辑和概率边缘化原理。
+1. `fig_roadmap` 与 `fig_model_principle` 解释逻辑和 Beta-GAMM 概率边缘化原理。
 2. `fig_data_quality`、`fig_q1_scatter` 和 `fig_anchor_threshold` 锚定原始数据。
 3. `fig_q1_smooth_ga`、`fig_q1_smooth_bmi_int`、`fig_q1_quantile_curves` 和 `fig_q1_prob_curves` 展示模型主结果。
-4. `fig_diag_resid` 和五张敏感性图检查模型假设与稳健性。
+4. `fig_diag_resid` 和七张敏感性图检查分布、交互、GC、边缘化、孕周窗口、日期核验与健康记录处理。
 
 ## 视觉闭环
 
-- 第一轮：生成16张主题图和联系表。
+- 第一轮：生成18张主题图和联系表。
 - 发现：流程图底部说明与节点过近；原理图汇聚箭头信息偏密。
 - 第二轮：删除流程图重复说明、拉开上下层并缩小节点；保留原理图左右分栏，把关系组成和概率分布分开。
 - 终检：中文无方框，标签无裁切，图例不遮挡数据，连续色阶均有单位色条，多面板标签风格一致；所有PNG为约300 DPI并通过检查。
 
 ## 统计解释提醒
 
-图中的95%区间是固定效应近似置信区间，不是临床达标率常量。临床阈值始终为 Y浓度4%。当前主模型为 logit-normal 混合模型近似；若最终论文必须声称严格 Beta-GAMM，需要在 R 的 `mgcv`/`gamm4` 或 Bayesian Beta mixed model 中复核。
+图中的95%区间是固定效应近似置信区间，不是临床达标率常量。临床阈值始终为 Y浓度4%。当前固定效应分布层使用 Beta 似然，随机效应方差层使用 REML MixedLM；两层不是联合似然估计，正式发表前可用联合 Beta 混合模型复核。
