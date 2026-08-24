@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-08-24T18:57:27.219332</dc:date>
+    <dc:date>2026-08-24T19:19:47.764721</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -32,86 +32,86 @@ z
    <g id="patch_2">
     <path d="M 48.291072 136.110121 
 Q 76.333187 137.396046 103.03507 136.171581 
-" clip-path="url(#pc807fd3d74)" style="fill: none; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
+" clip-path="url(#pe4456a8b47)" style="fill: none; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 97.312684 133.631049 
 L 103.03507 136.171581 
 L 97.569213 139.22517 
 z
-" clip-path="url(#pc807fd3d74)" style="fill: #777777; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
+" clip-path="url(#pe4456a8b47)" style="fill: #777777; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="patch_3">
     <path d="M 118.78996 129.194908 
 Q 152.097536 91.561206 180.606722 51.813706 
-" clip-path="url(#pc807fd3d74)" style="fill: none; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
+" clip-path="url(#pe4456a8b47)" style="fill: none; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 175.067589 54.732268 
 L 180.606722 51.813706 
 L 179.618092 57.99615 
 z
-" clip-path="url(#pc807fd3d74)" style="fill: #777777; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
+" clip-path="url(#pe4456a8b47)" style="fill: #777777; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="patch_4">
     <path d="M 117.504004 143.062236 
 Q 146.894173 191.2394 180.310656 235.040428 
-" clip-path="url(#pc807fd3d74)" style="fill: none; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
+" clip-path="url(#pe4456a8b47)" style="fill: none; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 179.140091 228.889836 
 L 180.310656 235.040428 
 L 174.687844 232.286525 
 z
-" clip-path="url(#pc807fd3d74)" style="fill: #777777; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
+" clip-path="url(#pe4456a8b47)" style="fill: #777777; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="patch_5">
     <path d="M 195.056888 44.124488 
 Q 225.030536 45.520063 253.663995 44.186619 
-" clip-path="url(#pc807fd3d74)" style="fill: none; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
+" clip-path="url(#pe4456a8b47)" style="fill: none; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 247.939804 41.650157 
 L 253.663995 44.186619 
 L 248.200311 47.244094 
 z
-" clip-path="url(#pc807fd3d74)" style="fill: #777777; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
+" clip-path="url(#pe4456a8b47)" style="fill: #777777; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="patch_6">
     <path d="M 272.297154 44.129604 
 Q 306.132211 45.746476 338.627157 44.193763 
-" clip-path="url(#pc807fd3d74)" style="fill: none; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
+" clip-path="url(#pe4456a8b47)" style="fill: none; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 332.899899 41.664235 
 L 338.627157 44.193763 
 L 333.16718 47.257853 
 z
-" clip-path="url(#pc807fd3d74)" style="fill: #777777; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
+" clip-path="url(#pe4456a8b47)" style="fill: #777777; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="patch_7">
     <path d="M 348.121337 52.309724 
 Q 343.134523 143.319438 348.048078 232.989522 
-" clip-path="url(#pc807fd3d74)" style="fill: none; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
+" clip-path="url(#pe4456a8b47)" style="fill: none; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 350.537487 227.244711 
 L 348.048078 232.989522 
 L 344.945875 227.551109 
 z
-" clip-path="url(#pc807fd3d74)" style="fill: #777777; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
+" clip-path="url(#pe4456a8b47)" style="fill: #777777; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="patch_8">
     <path d="M 195.056888 243.433579 
 Q 225.030536 244.829154 253.663995 243.49571 
-" clip-path="url(#pc807fd3d74)" style="fill: none; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
+" clip-path="url(#pe4456a8b47)" style="fill: none; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 247.939804 240.959248 
 L 253.663995 243.49571 
 L 248.200311 246.553185 
 z
-" clip-path="url(#pc807fd3d74)" style="fill: #777777; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
+" clip-path="url(#pe4456a8b47)" style="fill: #777777; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="patch_9">
     <path d="M 267.497926 235.215167 
 Q 311.655136 145.670865 345.228784 53.070899 
-" clip-path="url(#pc807fd3d74)" style="fill: none; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
+" clip-path="url(#pe4456a8b47)" style="fill: none; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 340.687674 57.381156 
 L 345.228784 53.070899 
 L 345.952323 59.289942 
 z
-" clip-path="url(#pc807fd3d74)" style="fill: #777777; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
+" clip-path="url(#pe4456a8b47)" style="fill: #777777; stroke: #777777; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="PathCollection_1">
     <defs>
-     <path id="C0_0_7e62a56421" d="M 0 24.238399 
+     <path id="C0_0_73c17b13b9" d="M 0 24.238399 
 C 6.428099 24.238399 12.593784 21.684489 17.139137 17.139137 
 C 21.684489 12.593784 24.238399 6.428099 24.238399 -0 
 C 24.238399 -6.428099 21.684489 -12.593784 17.139137 -17.139137 
@@ -123,33 +123,33 @@ C -12.593784 21.684489 -6.428099 24.238399 0 24.238399
 z
 "/>
     </defs>
-    <g clip-path="url(#pc807fd3d74)">
-     <use xlink:href="#C0_0_7e62a56421" x="39.642397" y="135.652359" style="fill: #56b4e9; stroke: #ffffff; stroke-width: 1.5"/>
+    <g clip-path="url(#pe4456a8b47)">
+     <use xlink:href="#C0_0_73c17b13b9" x="39.642397" y="135.652359" style="fill: #56b4e9; stroke: #ffffff; stroke-width: 1.5"/>
     </g>
-    <g clip-path="url(#pc807fd3d74)">
-     <use xlink:href="#C0_0_7e62a56421" x="113.024008" y="135.652359" style="fill: #56b4e9; stroke: #ffffff; stroke-width: 1.5"/>
+    <g clip-path="url(#pe4456a8b47)">
+     <use xlink:href="#C0_0_73c17b13b9" x="113.024008" y="135.652359" style="fill: #56b4e9; stroke: #ffffff; stroke-width: 1.5"/>
     </g>
-    <g clip-path="url(#pc807fd3d74)">
-     <use xlink:href="#C0_0_7e62a56421" x="186.40562" y="43.663548" style="fill: #e69f00; stroke: #ffffff; stroke-width: 1.5"/>
+    <g clip-path="url(#pe4456a8b47)">
+     <use xlink:href="#C0_0_73c17b13b9" x="186.40562" y="43.663548" style="fill: #e69f00; stroke: #ffffff; stroke-width: 1.5"/>
     </g>
-    <g clip-path="url(#pc807fd3d74)">
-     <use xlink:href="#C0_0_7e62a56421" x="263.649421" y="43.663548" style="fill: #0072b2; stroke: #ffffff; stroke-width: 1.5"/>
+    <g clip-path="url(#pe4456a8b47)">
+     <use xlink:href="#C0_0_73c17b13b9" x="263.649421" y="43.663548" style="fill: #0072b2; stroke: #ffffff; stroke-width: 1.5"/>
     </g>
-    <g clip-path="url(#pc807fd3d74)">
-     <use xlink:href="#C0_0_7e62a56421" x="348.617603" y="43.663548" style="fill: #009e73; stroke: #ffffff; stroke-width: 1.5"/>
+    <g clip-path="url(#pe4456a8b47)">
+     <use xlink:href="#C0_0_73c17b13b9" x="348.617603" y="43.663548" style="fill: #009e73; stroke: #ffffff; stroke-width: 1.5"/>
     </g>
-    <g clip-path="url(#pc807fd3d74)">
-     <use xlink:href="#C0_0_7e62a56421" x="186.40562" y="242.972639" style="fill: #e69f00; stroke: #ffffff; stroke-width: 1.5"/>
+    <g clip-path="url(#pe4456a8b47)">
+     <use xlink:href="#C0_0_73c17b13b9" x="186.40562" y="242.972639" style="fill: #e69f00; stroke: #ffffff; stroke-width: 1.5"/>
     </g>
-    <g clip-path="url(#pc807fd3d74)">
-     <use xlink:href="#C0_0_7e62a56421" x="263.649421" y="242.972639" style="fill: #cc79a7; stroke: #ffffff; stroke-width: 1.5"/>
+    <g clip-path="url(#pe4456a8b47)">
+     <use xlink:href="#C0_0_73c17b13b9" x="263.649421" y="242.972639" style="fill: #cc79a7; stroke: #ffffff; stroke-width: 1.5"/>
     </g>
-    <g clip-path="url(#pc807fd3d74)">
-     <use xlink:href="#C0_0_7e62a56421" x="348.617603" y="242.972639" style="fill: #009e73; stroke: #ffffff; stroke-width: 1.5"/>
+    <g clip-path="url(#pe4456a8b47)">
+     <use xlink:href="#C0_0_73c17b13b9" x="348.617603" y="242.972639" style="fill: #009e73; stroke: #ffffff; stroke-width: 1.5"/>
     </g>
    </g>
    <g id="text_1">
-    <g clip-path="url(#pc807fd3d74)">
+    <g clip-path="url(#pe4456a8b47)">
      <!-- 原始附件 -->
      <g transform="translate(23.642397 133.611188) scale(0.08 -0.08)">
       <defs>
@@ -366,7 +366,7 @@ z
       <use xlink:href="#MicrosoftYaHei-45e" transform="translate(300 0)"/>
      </g>
     </g>
-    <g clip-path="url(#pc807fd3d74)">
+    <g clip-path="url(#pe4456a8b47)">
      <!-- 1082条记录 -->
      <g transform="translate(18.259897 142.333688) scale(0.08 -0.08)">
       <defs>
@@ -618,7 +618,7 @@ z
     </g>
    </g>
    <g id="text_2">
-    <g clip-path="url(#pc807fd3d74)">
+    <g clip-path="url(#pe4456a8b47)">
      <!-- 解析与核验 -->
      <g transform="translate(93.024008 133.623063) scale(0.08 -0.08)">
       <defs>
@@ -922,7 +922,7 @@ z
       <use xlink:href="#MicrosoftYaHei-be0" transform="translate(400 0)"/>
      </g>
     </g>
-    <g clip-path="url(#pc807fd3d74)">
+    <g clip-path="url(#pe4456a8b47)">
      <!-- 孕周/日期/男胎 -->
      <g transform="translate(85.606508 142.338063) scale(0.08 -0.08)">
       <defs>
@@ -1265,7 +1265,7 @@ z
     </g>
    </g>
    <g id="text_3">
-    <g clip-path="url(#pc807fd3d74)">
+    <g clip-path="url(#pe4456a8b47)">
      <!-- 重复结构 -->
      <g transform="translate(170.40562 41.626751) scale(0.08 -0.08)">
       <defs>
@@ -1510,7 +1510,7 @@ z
       <use xlink:href="#MicrosoftYaHei-7e3" transform="translate(300 0)"/>
      </g>
     </g>
-    <g clip-path="url(#pc807fd3d74)">
+    <g clip-path="url(#pe4456a8b47)">
      <!-- 267位孕妇 -->
      <g transform="translate(167.368745 50.380501) scale(0.08 -0.08)">
       <defs>
@@ -1645,7 +1645,7 @@ z
     </g>
    </g>
    <g id="text_4">
-    <g clip-path="url(#pc807fd3d74)">
+    <g clip-path="url(#pe4456a8b47)">
      <!-- 主模型 -->
      <g transform="translate(251.649421 41.599251) scale(0.08 -0.08)">
       <defs>
@@ -1829,7 +1829,7 @@ z
       <use xlink:href="#MicrosoftYaHei-5ba" transform="translate(200 0)"/>
      </g>
     </g>
-    <g clip-path="url(#pc807fd3d74)">
+    <g clip-path="url(#pe4456a8b47)">
      <!-- 样条混合效应 -->
      <g transform="translate(239.649421 50.384251) scale(0.08 -0.08)">
       <defs>
@@ -2112,7 +2112,7 @@ z
     </g>
    </g>
    <g id="text_5">
-    <g clip-path="url(#pc807fd3d74)">
+    <g clip-path="url(#pe4456a8b47)">
      <!-- 边缘达标概率 -->
      <g transform="translate(324.617603 41.72808) scale(0.08 -0.08)">
       <defs>
@@ -2494,7 +2494,7 @@ z
       <use xlink:href="#MicrosoftYaHei-8e4" transform="translate(500 0)"/>
      </g>
     </g>
-    <g clip-path="url(#pc807fd3d74)">
+    <g clip-path="url(#pe4456a8b47)">
      <!-- P(Y&gt;=4%) -->
      <g transform="translate(329.245103 50.286673) scale(0.08 -0.08)">
       <defs>
@@ -2656,7 +2656,7 @@ z
     </g>
    </g>
    <g id="text_6">
-    <g clip-path="url(#pc807fd3d74)">
+    <g clip-path="url(#pe4456a8b47)">
      <!-- 技术重复 -->
      <g transform="translate(170.40562 240.892717) scale(0.08 -0.08)">
       <defs>
@@ -2752,7 +2752,7 @@ z
       <use xlink:href="#MicrosoftYaHei-5d6" transform="translate(300 0)"/>
      </g>
     </g>
-    <g clip-path="url(#pc807fd3d74)">
+    <g clip-path="url(#pe4456a8b47)">
      <!-- 测量误差 -->
      <g transform="translate(170.40562 249.708967) scale(0.08 -0.08)">
       <defs>
@@ -3008,7 +3008,7 @@ z
     </g>
    </g>
    <g id="text_7">
-    <g clip-path="url(#pc807fd3d74)">
+    <g clip-path="url(#pe4456a8b47)">
      <!-- 分位数回归 -->
      <g transform="translate(243.649421 240.935217) scale(0.08 -0.08)">
       <defs>
@@ -3199,7 +3199,7 @@ z
       <use xlink:href="#MicrosoftYaHei-6a1" transform="translate(400 0)"/>
      </g>
     </g>
-    <g clip-path="url(#pc807fd3d74)">
+    <g clip-path="url(#pe4456a8b47)">
      <!-- 阈值反演 -->
      <g transform="translate(247.649421 249.673967) scale(0.08 -0.08)">
       <defs>
@@ -3464,7 +3464,7 @@ z
     </g>
    </g>
    <g id="text_8">
-    <g clip-path="url(#pc807fd3d74)">
+    <g clip-path="url(#pe4456a8b47)">
      <!-- 敏感性验证 -->
      <g transform="translate(328.617603 240.915842) scale(0.08 -0.08)">
       <defs>
@@ -3736,7 +3736,7 @@ z
       <use xlink:href="#MicrosoftYaHei-a9a" transform="translate(400 0)"/>
      </g>
     </g>
-    <g clip-path="url(#pc807fd3d74)">
+    <g clip-path="url(#pe4456a8b47)">
      <!-- 交互/GC/窗口 -->
      <g transform="translate(323.550103 249.693342) scale(0.08 -0.08)">
       <defs>
@@ -5070,7 +5070,7 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="pc807fd3d74">
+  <clipPath id="pe4456a8b47">
    <rect x="7.2" y="22.736094" width="373.86" height="241.164"/>
   </clipPath>
  </defs>

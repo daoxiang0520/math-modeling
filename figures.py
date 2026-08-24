@@ -17,7 +17,7 @@ matplotlib.use("Agg")
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
-from matplotlib.patches import FancyBboxPatch
+from matplotlib.patches import FancyBboxPatch, Patch
 import networkx as nx
 import numpy as np
 import pandas as pd
@@ -187,6 +187,64 @@ def figure_interaction_heatmap() -> None:
     ax.set(xlabel="检测孕周 (周)", ylabel="孕妇BMI (kg/m2)",
            title="孕周-BMI交互预测面（中心年龄、自然受孕）")
     save(fig, "fig_q1_smooth_bmi_int")
+
+
+def figure_3d_relationship() -> None:
+    """Supplementary 3-D view with raw observations, model surface and 4% plane."""
+    heat = pd.read_csv(RESULTS / "q1_ti_heatmap.csv")
+    obs = pd.read_csv(RESULTS / "q1_scatter.csv")
+    obs = obs[obs["ga"].between(10, 25)].copy()
+    ga = np.sort(heat["ga"].unique())
+    bmi = np.sort(heat["bmi"].unique())
+    ga_mesh, bmi_mesh = np.meshgrid(ga, bmi)
+    z = heat.pivot(index="bmi", columns="ga", values="pred_y").loc[bmi, ga].to_numpy() * 100
+
+    fig = plt.figure(figsize=(7.2, 5.2), constrained_layout=True)
+    ax = fig.add_subplot(111, projection="3d")
+    surface = ax.plot_surface(
+        ga_mesh, bmi_mesh, z, cmap="viridis", alpha=0.72,
+        linewidth=0, antialiased=True, rcount=45, ccount=55,
+    )
+    # Preserve the original data cloud instead of showing a model-only decorative surface.
+    ax.scatter(
+        obs["ga"], obs["bmi"], 100 * obs["y"], s=7, c=GRAY_DARK,
+        alpha=0.22, depthshade=False, edgecolors="none",
+    )
+    threshold = np.full_like(ga_mesh, 100 * Y_THR)
+    ax.plot_surface(
+        ga_mesh, bmi_mesh, threshold, color=VERMILLION, alpha=0.10,
+        linewidth=0, shade=False,
+    )
+    ax.contour(
+        ga_mesh, bmi_mesh, z, zdir="z", offset=0,
+        levels=[4, 6, 8, 10], cmap="cividis", linewidths=0.9,
+    )
+    ax.set(
+        xlabel="检测孕周 (周)", ylabel="孕妇BMI (kg/m2)",
+        zlabel="Y染色体浓度 (%)", xlim=(10, 25),
+        ylim=(float(obs["bmi"].min()), float(obs["bmi"].max())),
+        zlim=(0, max(24.0, float(100 * obs["y"].max()) * 1.03)),
+        title="Y染色体浓度与孕周、BMI的三维关系\n原始记录 + Beta模型描述性预测曲面",
+    )
+    ax.view_init(elev=27, azim=-125)
+    ax.set_box_aspect((1.45, 1.0, 0.85))
+    ax.grid(True, linewidth=0.35, alpha=0.35)
+    cb = fig.colorbar(surface, ax=ax, shrink=0.66, pad=0.08, aspect=22)
+    cb.set_label("Beta模型条件均值 (%)")
+    ax.legend(
+        handles=[
+            Line2D([0], [0], marker="o", color="none", markerfacecolor=GRAY_DARK,
+                   markersize=4.5, label=f"原始记录 (n={len(obs)})"),
+            Patch(facecolor=VERMILLION, alpha=0.18, label="4%临床阈值平面"),
+        ],
+        loc="upper left", bbox_to_anchor=(0.02, 0.96), frameon=False,
+    )
+    fig.text(
+        0.5, 0.015,
+        "注：三维透视仅作关系展示；定量比较优先参考二维交互热力图。交互项在似然比检验中未显著。",
+        ha="center", va="bottom", fontsize=7, color=GRAY_DARK,
+    )
+    save(fig, "fig_q1_3d_relationship")
 
 
 def figure_quantiles() -> None:
@@ -411,6 +469,7 @@ def main() -> None:
     figure_scatter()
     figure_smooth_ga()
     figure_interaction_heatmap()
+    figure_3d_relationship()
     figure_quantiles()
     figure_prob_curves()
     figure_diagnostics()
@@ -421,7 +480,7 @@ def main() -> None:
     figure_model_comparison()
     names = [
         "fig_roadmap", "fig_data_quality", "fig_q1_scatter", "fig_q1_smooth_ga",
-        "fig_q1_smooth_bmi_int", "fig_q1_quantile_curves", "fig_q1_prob_curves",
+        "fig_q1_smooth_bmi_int", "fig_q1_3d_relationship", "fig_q1_quantile_curves", "fig_q1_prob_curves",
         "fig_model_principle", "fig_model_comparison", "fig_diag_resid", "fig_sens_dist",
         "fig_sens_interaction", "fig_sens_gc", "fig_sens_marginal", "fig_sens_ga_window",
         "fig_sens_ga_crosscheck", "fig_sens_health", "fig_anchor_threshold",

@@ -80,6 +80,7 @@ logit(E[Y_ij]) = beta0
 | [`fig_q1_scatter`](figures/fig_q1_scatter.png) | Y 浓度与孕周、BMI 的原始关系 |
 | [`fig_q1_smooth_ga`](figures/fig_q1_smooth_ga.png) | 不同 BMI 水平下的孕周非线性效应 |
 | [`fig_q1_smooth_bmi_int`](figures/fig_q1_smooth_bmi_int.png) | 孕周-BMI 二维交互预测面 |
+| [`fig_q1_3d_relationship`](figures/fig_q1_3d_relationship.png) | 原始记录、Beta预测曲面与4%阈值平面的三维关系图 |
 | [`fig_q1_quantile_curves`](figures/fig_q1_quantile_curves.png) | 分位数曲线与 4% 阈值反演 |
 | [`fig_q1_prob_curves`](figures/fig_q1_prob_curves.png) | 条件与边缘达标概率 |
 | [`fig_model_principle`](figures/fig_model_principle.png) | 混合模型组成和随机效应边缘化原理 |
@@ -130,7 +131,7 @@ python .\figures.py
 
 ## 可视化质量控制
 
-图表采用色盲安全配色、颜色与线型冗余编码、感知均匀色图以及统一中文字体。全部 18 张主题图均完成：
+图表采用色盲安全配色、颜色与线型冗余编码、感知均匀色图以及统一中文字体。全部 19 张主题图均完成：
 
 - 300 DPI 文件检查；
 - 中文与负号缺字检查；
