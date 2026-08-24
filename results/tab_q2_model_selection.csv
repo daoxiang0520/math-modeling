@@ -1,0 +1,3 @@
+﻿model_form,cv_rmse,mae,selected,cv_winner
+piecewise,0.03274502233963663,0.02622929750442936,True,True
+linear,0.03301414927108114,0.026539732176645035,False,False

@@ -1,4 +1,4 @@
-"""为 C题问题1生成数据、逻辑、模型原理与稳健性可视化。
+"""为 C题问题1/2生成数据、逻辑、模型原理与稳健性可视化。
 
 输入均来自 solution.py 生成的 results/*.csv；输出 PNG/PDF/SVG，PNG 为 300 DPI。
 """
@@ -48,7 +48,7 @@ PALETTE = [BLUE, ORANGE, GREEN, PURPLE, SKY, VERMILLION]
 def set_style() -> None:
     matplotlib.rcParams.update({
         "font.family": "sans-serif",
-        "font.sans-serif": ["Microsoft YaHei", "SimHei", "Arial Unicode MS", "DejaVu Sans"],
+        "font.sans-serif": ["Noto Sans SC", "SimHei", "Microsoft YaHei", "DejaVu Sans"],
         "axes.unicode_minus": False,
         "pdf.fonttype": 42,
         "ps.fonttype": 42,
@@ -98,25 +98,25 @@ def figure_roadmap() -> None:
     ax.axis("off")
     nodes = {
         "原始附件\n1082条记录": (0.07, 0.52),
-        "解析与核验\n孕周/日期/男胎": (0.26, 0.52),
-        "重复结构\n267位孕妇": (0.45, 0.76),
-        "主模型\nBeta样条+混合方差层": (0.65, 0.76),
-        "边缘达标概率\nP(Y>=4%)": (0.87, 0.76),
-        "技术重复\n测量误差": (0.45, 0.24),
-        "分位数回归\n阈值反演": (0.65, 0.24),
-        "敏感性验证\n交互/GC/窗口": (0.87, 0.24),
+        "解析与聚合\n267位孕妇BMI中位数": (0.25, 0.52),
+        "简约概率层\n分段Beta+随机效应": (0.45, 0.76),
+        "边缘达标概率\nP(Y>=4%)": (0.66, 0.76),
+        "风险损失\n不达标+延迟": (0.86, 0.76),
+        "双通道误差\n测量MC+cluster bootstrap": (0.45, 0.24),
+        "监督单调分箱\n动态规划+0.5圆整": (0.66, 0.24),
+        "BMI组与最佳时点\n校准+敏感性": (0.86, 0.24),
     }
     graph = nx.DiGraph()
     graph.add_nodes_from(nodes)
     edges = [
-        ("原始附件\n1082条记录", "解析与核验\n孕周/日期/男胎"),
-        ("解析与核验\n孕周/日期/男胎", "重复结构\n267位孕妇"),
-        ("解析与核验\n孕周/日期/男胎", "技术重复\n测量误差"),
-        ("重复结构\n267位孕妇", "主模型\nBeta样条+混合方差层"),
-        ("主模型\nBeta样条+混合方差层", "边缘达标概率\nP(Y>=4%)"),
-        ("技术重复\n测量误差", "分位数回归\n阈值反演"),
-        ("分位数回归\n阈值反演", "边缘达标概率\nP(Y>=4%)"),
-        ("边缘达标概率\nP(Y>=4%)", "敏感性验证\n交互/GC/窗口"),
+        ("原始附件\n1082条记录", "解析与聚合\n267位孕妇BMI中位数"),
+        ("解析与聚合\n267位孕妇BMI中位数", "简约概率层\n分段Beta+随机效应"),
+        ("简约概率层\n分段Beta+随机效应", "边缘达标概率\nP(Y>=4%)"),
+        ("边缘达标概率\nP(Y>=4%)", "风险损失\n不达标+延迟"),
+        ("解析与聚合\n267位孕妇BMI中位数", "双通道误差\n测量MC+cluster bootstrap"),
+        ("风险损失\n不达标+延迟", "监督单调分箱\n动态规划+0.5圆整"),
+        ("双通道误差\n测量MC+cluster bootstrap", "监督单调分箱\n动态规划+0.5圆整"),
+        ("监督单调分箱\n动态规划+0.5圆整", "BMI组与最佳时点\n校准+敏感性"),
     ]
     graph.add_edges_from(edges)
     node_colors = [SKY, SKY, ORANGE, BLUE, GREEN, ORANGE, PURPLE, GREEN]
@@ -125,7 +125,7 @@ def figure_roadmap() -> None:
     nx.draw_networkx_nodes(graph, pos=nodes, ax=ax, node_color=node_colors,
                            node_size=2350, edgecolors="white", linewidths=1.5)
     nx.draw_networkx_labels(graph, pos=nodes, ax=ax, font_family="Microsoft YaHei", font_size=8)
-    ax.set_title("问题1研究逻辑：从重复测量数据到达标概率", pad=8, fontweight="bold")
+    ax.set_title("问题2技术路线：从边缘达标概率到BMI分组与风险最优时点", pad=8, fontweight="bold")
     save(fig, "fig_roadmap")
 
 
@@ -460,6 +460,155 @@ def figure_model_comparison() -> None:
     save(fig, "fig_model_comparison")
 
 
+def figure_q2_probability_curves() -> None:
+    df = pd.read_csv(RESULTS / "q2_prob_curves.csv")
+    fig, ax = plt.subplots(figsize=(3.15, 2.65), constrained_layout=True)
+    styles = ["-", "--", "-.", ":"]
+    for i, (group, sub) in enumerate(df.groupby("group", sort=True)):
+        bmi = sub["median_bmi"].iloc[0]
+        ax.plot(sub["ga"], sub["p_marg"], color=PALETTE[i], linestyle=styles[i],
+                label=f"{group}: BMI中位数 {bmi:.1f}")
+    ax.set(xlabel="检测孕周 (周)", ylabel="Y浓度达到4%的边缘概率",
+           title="BMI较高组的达标概率整体较低", xlim=(10, 25), ylim=(0, 1))
+    ax.legend(frameon=False, loc="lower right")
+    polish(ax, "y")
+    save(fig, "fig_q2_ga_bmi_prob_curves")
+
+
+def figure_q2_loss_curves() -> None:
+    df = pd.read_csv(RESULTS / "q2_group_loss_curves.csv")
+    fig, ax = plt.subplots(figsize=(3.15, 2.65), constrained_layout=True)
+    styles = ["-", "--", "-.", ":"]
+    for i, (group, sub) in enumerate(df.groupby("group", sort=True)):
+        opt = float(sub["optimal_week"].iloc[0])
+        ax.plot(sub["ga"], sub["loss"], color=PALETTE[i], linestyle=styles[i], label=group)
+        ax.scatter([opt], [np.interp(opt, sub["ga"], sub["loss"])], s=28,
+                   color=PALETTE[i], edgecolor="white", linewidth=0.5, zorder=4)
+    ax.axvline(12, color=GRAY_DARK, linestyle=":", linewidth=1, label="早期风险边界 12周")
+    ax.set(xlabel="候选检测孕周 (周)", ylabel="组期望损失",
+           title="默认损失在约12周取得最小值", xlim=(10, 25))
+    ax.legend(frameon=False, loc="upper left")
+    polish(ax, "y")
+    save(fig, "fig_q2_loss_curves_optimal")
+
+
+def figure_q2_bmi_bins() -> None:
+    indiv = pd.read_csv(RESULTS / "q2_individual_tstar.csv")
+    main = pd.read_csv(RESULTS / "tab_q2_main_results.csv")
+    fig, ax = plt.subplots(figsize=(6.7, 3.0), constrained_layout=True)
+    ax.scatter(indiv["bmi"], indiv["tstar_raw"], s=12, alpha=0.32, color=SKY,
+               edgecolor="none", label="个体损失最优时点")
+    ax.plot(indiv["bmi"], indiv["tstar_pava"], color=GRAY_DARK, linewidth=1.2,
+            label="PAVA保序时点")
+    for i, row in main.iterrows():
+        lo, hi = row["bmi_low"], row["bmi_high"]
+        ax.hlines(row["optimal_week"], lo, hi, colors=PALETTE[i], linewidth=3,
+                  label=f"{row['group']}组推荐")
+    boundaries = sorted(set(main["bmi_high"].iloc[:-1]))
+    for q in boundaries:
+        ax.axvline(q, color=VERMILLION, linestyle="--", linewidth=1)
+        ax.text(q, ax.get_ylim()[1], f" BMI={q:.1f}", color=VERMILLION,
+                ha="left", va="top", fontsize=7)
+    ax.set(xlabel="孕妇BMI (kg/m2)", ylabel="风险损失最优孕周 (周)",
+           title="分箱后组时点差异小于0.5周：支持统一约12周")
+    ax.legend(frameon=False, ncol=2, loc="upper left")
+    polish(ax, "y")
+    save(fig, "fig_q2_bmi_bins_tstar")
+
+
+def figure_q2_sigma_shift() -> None:
+    df = pd.read_csv(RESULTS / "q2_sigma_shift.csv")
+    fig, ax = plt.subplots(figsize=(3.15, 2.65), constrained_layout=True)
+    styles = ["-", "--", "-.", ":"]
+    for i, (group, sub) in enumerate(df.groupby("group", sort=True)):
+        ax.plot(sub["sigma_multiple"], sub["delta_t"], color=PALETTE[i],
+                linestyle=styles[i], marker=["o", "s", "^", "D"][i], markersize=4,
+                label=group)
+    ax.axhline(0, color=GRAY_DARK, linewidth=0.8)
+    ax.set(xlabel="测量误差标准差 / sigma_tech", ylabel="最佳时点偏移 (周)",
+           title="测量误差对最优时点的直接偏移很小")
+    ax.set_xticks([0, 0.5, 1, 2])
+    ax.legend(frameon=False)
+    polish(ax, "y")
+    save(fig, "fig_q2_error_shift_sigma")
+
+
+def figure_q2_bootstrap_heatmap() -> None:
+    df = pd.read_csv(RESULTS / "q2_bootstrap_boundaries.csv")
+    selected_k = int(pd.read_csv(RESULTS / "tab_q2_k_selection.csv").query("selected == True")["K"].iloc[0])
+    sub = df[df["K"].eq(selected_k)].copy()
+    values = np.arange(np.floor(sub["boundary"].min() * 2) / 2,
+                       np.ceil(sub["boundary"].max() * 2) / 2 + 0.01, 0.5)
+    slots = sorted(sub["boundary_index"].unique())
+    mat = np.zeros((len(slots), len(values)))
+    for i, slot in enumerate(slots):
+        counts = sub[sub["boundary_index"].eq(slot)]["boundary"].value_counts(normalize=True)
+        for j, value in enumerate(values):
+            mat[i, j] = counts.get(value, 0)
+    fig, ax = plt.subplots(figsize=(6.7, 2.45), constrained_layout=True)
+    image = ax.imshow(mat, aspect="auto", cmap="viridis", vmin=0, vmax=max(0.5, mat.max()))
+    cb = fig.colorbar(image, ax=ax, pad=0.02)
+    cb.set_label("bootstrap重现频率")
+    ax.set_xticks(np.arange(len(values)), [f"{x:.1f}" for x in values], rotation=45, ha="right")
+    ax.set_yticks(np.arange(len(slots)), [f"边界{int(x)}" for x in slots])
+    ax.set(xlabel="圆整BMI边界 (kg/m2)", title=f"K={selected_k}分箱边界的孕妇层bootstrap稳定性")
+    save(fig, "fig_q2_bootstrap_boundary_heatmap")
+
+
+def figure_q2_calibration() -> None:
+    df = pd.read_csv(RESULTS / "q2_calibration.csv")
+    fig, ax = plt.subplots(figsize=(3.15, 3.0), constrained_layout=True)
+    markers = {"BMI组": "o", "GA带": "s"}
+    colors = {"BMI组": BLUE, "GA带": ORANGE}
+    for typ, sub in df.groupby("type"):
+        ax.scatter(sub["observed_rate"], sub["model_probability"],
+                   s=18 + 0.5 * sub["n"], marker=markers[typ], color=colors[typ],
+                   alpha=0.78, edgecolor="white", linewidth=0.5, label=typ)
+        for _, row in sub.iterrows():
+            if row["n"] < 10 or abs(row["calibration_error"]) > 0.08:
+                ax.annotate(f"{row['label']} (n={int(row['n'])})",
+                            (row["observed_rate"], row["model_probability"]),
+                            xytext=(4, 4), textcoords="offset points", fontsize=6)
+    ax.plot([0, 1], [0, 1], color=GRAY_DARK, linestyle="--", linewidth=1, label="理想校准")
+    ax.set(xlabel="观察首次达标比例", ylabel="模型边缘达标概率",
+           title="内部校准：点面积随样本量增加", xlim=(0, 1), ylim=(0, 1))
+    ax.legend(frameon=False, loc="lower right")
+    polish(ax)
+    save(fig, "fig_q2_calibration")
+
+
+def figure_q2_rho() -> None:
+    df = pd.read_csv(RESULTS / "q2_rho_sensitivity.csv")
+    fig, ax = plt.subplots(figsize=(3.15, 2.65), constrained_layout=True)
+    styles = ["-", "--", "-.", ":"]
+    for i, (group, sub) in enumerate(df.groupby("group", sort=True)):
+        ax.plot(sub["rho"], sub["optimal_week"], color=PALETTE[i], linestyle=styles[i],
+                marker=["o", "s", "^", "D"][i], markersize=4, label=group)
+    ax.set_xscale("log", base=2)
+    ax.set_xticks([0.25, 0.5, 1, 2, 4], ["0.25", "0.5", "1", "2", "4"])
+    ax.set(xlabel="过早不达标/延迟风险损失比 rho", ylabel="最佳检测孕周 (周)",
+           title="主观损失比越高，推荐时点越晚")
+    ax.legend(frameon=False)
+    polish(ax, "y")
+    save(fig, "fig_q2_rho_sensitivity")
+
+
+def figure_q2_error_rates() -> None:
+    df = pd.read_csv(RESULTS / "q2_error_classification.csv")
+    fig, ax = plt.subplots(figsize=(6.7, 2.85), constrained_layout=True)
+    for i, (group, sub) in enumerate(df.groupby("group", sort=True)):
+        ax.plot(sub["sigma_multiple"], sub["FNR"], color=PALETTE[i], linestyle="-",
+                marker="o", markersize=4, label=f"{group} 假阴性")
+        ax.plot(sub["sigma_multiple"], sub["FPR"], color=PALETTE[i], linestyle="--",
+                marker="s", markersize=3.5, label=f"{group} 假阳性")
+    ax.set(xlabel="测量误差标准差 / sigma_tech", ylabel="联合错分概率",
+           title="测量误差虽少移动时点，但会增加阈值错分", ylim=(0, None))
+    ax.set_xticks([0, 0.5, 1, 2])
+    ax.legend(frameon=False, ncol=2, loc="upper left")
+    polish(ax, "y")
+    save(fig, "fig_q2_fnr_fpr_sigma")
+
+
 def contact_sheet(names: list[str]) -> None:
     ncols = 3
     nrows = int(np.ceil(len(names) / ncols))
@@ -496,6 +645,21 @@ def main() -> None:
         "fig_sens_interaction", "fig_sens_gc", "fig_sens_marginal", "fig_sens_ga_window",
         "fig_sens_ga_crosscheck", "fig_sens_health", "fig_anchor_threshold",
     ]
+    if (RESULTS / "tab_q2_main_results.csv").exists():
+        figure_q2_probability_curves()
+        figure_q2_loss_curves()
+        figure_q2_bmi_bins()
+        figure_q2_sigma_shift()
+        figure_q2_bootstrap_heatmap()
+        figure_q2_calibration()
+        figure_q2_rho()
+        figure_q2_error_rates()
+        names += [
+            "fig_q2_ga_bmi_prob_curves", "fig_q2_loss_curves_optimal",
+            "fig_q2_bmi_bins_tstar", "fig_q2_error_shift_sigma",
+            "fig_q2_bootstrap_boundary_heatmap", "fig_q2_calibration",
+            "fig_q2_rho_sensitivity", "fig_q2_fnr_fpr_sigma",
+        ]
     contact_sheet(names)
     print(f"generated {len(names)} figures in {FIGURES}")
 

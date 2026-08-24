@@ -1,0 +1,31 @@
+{
+  "records": 1082,
+  "mothers": 267,
+  "clinical_threshold": 0.04,
+  "optimization_window": [
+    10.0,
+    25.0
+  ],
+  "rho": 1.0,
+  "n_min": 20,
+  "selected_K": 2,
+  "boundaries": [
+    30.0
+  ],
+  "distinct_required": false,
+  "beta_precision_phi": 66.8393215776139,
+  "random_effect_method": "REML random intercept + centered-GA slope",
+  "cv_winner": "piecewise",
+  "prespecified_model": "piecewise",
+  "mc_draws_main": 1000,
+  "bootstrap_target": 100,
+  "bootstrap_completed": 100,
+  "bootstrap_grid_step": 0.1,
+  "bootstrap_mc_draws": 1000,
+  "sigma_tech": 0.133,
+  "first_observation_pass_rate": 0.8127340823970037,
+  "max_internal_calibration_error": 0.16468817519442458,
+  "max_lookup_interpolation_error": 7.044154876068021e-07,
+  "runtime_seconds": 289.00086975097656,
+  "method_limit": "two-stage approximate Beta mixed model; bootstrap covariance uses empirical residual slopes"
+}

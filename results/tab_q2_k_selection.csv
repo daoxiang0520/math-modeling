@@ -1,0 +1,6 @@
+﻿K,total_loss_J,boundaries,bootstrap_boundary_stability,preliminary_elbow,selected
+2,56.09373099975168,30.0,0.24,False,True
+3,56.09355376274692,29.0|30.0,0.38,False,False
+4,56.09267675710261,29.0|30.0|30.5,0.4633333333333334,False,False
+5,56.09178628598435,29.0|30.0|30.5|31.0,0.4375,True,False
+6,56.08968818727743,29.0|30.5|32.5|33.5|34.5,,False,False
