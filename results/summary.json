@@ -1,0 +1,39 @@
+{
+  "records": 1082,
+  "mothers": 267,
+  "ga_range": [
+    11.0,
+    29.0
+  ],
+  "bmi_range": [
+    20.703125,
+    46.875
+  ],
+  "y_range": [
+    0.010003887,
+    0.234217554
+  ],
+  "below_threshold_rate": 0.13401109057301294,
+  "sigma_tech_logit": 0.13293552621663884,
+  "icc": 0.8094308811313089,
+  "correlations": {
+    "ga_pearson": [
+      0.12656002844735784,
+      2.9795639953541916e-05
+    ],
+    "ga_spearman": [
+      0.08428675276902133,
+      0.0055330486404856286
+    ],
+    "bmi_pearson": [
+      -0.15129981392456496,
+      5.736662841941766e-07
+    ],
+    "bmi_spearman": [
+      -0.15495941516592615,
+      3.018672242238758e-07
+    ]
+  },
+  "elapsed_seconds": 3.0108895301818848,
+  "model_note": "logit-normal spline mixed model; executable approximation to Beta-GAMM"
+}

@@ -1,0 +1,44 @@
+﻿model,metric,value,se,p_value,n,bmi,ga,note
+Spline mixed model,AIC,673.6312941814404,,,1082,,,random intercept + GA slope
+Spline mixed model,BIC,808.2685885854139,,,1082,,,random intercept + GA slope
+Spline mixed model,RMSE,0.7054876204076871,,,1082,,,random intercept + GA slope
+Spline mixed model,MAE,0.4410231322475243,,,1082,,,random intercept + GA slope
+Spline mixed model,delta_AIC,0.0,,,1082,,,random intercept + GA slope
+Spline fixed model,AIC,1490.8683613957883,,,1082,,,cluster-robust SE
+Spline fixed model,BIC,1625.5056557997618,,,1082,,,cluster-robust SE
+Spline fixed model,RMSE,0.7054876204076871,,,1082,,,cluster-robust SE
+Spline fixed model,MAE,0.4410231322475243,,,1082,,,cluster-robust SE
+Spline fixed model,delta_AIC,817.2370672143479,,,1082,,,cluster-robust SE
+Spline without interaction,AIC,1478.656476825828,,,1082,,,nested baseline
+Spline without interaction,BIC,1568.4146730951436,,,1082,,,nested baseline
+Spline without interaction,RMSE,0.6775957362464002,,,1082,,,nested baseline
+Spline without interaction,MAE,0.43701110134109883,,,1082,,,nested baseline
+Spline without interaction,delta_AIC,805.0251826443875,,,1082,,,nested baseline
+Piecewise GA baseline,AIC,1538.4281067729046,,,1082,,,knots 12.5/20 weeks
+Piecewise GA baseline,BIC,1563.3609390699366,,,1082,,,knots 12.5/20 weeks
+Piecewise GA baseline,RMSE,0.5008108328812158,,,1082,,,knots 12.5/20 weeks
+Piecewise GA baseline,MAE,0.4044265638240021,,,1082,,,knots 12.5/20 weeks
+Piecewise GA baseline,delta_AIC,864.7968125914642,,,1082,,,knots 12.5/20 weeks
+Linear baseline,AIC,1555.4510118663047,,,1082,,,GA + BMI
+Linear baseline,BIC,1570.410711244524,,,1082,,,GA + BMI
+Linear baseline,RMSE,0.5046914785458104,,,1082,,,GA + BMI
+Linear baseline,MAE,0.4086443154345172,,,1082,,,GA + BMI
+Linear baseline,delta_AIC,881.8197176848644,,,1082,,,GA + BMI
+s1(ga),p_value,3.679153656288215e-17,,3.679153656288215e-17,1082,,,显著
+s1(ga),delta_AIC_removed,45.07120649313288,,,1082,,,
+s2(bmi),p_value,2.36819808920505e-11,,2.36819808920505e-11,1082,,,显著
+s2(bmi),delta_AIC_removed,36.4675885970355,,,1082,,,
+"ti(ga,bmi)",p_value,2.2230647954340956e-25,,2.2230647954340956e-25,1082,,,显著
+"ti(ga,bmi)",delta_AIC_removed,-12.211884569960375,,,1082,,,
+s3(age),p_value,0.35125835917457515,,0.35125835917457515,1082,,,未达0.05
+s3(age),delta_AIC_removed,6.754446096963193,,,1082,,,
+ivf,p_value,0.00011289707685653718,,0.00011289707685653718,1082,,,显著
+ivf,delta_AIC_removed,3.633359825781781,,,1082,,,
+main_model,sigma_b0_sq,0.18738157926884957,,,1082,,,
+main_model,sigma_b1_sq,0.0014031513654763337,,,1082,,,
+main_model,ICC,0.8094308811313089,,,1082,,,
+main_model,sigma_tech,0.13293552621663884,,,1082,,,"tech groups=40, rows=101"
+main_model,pearson_ga,0.12656002844735784,,,1082,,,
+main_model,spearman_ga,0.08428675276902133,,,1082,,,
+main_model,pearson_bmi,-0.15129981392456496,,,1082,,,
+main_model,spearman_bmi,-0.15495941516592615,,,1082,,,

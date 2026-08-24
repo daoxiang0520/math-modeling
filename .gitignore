@@ -1,0 +1,4 @@
+vendor/
+.matplotlib/
+__pycache__/
+*.pyc
