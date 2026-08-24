@@ -2,9 +2,9 @@
 
 ## 摘要
 
-本文分析男胎 NIPT 记录中 Y 染色体浓度与检测孕周、孕妇 BMI 及其他个体因素的关系。数据包含 1082 条检测记录和 267 位孕妇，每位孕妇记录数中位数为 4，因此采用纵向重复测量框架。固定效应分布层使用 Beta 回归，以自然样条描述孕周、BMI 和年龄，并预设孕周-BMI 低秩张量交互；纵向方差层在同一设计矩阵上以 REML 估计孕妇随机截距和随机孕周斜率。新孕妇的 Y 浓度达到题目给定 4% 阈值的概率通过随机效应边缘化得到，并用单调分位数回归作辅助核验。
+本文分析男胎 NIPT 记录中 Y 染色体浓度与检测孕周、孕妇 BMI 及其他个体因素的关系。数据包含 1082 条检测记录和 267 位孕妇，每位孕妇记录数中位数为 4，因此采用纵向重复测量框架。固定效应分布层使用 Beta 回归，以样条描述孕周、BMI 和年龄；纵向方差层在同一设计矩阵上以 REML 估计孕妇随机截距和随机孕周斜率。预设的孕周-BMI 交互经似然比检验未获支持，因此主模型不含交互（交互模型仅作描述与敏感性）。新孕妇的 Y 浓度达到题目给定 4% 阈值的概率通过随机效应边缘化得到（报告蒙特卡洛标准误，并附孕妇层 bootstrap 区间），并用单调分位数回归作辅助核验。
 
-孕周与 Y 浓度呈弱正相关（Pearson \(r=0.127\)，\(p<0.001\)），BMI 与 Y 浓度呈弱负相关（\(r=-0.151\)，\(p<0.001\)）。Beta 似然比检验支持孕周、BMI、年龄与 IVF 项，但没有支持预设的孕周-BMI 交互（\(p=0.766\)；删除交互后 AIC 改善 12.26）。平均孕周处 ICC 为 0.809，说明个体异质性必须纳入；技术重复的 logit 尺度测量误差标准差为 0.133。GC 连续协变量、胎儿健康记录处理、孕周窗口和日期核验的概率敏感性均小于 0.035；分位数反演与 Beta 边缘概率最大差异为 0.150，提示尾部分布结论应保守解释。
+孕周与 Y 浓度呈弱正相关（Pearson \(r=0.127\)，\(p<0.001\)），BMI 与 Y 浓度呈弱负相关（\(r=-0.151\)，\(p<0.001\)）。Beta 似然比检验支持孕周、BMI、年龄与 IVF 项，但没有支持预设的孕周-BMI 交互（\(p=0.766\)；删除交互后 AIC 改善 12.26）。平均孕周处 ICC 为 0.809，说明个体异质性必须纳入；技术重复的 logit 尺度测量误差标准差为 0.133。边缘达标概率的蒙特卡洛标准误最大 0.008，中位 BMI 处孕妇层 bootstrap 95% 区间在 20 周为 [0.730, 0.828]。GC 连续协变量、交互、日期核验与胎儿健康处理的最大概率变化均小于 0.03，孕周窗口为 0.047；分位数反演与 Beta 边缘概率最大差异为 0.151，提示尾部分布结论应保守解释。
 
 > 常量说明：本文的临床浓度阈值始终是 **4%**。图中的 **95%** 仅表示统计置信区间；概率图中的 90% 水平线只用于演示反演，不是题目给定常量。
 
@@ -33,7 +33,7 @@
 
 ## 2. 模型
 
-### 2.1 两阶段 Beta-GAMM
+### 2.1 两阶段 Beta 样条回归 + 线性混合方差层（近似 Beta-GAMM）
 
 对第 \(i\) 位孕妇第 \(j\) 次检测的 Y 浓度 \(Y_{ij}\)，设
 
@@ -43,10 +43,11 @@ Y_{ij}\sim\mathrm{Beta}(\mu_{ij}\phi,(1-\mu_{ij})\phi),
 
 \[
 \operatorname{logit}(\mu_{ij})=\beta_0+s_1(GA_{ij})+s_2(BMI_{ij})
-+ti(GA_{ij},BMI_{ij})+s_3(Age_i)+\beta_{IVF}IVF_i+b_{0i}+b_{1i}(GA_{ij}-\bar{GA}).
++s_3(Age_i)+\beta_{IVF}IVF_i+b_{0i}+b_{1i}(GA_{ij}-\bar{GA}).
 \]
 
-其中 \((b_{0i},b_{1i})^\top\sim N(0,\Sigma_b)\)。允许的 Python 库没有联合 Beta-GAMM 求解器，因此代码采用可审计的两阶段估计：`statsmodels.othermod.betareg.BetaModel` 估计 Beta 均值和精度层，`MixedLM` 在相同固定效应设计矩阵上以 REML 估计随机效应方差层。该实现保留了 Beta 有界响应和纵向相关两项核心结构，但固定效应和随机效应不是联合极大似然估计，这是本文的首要方法限制。模型组成和边缘化原理见图 3。
+其中 \((b_{0i},b_{1i})^\top\sim N(0,\Sigma_b)\)。预设交互模型
+\(\operatorname{logit}(\mu_{ij})=\beta_0+s_1(GA_{ij})+s_2(BMI_{ij})+ti(GA_{ij},BMI_{ij})+\cdots\) 也进行了拟合与似然比检验，但交互未获支持（见第 3 节），故主模型采用上式。允许的 Python 库没有联合 Beta-GAMM 求解器，因此代码采用可审计的两阶段估计：`statsmodels.othermod.betareg.BetaModel` 估计 Beta 均值和精度层，`MixedLM` 在相同固定效应设计矩阵上以 REML 估计随机效应方差层。样条基由 `SplineTransformer` 构造且未加平滑惩罚，下文 edf 为基函数数而非惩罚有效自由度。该实现保留了 Beta 有界响应和纵向相关两项核心结构，但固定效应和随机效应不是联合极大似然估计，这是本文的首要方法限制。模型组成和边缘化原理见图 3。
 
 ![图3 Beta 均值层、随机效应层与边缘化原理](../figures/fig_model_principle.png)
 
@@ -64,7 +65,7 @@ P_{cond}=P(Y\ge 0.04\mid b_0=b_1=0).
 P_{marg}=\int P(Y\ge0.04\mid b)f(b;0,\Sigma_b)\,db,
 \]
 
-代码用固定随机种子下的 400 次 Monte-Carlo 抽样计算。阈值在原始数据中的位置及逐孕周观察达标比例见图 4。
+代码用固定随机种子下的 1000 次 Monte-Carlo 抽样计算，并报告边缘概率的蒙特卡洛标准误（最大 0.008）。阈值在原始数据中的位置及逐孕周观察达标比例见图 4。
 
 ![图4 4% 临床阈值在原始数据中的锚定](../figures/fig_anchor_threshold.png)
 
@@ -88,15 +89,15 @@ P_{marg}=\int P(Y\ge0.04\mid b)f(b;0,\Sigma_b)\,db,
 
 ![补充图S1 Y染色体浓度与孕周、BMI的三维关系](../figures/fig_q1_3d_relationship.png)
 
-表 2 给出 Beta 似然比检验。这里的 edf 是设计矩阵基函数维数近似，不是惩罚样条的精确有效自由度。
+表 2 给出 Beta 似然比检验（主模型为无交互模型；交互行比较含交互模型与无交互主模型）。这里的 edf 是设计矩阵基函数维数近似，不是惩罚样条的精确有效自由度。
 
 | 项 | edf | LR | p 值 | 删除该项的 ΔAIC | 结论 |
 |---|---:|---:|---:|---:|---|
-| \(s_1(GA)\) | 6 | 58.905 | <0.001 | 46.905 | 显著 |
-| \(s_2(BMI)\) | 6 | 43.799 | <0.001 | 31.799 | 显著 |
+| \(s_1(GA)\) | 6 | 69.167 | <0.001 | 57.167 | 显著 |
+| \(s_2(BMI)\) | 6 | 75.636 | <0.001 | 63.636 | 显著 |
 | \(ti(GA,BMI)\) | 9 | 5.740 | 0.766 | -12.260 | 未获支持 |
-| \(s_3(Age)\) | 4 | 16.321 | 0.0026 | 8.321 | 显著 |
-| IVF | 1 | 4.516 | 0.0336 | 2.516 | 显著 |
+| \(s_3(Age)\) | 4 | 16.357 | 0.0026 | 8.357 | 显著 |
+| IVF | 1 | 4.511 | 0.0337 | 2.511 | 显著 |
 
 完整表见 [`table_smooth_terms.csv`](../results/table_smooth_terms.csv)。孕周与交互基之间的最大近似 concurvity 分别为 0.862 和 0.843，因此交互结论必须结合删除项 AIC 和敏感性曲线，不应只看单一 Wald 系数。VIF 与 concurvity 结果分别见 [`table_collinearity.csv`](../results/table_collinearity.csv) 和 [`table_concurvity.csv`](../results/table_concurvity.csv)。
 
@@ -108,7 +109,7 @@ P_{marg}=\int P(Y\ge0.04\mid b)f(b;0,\Sigma_b)\,db,
 
 BMI 表达形式的 AIC 优于仅体重或身高+体重，后两者 ΔAIC 分别为 22.74 和 21.90。加入孕次与产次后 AIC 从 -4491.70 上升到 -4489.90，故主模型保留年龄与 IVF，但不加入孕产次。详细结果见 [`table_covariate_forms.csv`](../results/table_covariate_forms.csv) 和 [`table_parity_candidates.csv`](../results/table_parity_candidates.csv)。
 
-随机截距方差为 0.1874，随机孕周斜率方差为 0.00140，平均孕周处 ICC 为 0.809。随机斜率的 Wald 区间包含 0，但根据预设纵向结构仍保留。条件预测与边缘预测在代表性网格上的差异为 0.061--0.089，说明令随机效应为 0 会系统性高估新孕妇达标概率。完整方差表见 [`table_random_effects.csv`](../results/table_random_effects.csv)，量化网格见 [`table_sens_marginal.csv`](../results/table_sens_marginal.csv)。
+随机截距方差为 0.1879，随机孕周斜率方差为 0.00143，平均孕周处 ICC 为 0.809。随机斜率的 Wald 区间包含 0，但根据预设纵向结构仍保留。条件预测与边缘预测在代表性网格上的差异为 0.066--0.096，说明令随机效应为 0 会系统性高估新孕妇达标概率。完整方差表见 [`table_random_effects.csv`](../results/table_random_effects.csv)，量化网格见 [`table_sens_marginal.csv`](../results/table_sens_marginal.csv)。
 
 ## 5. 达标概率与分位数反演
 
@@ -116,9 +117,9 @@ BMI 表达形式的 AIC 优于仅体重或身高+体重，后两者 ΔAIC 分别
 
 ![图9 条件与边缘达标概率](../figures/fig_q1_prob_curves.png)
 
-若仅把 90% 当作演示目标，BMI=30.21 的边缘概率最早在约 24.1 周达到 0.90；BMI=31.81 和 33.93 的曲线在 10--25 周内均未达到 0.90。这不是问题 2 的最佳检测时点结论，因为本题问题 1 不进行风险损失优化。
+若仅把 90% 当作演示目标，BMI=30.21 的边缘概率在 25 周时才达到 0.900，BMI=31.81 与 33.93 在 10--25 周内均未达到 0.90。这不是问题 2 的最佳检测时点结论，因为本题问题 1 不进行风险损失优化。
 
-单调分位数族见图 10。12、16、20、24 周的分位数反演与 Beta 边缘概率绝对差为 0.027--0.150，最大差异出现在 BMI=33.93、20 周。该差异说明尾部概率对分布假设敏感，后续时点优化应进行保守校准。逐点比较见 [`table_quantile_check.csv`](../results/table_quantile_check.csv)。
+单调分位数族见图 10。12、16、20、24 周的分位数反演与 Beta 边缘概率绝对差为 0.030--0.151，最大差异出现在 BMI=33.93、20 周。边缘概率的蒙特卡洛标准误最大 0.008；中位 BMI 处孕妇层 100 次重抽样 bootstrap 95% 区间在 20 周为 [0.730, 0.828]（带宽 0.098），全网格最大带宽 0.138。该差异说明尾部概率对分布假设敏感，后续时点优化应进行保守校准。逐点比较见 [`table_quantile_check.csv`](../results/table_quantile_check.csv)，bootstrap 区间见 [`table_bootstrap_robust.csv`](../results/table_bootstrap_robust.csv)。
 
 ![图10 单调分位数曲线与 4% 阈值反演](../figures/fig_q1_quantile_curves.png)
 
@@ -128,7 +129,7 @@ Beta 随机分位数残差的 Q-Q 图整体接近直线，但孕妇层平均残�
 
 ![图11 Beta 分位数残差诊断](../figures/fig_diag_resid.png)
 
-基维数敏感性中，\(k=8\) 的 AIC 最低，\(k=5\) 与其相差 18.92，\(k=10\) 相差 5.38。为控制运行时间和高维交互的方差，主报告保留任务架构中的 \(k=5\)，同时完整披露 [`table_k_sensitivity.csv`](../results/table_k_sensitivity.csv)。这也进一步说明需要在可用联合 GAMM 软件中复核平滑惩罚。
+基维数敏感性中，\(k=8\) 的 AIC 最低，\(k=5\) 与其相差 21.85，\(k=10\) 相差 4.91。为控制运行时间和高维样条的方差，主报告保留任务架构中的 \(k=5\)，同时完整披露 [`table_k_sensitivity.csv`](../results/table_k_sensitivity.csv)。这也进一步说明需要在可用联合 GAMM 软件中复核平滑惩罚。
 
 图 12--17 分别检验分布假设、交互、GC、边缘化、孕周窗口和日期核验；图 18 检验是否剔除胎儿不健康记录。
 
@@ -146,7 +147,7 @@ Beta 随机分位数残差的 Q-Q 图整体接近直线，但孕妇层平均残�
 
 ![图18 胎儿健康记录保留/剔除敏感性](../figures/fig_sens_health.png)
 
-各敏感性曲线相对主分析的最大概率变化为：GC 0.00043，交互 0.0286，10--25 周窗口 0.0344，日期核验 0.0252，胎儿健康记录 0.0141。GC 的影响极小，支持“不按 40%--60% 硬阈值删除 451 条低于 40% 的记录”。相应审计表见 [`table_sens_gc.csv`](../results/table_sens_gc.csv)、[`table_sens_ga_window.csv`](../results/table_sens_ga_window.csv)、[`table_sens_ga_crosscheck.csv`](../results/table_sens_ga_crosscheck.csv) 和 [`table_sens_health.csv`](../results/table_sens_health.csv)。
+各敏感性曲线相对主分析的最大概率变化为：GC 0.00012，交互 0.0280，10--25 周窗口 0.0474，日期核验 0.0245，胎儿健康记录 0.0134。GC 的影响极小，支持“不按 40%--60% 硬阈值删除 451 条低于 40% 的记录”。相应审计表见 [`table_sens_gc.csv`](../results/table_sens_gc.csv)、[`table_sens_ga_window.csv`](../results/table_sens_ga_window.csv)、[`table_sens_ga_crosscheck.csv`](../results/table_sens_ga_crosscheck.csv) 和 [`table_sens_health.csv`](../results/table_sens_health.csv)。
 
 ## 7. 结论
 
@@ -158,8 +159,9 @@ Beta 随机分位数残差的 Q-Q 图整体接近直线，但孕妇层平均残�
 
 ## 8. 局限性与复现
 
-- 两阶段 Beta-GAMM 不是固定效应与随机效应的联合似然估计；随机效应区间为近似 Wald/边界区间。
+- 两阶段 Beta 样条回归 + 线性混合方差层不是固定效应与随机效应的联合似然估计；随机效应区间为近似 Wald/边界区间。
 - 样条尚未通过联合 Beta-GAMM 的 REML 平滑惩罚估计，复杂曲线的局部起伏可能是过拟合。
+- 边缘化采用 1000 次 Monte-Carlo 抽样并报告 MC 标准误；孕妇层 cluster bootstrap 固定随机效应方差层，仅覆盖固定效应与抽样结构的不确定性，未覆盖随机效应方差层抽样误差。
 - 数据来自高 BMI 为主的单地区样本，不能直接外推到一般孕妇群体；10--25 周之外只描述、不推断。
 - 分位数模型的单调性通过预测网格投影实现，不是对原始分位数系数的全局约束优化。
 - 90% 概率线没有临床规范含义，仅演示阈值反演；任何临床决策都需结合后续风险函数和外部验证。
@@ -173,4 +175,4 @@ python .\solution.py
 python .\figures.py
 ```
 
-实测 `solution.py` 用时约 4.3 秒，`figures.py` 用时约 25.0 秒，总计约 29.3 秒，低于 90 秒约束。主结果长表为 [`output.csv`](../results/output.csv)，包含 54 行且列名、数值范围和行数均通过结果契约检查。原始附件与派生结果均在本仓库公开，未使用外部个人可识别信息，也未引入外部文献事实作为本报告结论依据。
+实测 `solution.py` 用时约 34 秒，`figures.py` 用时约 16 秒，总计约 50 秒，低于 90 秒约束。主结果长表为 [`output.csv`](../results/output.csv)，包含 63 行且列名、数值范围和行数均通过结果契约检查。原始附件与派生结果均在本仓库公开，未使用外部个人可识别信息，也未引入外部文献事实作为本报告结论依据。

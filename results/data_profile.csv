@@ -9,5 +9,5 @@ unhealthy_rows,38.0
 below_4pct_rows,145.0
 gc_below_0.40_rows,451.0
 gc_above_0.60_rows,0.0
-shapiro_W,0.9675740295822647
-shapiro_p,8.194693612659793e-15
+shapiro_W,0.9675740295822641
+shapiro_p,8.194693612657156e-15

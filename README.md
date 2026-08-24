@@ -36,13 +36,12 @@
 
 ## 方法框架
 
-主分析采用两阶段 Beta-GAMM：Beta 似然刻画有界 Y 浓度，REML 方差层刻画孕妇随机截距和随机孕周斜率：
+主分析采用两阶段 Beta 样条回归 + 线性混合方差层（近似 Beta-GAMM）：Beta 均值层刻画有界 Y 浓度，REML 方差层刻画孕妇随机截距和随机孕周斜率。主模型经似然比检验不含孕周-BMI 交互（p=0.766），交互仅作描述与敏感性：
 
 ```text
 logit(E[Y_ij]) = beta0
                + s1(孕周_ij)
                + s2(BMI_ij)
-               + ti(孕周_ij, BMI_ij)
                + s3(年龄_i)
                + beta_ivf * IVF_i
                + b0_i + b1_i * 中心化孕周_ij
@@ -51,13 +50,12 @@ logit(E[Y_ij]) = beta0
 其中：
 
 - `s1`、`s2`、`s3` 为样条平滑项；
-- `ti` 为孕周与 BMI 的低秩张量交互；
 - `b0_i`、`b1_i` 分别表示孕妇随机截距和随机孕周斜率；
 - 4% 为题目给定的临床达标阈值；
 - 条件预测令随机效应为 0，边缘预测将随机效应方差积分进达标概率；
 - 分位数回归用于独立的阈值反演与概率交叉验证。
 
-当前实现的固定效应分布层是严格 Beta 似然，但 Beta 层与随机效应层为两阶段估计，并非联合极大似然；这一限制已在报告中明确披露。
+当前实现的固定效应分布层是严格 Beta 似然，但 Beta 层与随机效应层为两阶段估计，并非联合极大似然；样条未加平滑惩罚，报告中的 edf 为基函数数而非惩罚有效自由度；这两点已在报告中明确披露。边缘达标概率同时报告蒙特卡洛标准误（最大 0.008），并附孕妇层 100 次重抽样 bootstrap 区间（中位 BMI 处 20 周概率带宽约 0.098）。
 
 ## 主要结果
 
@@ -68,6 +66,7 @@ logit(E[Y_ij]) = beta0
 - BMI 表达形式优于仅体重或“身高 + 体重”，后两者的 Delta AIC 约为 22。
 - 孕周、BMI、年龄平滑项和 IVF 项达到显著。
 - 孕周-BMI 交互未获 Beta 似然比检验支持（p=0.766；删除交互后 AIC 改善 12.26），报告不把预设交互误写为已证实结论。
+- 主模型（无交互样条）AIC=-4491.70；按孕妇分组 CV 下分段/线性基准的 RMSE（0.0328/0.0331）优于样条（0.0778），问题 2/3 的决策模型建议采用简约基准，样条用于描述。
 
 完整建模报告见 [`reports/problem1_report.md`](reports/problem1_report.md)；详细结果见 [`results/`](results/)；选图与视觉质检见 [`reports/visualization_report.md`](reports/visualization_report.md)。
 
@@ -79,11 +78,11 @@ logit(E[Y_ij]) = beta0
 | [`fig_data_quality`](figures/fig_data_quality.png) | 重复结构、孕周日期核验和高 BMI 样本分布 |
 | [`fig_q1_scatter`](figures/fig_q1_scatter.png) | Y 浓度与孕周、BMI 的原始关系 |
 | [`fig_q1_smooth_ga`](figures/fig_q1_smooth_ga.png) | 不同 BMI 水平下的孕周非线性效应 |
-| [`fig_q1_smooth_bmi_int`](figures/fig_q1_smooth_bmi_int.png) | 孕周-BMI 二维交互预测面 |
+| [`fig_q1_smooth_bmi_int`](figures/fig_q1_smooth_bmi_int.png) | 孕周-BMI 交互预测面（预设交互模型，未获显著支持，仅描述性） |
 | [`fig_q1_3d_relationship`](figures/fig_q1_3d_relationship.png) | 原始记录、Beta预测曲面与4%阈值平面的三维关系图 |
 | [`fig_q1_quantile_curves`](figures/fig_q1_quantile_curves.png) | 分位数曲线与 4% 阈值反演 |
-| [`fig_q1_prob_curves`](figures/fig_q1_prob_curves.png) | 条件与边缘达标概率 |
-| [`fig_model_principle`](figures/fig_model_principle.png) | 混合模型组成和随机效应边缘化原理 |
+| [`fig_q1_prob_curves`](figures/fig_q1_prob_curves.png) | 条件与边缘达标概率（含 MC 误差带与孕妇 bootstrap 区间） |
+| [`fig_model_principle`](figures/fig_model_principle.png) | 两阶段模型组成和随机效应边缘化原理 |
 | [`fig_diag_resid`](figures/fig_diag_resid.png) | 残差、Q-Q 图和组水平偏差诊断 |
 | [`fig_model_comparison`](figures/fig_model_comparison.png) | AIC 与按孕妇分组交叉验证比较 |
 
@@ -127,7 +126,7 @@ python .\figures.py
 
 - `solution.py` 将统计结果写入 `results/`；
 - `figures.py` 从 `results/` 读取数据并重新生成 `figures/`；
-- 本机实测 `solution.py` 约 4.3 秒、`figures.py` 约 25.0 秒，总计约 29.3 秒，满足任务中不超过 90 秒的约束。
+- 本机实测 `solution.py` 约 34 秒、`figures.py` 约 16 秒，总计约 50 秒，满足任务中不超过 90 秒的约束。
 
 ## 可视化质量控制
 

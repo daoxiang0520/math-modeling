@@ -100,7 +100,7 @@ def figure_roadmap() -> None:
         "原始附件\n1082条记录": (0.07, 0.52),
         "解析与核验\n孕周/日期/男胎": (0.26, 0.52),
         "重复结构\n267位孕妇": (0.45, 0.76),
-        "主模型\n样条混合效应": (0.65, 0.76),
+        "主模型\nBeta样条+混合方差层": (0.65, 0.76),
         "边缘达标概率\nP(Y>=4%)": (0.87, 0.76),
         "技术重复\n测量误差": (0.45, 0.24),
         "分位数回归\n阈值反演": (0.65, 0.24),
@@ -112,8 +112,8 @@ def figure_roadmap() -> None:
         ("原始附件\n1082条记录", "解析与核验\n孕周/日期/男胎"),
         ("解析与核验\n孕周/日期/男胎", "重复结构\n267位孕妇"),
         ("解析与核验\n孕周/日期/男胎", "技术重复\n测量误差"),
-        ("重复结构\n267位孕妇", "主模型\n样条混合效应"),
-        ("主模型\n样条混合效应", "边缘达标概率\nP(Y>=4%)"),
+        ("重复结构\n267位孕妇", "主模型\nBeta样条+混合方差层"),
+        ("主模型\nBeta样条+混合方差层", "边缘达标概率\nP(Y>=4%)"),
         ("技术重复\n测量误差", "分位数回归\n阈值反演"),
         ("分位数回归\n阈值反演", "边缘达标概率\nP(Y>=4%)"),
         ("边缘达标概率\nP(Y>=4%)", "敏感性验证\n交互/GC/窗口"),
@@ -185,7 +185,7 @@ def figure_interaction_heatmap() -> None:
     cb = fig.colorbar(mesh, ax=ax, pad=0.02)
     cb.set_label("条件均值Y浓度 (%)")
     ax.set(xlabel="检测孕周 (周)", ylabel="孕妇BMI (kg/m2)",
-           title="孕周-BMI交互预测面（中心年龄、自然受孕）")
+           title="孕周-BMI交互预测面（预设交互模型，未获显著支持，仅描述性；中心年龄、自然受孕）")
     save(fig, "fig_q1_smooth_bmi_int")
 
 
@@ -224,7 +224,7 @@ def figure_3d_relationship() -> None:
         zlabel="Y染色体浓度 (%)", xlim=(10, 25),
         ylim=(float(obs["bmi"].min()), float(obs["bmi"].max())),
         zlim=(0, max(24.0, float(100 * obs["y"].max()) * 1.03)),
-        title="Y染色体浓度与孕周、BMI的三维关系\n原始记录 + Beta模型描述性预测曲面",
+        title="Y染色体浓度与孕周、BMI的三维关系\n原始记录 + 含预设交互的Beta模型描述性曲面",
     )
     ax.view_init(elev=27, azim=-125)
     ax.set_box_aspect((1.45, 1.0, 0.85))
@@ -273,12 +273,23 @@ def figure_prob_curves() -> None:
     markers = ["o", "s", "^"]
     for i, level in enumerate(levels):
         sub = df[np.isclose(df["bmi"], level)]
+        if "p_marg_se" in sub.columns:
+            ax.fill_between(sub["ga"], (sub["p_marg"] - 1.96 * sub["p_marg_se"]).clip(0, 1),
+                            (sub["p_marg"] + 1.96 * sub["p_marg_se"]).clip(0, 1),
+                            color=PALETTE[i], alpha=0.12, linewidth=0)
         ax.plot(sub["ga"], sub["p_marg"], color=PALETTE[i], linestyle="-",
                 marker=markers[i], markevery=22, markersize=3, label=f"BMI={level:.1f}")
         ax.plot(sub["ga"], sub["p_cond"], color=PALETTE[i], linestyle="--", alpha=0.8)
+    try:
+        bs = pd.read_csv(RESULTS / "table_bootstrap_robust.csv")
+        if len(bs) and np.isclose(bs["bmi"].iloc[0], levels[len(levels) // 2], atol=0.05):
+            ax.fill_between(bs["ga"], bs["p_marg_lo_bs"], bs["p_marg_hi_bs"],
+                            color=GRAY_DARK, alpha=0.14, linewidth=0, label="孕妇bootstrap 95%")
+    except FileNotFoundError:
+        pass
     ax.axhline(0.90, color=GRAY_DARK, linewidth=0.8, linestyle=":")
     ax.text(24.9, 0.905, "90%", ha="right", va="bottom", color=GRAY_DARK)
-    ax.set(xlabel="检测孕周 (周)", ylabel="P(Y>=4%)", title="达标概率：边缘预测与条件预测的差异",
+    ax.set(xlabel="检测孕周 (周)", ylabel="P(Y>=4%)", title="达标概率：边缘 vs 条件（浅色=MC误差带，灰色=孕妇bootstrap 95%）",
            xlim=(10, 25), ylim=(0, 1.02))
     polish(ax, "y")
     legend1 = ax.legend(frameon=False, title="BMI分位水平", loc="lower right")
@@ -333,7 +344,7 @@ def two_curve_sensitivity(filename: str, name: str, cols: tuple[str, str], label
 
 def figure_sensitivities() -> None:
     two_curve_sensitivity("sens_dist.csv", "fig_sens_dist", ("beta_marginal", "quantile"),
-                          ("Beta-GAMM边缘概率", "分位数阈值反演"), "分布假设敏感性")
+                          ("Beta边缘概率（主模型）", "分位数阈值反演"), "分布假设敏感性")
     two_curve_sensitivity("sens_interaction.csv", "fig_sens_interaction",
                           ("with_interaction", "without_interaction"), ("含孕周-BMI交互", "无交互"),
                           "交互项敏感性")
@@ -396,19 +407,19 @@ def figure_model_principle() -> None:
     fig, axes = plt.subplots(1, 2, figsize=(6.7, 3.25), constrained_layout=True)
     axes[0].axis("off")
     components = [
-        (0.03, 0.72, "s1(孕周)", SKY), (0.03, 0.48, "s2(BMI)", ORANGE),
-        (0.03, 0.24, "ti(孕周,BMI)", PURPLE), (0.37, 0.72, "s3(年龄)+IVF", GREEN),
-        (0.37, 0.38, "随机截距+斜率", YELLOW), (0.73, 0.52, "logit均值 eta", BLUE),
+        (0.03, 0.78, "s1(孕周)", SKY), (0.03, 0.56, "s2(BMI)", ORANGE),
+        (0.03, 0.34, "s3(年龄)+IVF", GREEN), (0.37, 0.62, "随机截距+斜率", YELLOW),
+        (0.73, 0.52, "logit均值 eta", BLUE),
     ]
     for x, y, text, color in components:
         patch = FancyBboxPatch((x, y), 0.24, 0.14, boxstyle="round,pad=0.02,rounding_size=0.02",
                                facecolor=color, alpha=0.78, edgecolor="white", transform=axes[0].transAxes)
         axes[0].add_patch(patch)
         axes[0].text(x + 0.12, y + 0.07, text, transform=axes[0].transAxes, ha="center", va="center")
-    for start in [(0.27, 0.79), (0.27, 0.55), (0.27, 0.31), (0.61, 0.79), (0.61, 0.45)]:
+    for start in [(0.27, 0.85), (0.27, 0.63), (0.27, 0.41), (0.61, 0.69)]:
         axes[0].annotate("", xy=(0.73, 0.59), xytext=start, xycoords=axes[0].transAxes,
                          arrowprops=dict(arrowstyle="->", color=GRAY_DARK, lw=1))
-    axes[0].text(0.5, 0.04, "Beta分布给出有界响应；随机效应积分决定新孕妇越过4%阈值的概率",
+    axes[0].text(0.5, 0.04, "两阶段估计：Beta 均值层 + REML 随机效应方差层；主模型不含孕周-BMI交互",
                  transform=axes[0].transAxes, ha="center", color=GRAY_DARK)
     axes[0].set_title("关系模型的组成")
 

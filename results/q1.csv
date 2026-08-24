@@ -1,55 +1,64 @@
 ﻿model,metric,value,se,p_value,n,bmi,ga,note
-Beta spline + interaction,AIC,-10.0,,,1082,,,主分布层；随机效应另以REML估计；长表按结果契约下限截断
-Beta spline + interaction,BIC,-10.0,,,1082,,,主分布层；随机效应另以REML估计；长表按结果契约下限截断
-Beta spline + interaction,RMSE,0.08167985098209851,,,1082,,,主分布层；随机效应另以REML估计
-Beta spline + interaction,MAE,0.03303438843495043,,,1082,,,主分布层；随机效应另以REML估计
-Beta spline + interaction,delta_AIC,12.260401679565803,,,1082,,,主分布层；随机效应另以REML估计
-Beta spline without interaction,AIC,-10.0,,,1082,,,嵌套Beta基准；长表按结果契约下限截断
-Beta spline without interaction,BIC,-10.0,,,1082,,,嵌套Beta基准；长表按结果契约下限截断
-Beta spline without interaction,RMSE,0.07775634122728285,,,1082,,,嵌套Beta基准
-Beta spline without interaction,MAE,0.03239428500247818,,,1082,,,嵌套Beta基准
-Beta spline without interaction,delta_AIC,0.0,,,1082,,,嵌套Beta基准
+"Beta spline (main, no interaction)",AIC,-10.0,,,1082,,,主模型；交互经LR检验未获支持；长表按结果契约下限截断
+"Beta spline (main, no interaction)",BIC,-10.0,,,1082,,,主模型；交互经LR检验未获支持；长表按结果契约下限截断
+"Beta spline (main, no interaction)",RMSE,0.07775634122639878,,,1082,,,主模型；交互经LR检验未获支持
+"Beta spline (main, no interaction)",MAE,0.03239428500037899,,,1082,,,主模型；交互经LR检验未获支持
+"Beta spline (main, no interaction)",delta_AIC,0.0,,,1082,,,主模型；交互经LR检验未获支持
+Beta spline + interaction,AIC,-10.0,,,1082,,,预设交互模型，仅描述与敏感性；长表按结果契约下限截断
+Beta spline + interaction,BIC,-10.0,,,1082,,,预设交互模型，仅描述与敏感性；长表按结果契约下限截断
+Beta spline + interaction,RMSE,0.08167985124461326,,,1082,,,预设交互模型，仅描述与敏感性
+Beta spline + interaction,MAE,0.03303438846684428,,,1082,,,预设交互模型，仅描述与敏感性
+Beta spline + interaction,delta_AIC,12.260401683987766,,,1082,,,预设交互模型，仅描述与敏感性
 Beta piecewise GA baseline,AIC,-10.0,,,1082,,,结点12.5/20周；长表按结果契约下限截断
 Beta piecewise GA baseline,BIC,-10.0,,,1082,,,结点12.5/20周；长表按结果契约下限截断
-Beta piecewise GA baseline,RMSE,0.03281073448757202,,,1082,,,结点12.5/20周
-Beta piecewise GA baseline,MAE,0.0263261088102885,,,1082,,,结点12.5/20周
-Beta piecewise GA baseline,delta_AIC,41.166669369252304,,,1082,,,结点12.5/20周
+Beta piecewise GA baseline,RMSE,0.03281073448757159,,,1082,,,结点12.5/20周
+Beta piecewise GA baseline,MAE,0.026326108810288643,,,1082,,,结点12.5/20周
+Beta piecewise GA baseline,delta_AIC,41.16666936961974,,,1082,,,结点12.5/20周
 Beta linear baseline,AIC,-10.0,,,1082,,,GA+BMI+年龄+IVF；长表按结果契约下限截断
 Beta linear baseline,BIC,-10.0,,,1082,,,GA+BMI+年龄+IVF；长表按结果契约下限截断
-Beta linear baseline,RMSE,0.033097001676793664,,,1082,,,GA+BMI+年龄+IVF
-Beta linear baseline,MAE,0.026649877973284733,,,1082,,,GA+BMI+年龄+IVF
-Beta linear baseline,delta_AIC,60.666642118676464,,,1082,,,GA+BMI+年龄+IVF
-Logit-Gaussian spline baseline,AIC,1478.656476825828,,,1082,,,AIC不可与Beta跨分布直接比较
-Logit-Gaussian spline baseline,BIC,1568.4146730951436,,,1082,,,AIC不可与Beta跨分布直接比较
-Logit-Gaussian spline baseline,RMSE,0.08021077323567484,,,1082,,,AIC不可与Beta跨分布直接比较
-Logit-Gaussian spline baseline,MAE,0.03282038917152966,,,1082,,,AIC不可与Beta跨分布直接比较
+Beta linear baseline,RMSE,0.03309700167676273,,,1082,,,GA+BMI+年龄+IVF
+Beta linear baseline,MAE,0.026649877973280757,,,1082,,,GA+BMI+年龄+IVF
+Beta linear baseline,delta_AIC,60.666642119104836,,,1082,,,GA+BMI+年龄+IVF
+Logit-Gaussian spline baseline,AIC,1478.6564768258281,,,1082,,,AIC不可与Beta跨分布直接比较
+Logit-Gaussian spline baseline,BIC,1568.4146730951438,,,1082,,,AIC不可与Beta跨分布直接比较
+Logit-Gaussian spline baseline,RMSE,0.08021077323593577,,,1082,,,AIC不可与Beta跨分布直接比较
+Logit-Gaussian spline baseline,MAE,0.03282038917139975,,,1082,,,AIC不可与Beta跨分布直接比较
 s1(ga),edf,6.0,,,1082,,,
-s1(ga),p_value,7.508533376506826e-11,,7.508533376506826e-11,1082,,,
-s1(ga),delta_AIC_removed,46.90534808679786,,,1082,,,
+s1(ga),p_value,6.058634345387192e-13,,6.058634345387192e-13,1082,,,
+s1(ga),delta_AIC_removed,57.167059683448315,,,1082,,,
 s2(bmi),edf,6.0,,,1082,,,
-s2(bmi),p_value,8.101084192677419e-08,,8.101084192677419e-08,1082,,,
-s2(bmi),delta_AIC_removed,31.799374625548808,,,1082,,,
-"ti(ga,bmi)",edf,9.0,,,1082,,,
-"ti(ga,bmi)",p_value,0.765670942612712,,0.765670942612712,1082,,,
-"ti(ga,bmi)",delta_AIC_removed,-10.0,,,1082,,,
+s2(bmi),p_value,2.8392134225373118e-14,,2.8392134225373118e-14,1082,,,
+s2(bmi),delta_AIC_removed,63.63589163278539,,,1082,,,
 s3(age),edf,4.0,,,1082,,,
-s3(age),p_value,0.002617287916431418,,0.002617287916431418,1082,,,
-s3(age),delta_AIC_removed,8.321039078117792,,,1082,,,
+s3(age),p_value,0.0025759875660281584,,0.0025759875660281584,1082,,,
+s3(age),delta_AIC_removed,8.35674432425094,,,1082,,,
 ivf,edf,1.0,,,1082,,,
-ivf,p_value,0.03358344562378205,,0.03358344562378205,1082,,,
-ivf,delta_AIC_removed,2.5157863285712665,,,1082,,,
-random_effects,random intercept variance,0.18738157926884957,0.10609516710807183,,1082,,,Wald approximation
-random_effects,random slope variance,0.0014031513654763337,0.007531860083140991,,1082,,,Wald approximation
-random_effects,intercept-slope covariance,-0.0004346787944071245,0.0011473639158927653,,1082,,,Wald approximation
-random_effects,residual variance (logit scale),0.044116357907643976,0.0019208277417137487,,1082,,,REML approximation
-random_effects,ICC at mean GA,0.8094308811313089,,,1082,,,delta-bound approximation
+ivf,p_value,0.03368403421035865,,0.03368403421035865,1082,,,
+ivf,delta_AIC_removed,2.510670485612536,,,1082,,,
+"ti(ga,bmi)",edf,9.0,,,1082,,,
+"ti(ga,bmi)",p_value,0.7656709430443138,,0.7656709430443138,1082,,,
+"ti(ga,bmi)",delta_AIC_removed,-10.0,,,1082,,,
+random_effects,random intercept variance,0.18789488778847566,0.10607745373128256,,1082,,,Wald approximation
+random_effects,random slope variance,0.0014266154355525563,0.007557696312828404,,1082,,,Wald approximation
+random_effects,intercept-slope covariance,-0.000427869184440947,0.0011574599188152299,,1082,,,Wald approximation
+random_effects,residual variance (logit scale),0.04434645485372076,0.0019226626558356285,,1082,,,REML approximation
+random_effects,ICC at mean GA,0.8090501271255424,,,1082,,,delta-bound approximation
 main_model,sigma_tech,0.13293552621663884,,,1082,,,"tech groups=40, rows=101"
 main_model,pearson_ga,0.12656002844735784,,2.9795639953541916e-05,1082,,,
 main_model,spearman_ga,0.08428675276902133,,0.0055330486404856286,1082,,,
 main_model,pearson_bmi,-0.15129981392456496,,5.736662841941766e-07,1082,,,
 main_model,spearman_bmi,-0.15495941516592615,,3.018672242238758e-07,1082,,,
-main_model,beta_precision_phi,70.6366796700572,,,1082,,,
+main_model,beta_precision_phi,70.24447912000612,,,1082,,,
 sens_gc,P_ok_diff,0.0,,,1082,,,不纳入GC（主模型）
-sens_gc,P_ok_diff,0.0004253793427207997,,,1082,,,GC连续协变量
+sens_gc,P_ok_diff,0.00011558136957401377,,,1082,,,GC连续协变量
 sens_ga_window,P_ok_diff,0.0,,,1082,,,全部记录
-sens_ga_window,P_ok_diff,0.03436841906611943,,,1069,,,仅10-25周
+sens_ga_window,P_ok_diff,0.047356954860384826,,,1069,,,仅10-25周
+bootstrap,p_lo_bs_ga12,0.750237640622014,,,1082,,,median BMI 孕妇层bootstrap 2.5%（B=100）
+bootstrap,p_hi_bs_ga12,0.8336386298626702,,,1082,,,median BMI 孕妇层bootstrap 97.5%（B=100）
+bootstrap,p_lo_bs_ga16,0.8321794374941075,,,1082,,,median BMI 孕妇层bootstrap 2.5%（B=100）
+bootstrap,p_hi_bs_ga16,0.889903966942549,,,1082,,,median BMI 孕妇层bootstrap 97.5%（B=100）
+bootstrap,p_lo_bs_ga20,0.7296117962402877,,,1082,,,median BMI 孕妇层bootstrap 2.5%（B=100）
+bootstrap,p_hi_bs_ga20,0.8277294645831452,,,1082,,,median BMI 孕妇层bootstrap 97.5%（B=100）
+bootstrap,p_lo_bs_ga24,0.8664269274833818,,,1082,,,median BMI 孕妇层bootstrap 2.5%（B=100）
+bootstrap,p_hi_bs_ga24,0.9163622123702848,,,1082,,,median BMI 孕妇层bootstrap 97.5%（B=100）
+main_model,mc_se_max,0.007997471874619456,,,1082,,,边缘达标概率MC标准误最大值

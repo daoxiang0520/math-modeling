@@ -6,7 +6,7 @@
 
 ## 信息结构
 
-1. `fig_roadmap` 与 `fig_model_principle` 解释逻辑和 Beta-GAMM 概率边缘化原理。
+1. `fig_roadmap` 与 `fig_model_principle` 解释逻辑和两阶段模型概率边缘化原理。
 2. `fig_data_quality`、`fig_q1_scatter` 和 `fig_anchor_threshold` 锚定原始数据。
 3. `fig_q1_smooth_ga`、`fig_q1_smooth_bmi_int`、`fig_q1_quantile_curves` 和 `fig_q1_prob_curves` 展示模型主结果。
 4. `fig_diag_resid` 和七张敏感性图检查分布、交互、GC、边缘化、孕周窗口、日期核验与健康记录处理。

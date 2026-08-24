@@ -3,9 +3,14 @@
 严格遵循 coder_task.md：Beta 有界响应、孕妇纵向重复、随机截距与随机孕周
 斜率、10--25 周推断窗口、4% 临床阈值、分位数辅助验证及完整敏感性分析。
 
-允许的 Python 库没有联合 Beta-GAMM 求解器，因此采用透明的两阶段实现：
-Beta 样条回归负责有界响应的均值/精度层，REML MixedLM 在同一设计矩阵上估计
-随机截距与随机斜率的纵向方差层；新孕妇概率对该随机效应分布作数值积分。
+模型定位（口径修正）：本实现是"两阶段 Beta 样条回归 + 线性混合方差层"，
+即近似 Beta-GAMM，而非联合极大似然 GAMM。允许的 Python 库没有联合
+Beta-GAMM 求解器，因此采用透明的两阶段实现：Beta 样条回归（未加平滑惩罚，
+基函数数为样条维数而非惩罚有效自由度）负责有界响应的均值/精度层；REML
+MixedLM 在同一设计矩阵上估计随机截距与随机斜率的纵向方差层；新孕妇概率
+对该随机效应分布作数值积分。主模型经似然比检验不含孕周-BMI 交互
+（交互模型仅作描述与敏感性）；边缘概率同时报告蒙特卡洛标准误，并另附
+孕妇层重抽样的 cluster bootstrap 区间。
 """
 
 from __future__ import annotations
@@ -32,7 +37,7 @@ from statsmodels.othermod.betareg import BetaModel
 Y_THR = 0.04
 GA_MIN, GA_MAX = 10.0, 25.0
 RANDOM_SEED = 2025
-MC_DRAWS = 400
+MC_DRAWS = 1000
 
 
 def resolve_paths() -> tuple[Path, Path]:
@@ -234,6 +239,53 @@ def marginal_probability(result, x: np.ndarray, ga: np.ndarray, ga_center: float
     return np.mean(beta_dist.sf(Y_THR, mu_mc * phi, (1 - mu_mc) * phi), axis=0)
 
 
+def marginal_probability_with_se(result, x: np.ndarray, ga: np.ndarray, ga_center: float,
+                                 cov_re: np.ndarray, draws: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """边缘达标概率及其蒙特卡洛标准误（跨随机效应抽样）。"""
+    eta = x @ np.asarray(result.params)[: x.shape[1]]
+    if cov_re.shape != (2, 2) or not np.all(np.isfinite(cov_re)):
+        p = beta_probability(result, x)
+        return p, np.zeros_like(p)
+    add = draws[:, [0]] + draws[:, [1]] * (ga[None, :] - ga_center)
+    mu_mc = np.clip(expit(eta[None, :] + add), 1e-8, 1 - 1e-8)
+    phi = beta_phi(result, x.shape[1])
+    surv = beta_dist.sf(Y_THR, mu_mc * phi, (1 - mu_mc) * phi)
+    return np.mean(surv, axis=0), np.std(surv, axis=0, ddof=1) / np.sqrt(surv.shape[0])
+
+
+def cluster_bootstrap_probability(df: pd.DataFrame, builder: DesignBuilder, main_beta,
+                                  cov_re: np.ndarray, draws: np.ndarray, ga_grid: np.ndarray,
+                                  bmi_median: float, b: int = 100, seed: int = 2025) -> pd.DataFrame:
+    """孕妇层重抽样 bootstrap：对 Beta 固定效应/均值层给出达标概率的稳健区间。
+
+    随机效应方差层按全量 REML 点估计固定（其不确定性另由 Wald/ICC 表报告），
+    因此 bootstrap 区间覆盖固定效应层与抽样结构的不确定性，属稳健性验证。
+    """
+    rng = np.random.default_rng(seed + 1)
+    mothers = df["mother_id"].unique()
+    full_grid = make_grid(builder, ga_grid, float(bmi_median))
+    x_full, _ = builder.transform(full_grid, interaction=False)
+    point = marginal_probability(main_beta, x_full, ga_grid, float(df["ga"].mean()), cov_re, draws)
+    out = np.empty((b, len(ga_grid)), dtype=float)
+    for it in range(b):
+        ids = rng.choice(mothers, size=len(mothers), replace=True)
+        sub = pd.concat([df[df["mother_id"].eq(m)] for m in ids], ignore_index=True)
+        kb = DesignBuilder.fit(sub, n_knots=5)
+        xb, _ = kb.transform(sub, interaction=False)
+        fb = fit_beta(sub["y"].to_numpy(), xb)
+        gb = make_grid(kb, ga_grid, float(bmi_median))
+        xgb, _ = kb.transform(gb, interaction=False)
+        out[it] = marginal_probability(fb, xgb, ga_grid, float(sub["ga"].mean()), cov_re, draws)
+    return pd.DataFrame({
+        "ga": ga_grid,
+        "bmi": bmi_median,
+        "p_marg_point": point,
+        "p_marg_lo_bs": np.percentile(out, 2.5, axis=0),
+        "p_marg_hi_bs": np.percentile(out, 97.5, axis=0),
+        "p_marg_se_bs": out.std(axis=0, ddof=1),
+    })
+
+
 def grouped_cv(x: np.ndarray, y: np.ndarray, groups: pd.Series, family: str) -> tuple[float, float]:
     pred = np.empty(len(y), dtype=float)
     for train, test in GroupKFold(n_splits=5).split(x, y, groups):
@@ -342,8 +394,8 @@ def main() -> None:
     error_log.to_csv(results / "ga_crosscheck.csv", index=False, encoding="utf-8-sig")
     y, groups = df["y"].to_numpy(), df["mother_id"]
     builder = DesignBuilder.fit(df, n_knots=5)
-    x_main, names = builder.transform(df, interaction=True)
-    x_no_int, _ = builder.transform(df, interaction=False)
+    x_int, names_int = builder.transform(df, interaction=True)
+    x_main, names = builder.transform(df, interaction=False)
     ga = df["ga"].to_numpy()
     x_piece = sm.add_constant(np.column_stack([
         ga, np.maximum(ga - 12.5, 0), np.maximum(ga - 20.0, 0),
@@ -351,18 +403,19 @@ def main() -> None:
     ]), has_constant="add")
     x_linear = sm.add_constant(df[["ga", "bmi", "age", "ivf"]].to_numpy(), has_constant="add")
 
-    main_beta, no_int_beta = fit_beta(y, x_main), fit_beta(y, x_no_int)
+    main_beta = fit_beta(y, x_main)
+    int_beta = fit_beta(y, x_int)
     piece_beta, linear_beta = fit_beta(y, x_piece), fit_beta(y, x_linear)
-    logit_gam = sm.OLS(df["logit_y"], x_no_int).fit()
+    logit_gam = sm.OLS(df["logit_y"], x_main).fit()
     mixed, random_note = fit_mixed(df, x_main)
 
     comparisons = []
     for name, model, x, family, note in [
-        ("Beta spline + interaction", main_beta, x_main, "beta", "主分布层；随机效应另以REML估计"),
-        ("Beta spline without interaction", no_int_beta, x_no_int, "beta", "嵌套Beta基准"),
+        ("Beta spline (main, no interaction)", main_beta, x_main, "beta", "主模型；交互经LR检验未获支持"),
+        ("Beta spline + interaction", int_beta, x_int, "beta", "预设交互模型，仅描述与敏感性"),
         ("Beta piecewise GA baseline", piece_beta, x_piece, "beta", "结点12.5/20周"),
         ("Beta linear baseline", linear_beta, x_linear, "beta", "GA+BMI+年龄+IVF"),
-        ("Logit-Gaussian spline baseline", logit_gam, x_no_int, "logit", "AIC不可与Beta跨分布直接比较"),
+        ("Logit-Gaussian spline baseline", logit_gam, x_main, "logit", "AIC不可与Beta跨分布直接比较"),
     ]:
         rmse, mae = grouped_cv(x, y, groups, family)
         comparisons.append({"模型": name, "分布族": family, "AIC": float(model.aic), "BIC": float(model.bic), "RMSE": rmse, "MAE": mae, "备注": note})
@@ -374,7 +427,6 @@ def main() -> None:
     term_indices = {
         "s1(ga)": [i for i, n in enumerate(names) if n.startswith("s_ga")],
         "s2(bmi)": [i for i, n in enumerate(names) if n.startswith("s_bmi")],
-        "ti(ga,bmi)": [i for i, n in enumerate(names) if n.startswith("ti_")],
         "s3(age)": [i for i, n in enumerate(names) if n.startswith("s_age")],
         "ivf": [names.index("ivf")],
     }
@@ -385,6 +437,11 @@ def main() -> None:
         lr = max(0.0, 2 * (float(main_beta.llf) - float(reduced.llf)))
         pvalue, delta = float(chi2.sf(lr, len(idx))), float(reduced.aic - main_beta.aic)
         smooth_rows.append({"平滑项": term, "edf": len(idx), "LR统计量": lr, "p值": pvalue, "delta_AIC_removed": delta, "结论": "显著" if pvalue < 0.05 else "未达0.05"})
+    ti_idx = [i for i, n in enumerate(names_int) if n.startswith("ti_")]
+    lr_int = max(0.0, 2 * (float(int_beta.llf) - float(main_beta.llf)))
+    p_int = float(chi2.sf(lr_int, len(ti_idx)))
+    delta_int = float(main_beta.aic - int_beta.aic)
+    smooth_rows.append({"平滑项": "ti(ga,bmi)", "edf": len(ti_idx), "LR统计量": lr_int, "p值": p_int, "delta_AIC_removed": delta_int, "结论": "显著" if p_int < 0.05 else "未达0.05"})
     smooth_table = pd.DataFrame(smooth_rows)
     smooth_table.to_csv(results / "table_smooth_terms.csv", index=False, encoding="utf-8-sig")
 
@@ -414,7 +471,7 @@ def main() -> None:
     k_rows = []
     for knots in [5, 8, 10]:
         kb = DesignBuilder.fit(df, n_knots=knots)
-        kx, _ = kb.transform(df, interaction=True)
+        kx, _ = kb.transform(df, interaction=False)
         km = fit_beta(y, kx)
         k_rows.append([knots, kx.shape[1], km.aic, km.bic, beta_phi(km, kx.shape[1])])
     k_table = pd.DataFrame(k_rows, columns=["k", "设计矩阵列数", "AIC", "BIC", "Beta精度phi"])
@@ -426,13 +483,13 @@ def main() -> None:
     prob_rows = []
     for bmi_value in bmi_levels:
         grid = make_grid(builder, ga_grid, float(bmi_value))
-        xg, _ = builder.transform(grid, interaction=True)
+        xg, _ = builder.transform(grid, interaction=False)
         eta = xg @ np.asarray(main_beta.params)[: xg.shape[1]]
         cond = beta_probability(main_beta, xg)
-        marg = marginal_probability(main_beta, xg, ga_grid, float(df["ga"].mean()), cov_re, draws)
+        marg, marg_se = marginal_probability_with_se(main_beta, xg, ga_grid, float(df["ga"].mean()), cov_re, draws)
         cov_fixed = np.asarray(main_beta.cov_params())[: x_main.shape[1], : x_main.shape[1]]
         se_eta = np.sqrt(np.maximum(np.einsum("ij,jk,ik->i", xg, cov_fixed, xg), 0))
-        prob_rows.append(pd.DataFrame({"ga": ga_grid, "bmi": bmi_value, "eta": eta, "mean_y": expit(eta), "mean_y_lo": expit(eta - 1.96 * se_eta), "mean_y_hi": expit(eta + 1.96 * se_eta), "p_cond": cond, "p_marg": marg}))
+        prob_rows.append(pd.DataFrame({"ga": ga_grid, "bmi": bmi_value, "eta": eta, "mean_y": expit(eta), "mean_y_lo": expit(eta - 1.96 * se_eta), "mean_y_hi": expit(eta + 1.96 * se_eta), "p_cond": cond, "p_marg": marg, "p_marg_se": marg_se}))
     prob = pd.concat(prob_rows, ignore_index=True)
     prob.to_csv(results / "q1_prob_curves.csv", index=False, encoding="utf-8-sig")
     prob.to_csv(results / "q1_smooth_ga.csv", index=False, encoding="utf-8-sig")
@@ -443,11 +500,11 @@ def main() -> None:
     heat = make_grid(builder, gh.ravel(), float(builder.means["bmi"]))
     heat["bmi"] = bh.ravel()
     xh, _ = builder.transform(heat, interaction=True)
-    heat["pred_y"] = beta_mean(main_beta, xh)
+    heat["pred_y"] = beta_mean(int_beta, xh)
     heat.to_csv(results / "q1_ti_heatmap.csv", index=False, encoding="utf-8-sig")
 
     ga_count, bmi_count = builder.ga_spline.n_features_out_, builder.bmi_spline.n_features_out_
-    qx = x_no_int[:, : 1 + ga_count + bmi_count]
+    qx = x_main[:, : 1 + ga_count + bmi_count]
     taus = np.round(np.arange(0.05, 1.0, 0.05), 2)
     raw_q = np.empty((len(taus), len(bmi_levels), len(ga_grid)))
     with warnings.catch_warnings():
@@ -492,45 +549,45 @@ def main() -> None:
     qmedian = qcheck_full[np.isclose(qcheck_full["bmi"], median_bmi)].reset_index(drop=True)
     pd.DataFrame({"ga": ga_grid, "beta_marginal": median_prob["p_marg"], "quantile": qmedian["p_quantile"]}).to_csv(results / "sens_dist.csv", index=False, encoding="utf-8-sig")
 
-    xg_no, _ = builder.transform(median_grid, interaction=False)
-    p_no_int = marginal_probability(no_int_beta, xg_no, ga_grid, float(df["ga"].mean()), cov_re, draws)
-    pd.DataFrame({"ga": ga_grid, "with_interaction": median_prob["p_marg"], "without_interaction": p_no_int}).to_csv(results / "sens_interaction.csv", index=False, encoding="utf-8-sig")
+    xg_int, _ = builder.transform(median_grid, interaction=True)
+    p_int_curve = marginal_probability(int_beta, xg_int, ga_grid, float(df["ga"].mean()), cov_re, draws)
+    pd.DataFrame({"ga": ga_grid, "with_interaction": p_int_curve, "without_interaction": median_prob["p_marg"]}).to_csv(results / "sens_interaction.csv", index=False, encoding="utf-8-sig")
 
-    x_gc, _ = builder.transform(df, interaction=True, gc=True)
+    x_gc, _ = builder.transform(df, interaction=False, gc=True)
     gc_beta = fit_beta(y, x_gc)
-    xgg, _ = builder.transform(median_grid, interaction=True, gc=True)
+    xgg, _ = builder.transform(median_grid, interaction=False, gc=True)
     p_gc = marginal_probability(gc_beta, xgg, ga_grid, float(df["ga"].mean()), cov_re, draws)
     pd.DataFrame({"ga": ga_grid, "without_gc": median_prob["p_marg"], "with_gc": p_gc}).to_csv(results / "sens_gc.csv", index=False, encoding="utf-8-sig")
     median_prob[["ga", "p_cond", "p_marg"]].to_csv(results / "sens_marginal.csv", index=False, encoding="utf-8-sig")
 
     in_window = df["ga"].between(GA_MIN, GA_MAX)
     wb = DesignBuilder.fit(df.loc[in_window], n_knots=5)
-    xw, _ = wb.transform(df.loc[in_window], interaction=True)
+    xw, _ = wb.transform(df.loc[in_window], interaction=False)
     mw = fit_beta(df.loc[in_window, "y"].to_numpy(), xw)
     wg = make_grid(wb, ga_grid, median_bmi)
-    xwg, _ = wb.transform(wg, interaction=True)
+    xwg, _ = wb.transform(wg, interaction=False)
     p_window = marginal_probability(mw, xwg, ga_grid, float(df.loc[in_window, "ga"].mean()), cov_re, draws)
     pd.DataFrame({"ga": ga_grid, "all_records": median_prob["p_marg"], "only_10_25": p_window}).to_csv(results / "sens_ga_window.csv", index=False, encoding="utf-8-sig")
 
     date_ok = df["ga_date_diff"].abs().le(1.0) | df["ga_date_diff"].isna()
     db = DesignBuilder.fit(df.loc[date_ok], n_knots=5)
-    xd, _ = db.transform(df.loc[date_ok], interaction=True)
+    xd, _ = db.transform(df.loc[date_ok], interaction=False)
     md = fit_beta(df.loc[date_ok, "y"].to_numpy(), xd)
     dg = make_grid(db, ga_grid, median_bmi)
-    xdg, _ = db.transform(dg, interaction=True)
+    xdg, _ = db.transform(dg, interaction=False)
     p_date = marginal_probability(md, xdg, ga_grid, float(df.loc[date_ok, "ga"].mean()), cov_re, draws)
     pd.DataFrame({"ga": ga_grid, "all_records": median_prob["p_marg"], "date_crosscheck_pass": p_date}).to_csv(results / "sens_ga_crosscheck.csv", index=False, encoding="utf-8-sig")
 
     healthy = df["healthy"]
     hb = DesignBuilder.fit(df.loc[healthy], n_knots=5)
-    xhealth, _ = hb.transform(df.loc[healthy], interaction=True)
+    xhealth, _ = hb.transform(df.loc[healthy], interaction=False)
     mhealth = fit_beta(df.loc[healthy, "y"].to_numpy(), xhealth)
     hg = make_grid(hb, ga_grid, median_bmi)
-    xhg, _ = hb.transform(hg, interaction=True)
+    xhg, _ = hb.transform(hg, interaction=False)
     p_health = marginal_probability(mhealth, xhg, ga_grid, float(df.loc[healthy, "ga"].mean()), cov_re, draws)
     pd.DataFrame({"ga": ga_grid, "retain_all": median_prob["p_marg"], "exclude_unhealthy": p_health}).to_csv(results / "sens_health.csv", index=False, encoding="utf-8-sig")
 
-    main_xg, _ = builder.transform(median_grid, interaction=True)
+    main_xg, _ = builder.transform(median_grid, interaction=False)
     gc_table = pd.DataFrame([
         ["不纳入GC（主模型）", len(df), main_beta.aic, 0.0, 0.0, 0.0, "不做40%-60%硬剔除"],
         ["GC连续协变量", len(df), gc_beta.aic, gc_beta.aic - main_beta.aic, float(np.max(np.abs(beta_mean(gc_beta, xgg) - beta_mean(main_beta, main_xg)))), float(np.max(np.abs(p_gc - median_prob["p_marg"].to_numpy()))), "质量敏感性"],
@@ -582,12 +639,15 @@ def main() -> None:
     body_table.to_csv(results / "table_covariate_forms.csv", index=False, encoding="utf-8-sig")
     xp, _ = builder.transform(df, interaction=False, parity=True)
     parity_model = fit_beta(y, xp)
-    pd.DataFrame([["年龄+IVF+BMI", no_int_beta.aic, no_int_beta.bic], ["再加孕次与产次", parity_model.aic, parity_model.bic]], columns=["候选模型", "AIC", "BIC"]).to_csv(results / "table_parity_candidates.csv", index=False, encoding="utf-8-sig")
+    pd.DataFrame([["年龄+IVF+BMI", main_beta.aic, main_beta.bic], ["再加孕次与产次", parity_model.aic, parity_model.bic]], columns=["候选模型", "AIC", "BIC"]).to_csv(results / "table_parity_candidates.csv", index=False, encoding="utf-8-sig")
 
     df[["ga", "bmi", "y", "mother_id"]].assign(y_thr=Y_THR).to_csv(results / "q1_threshold_anchor.csv", index=False, encoding="utf-8-sig")
 
     pear_ga, spear_ga = pearsonr(df["ga"], df["y"]), spearmanr(df["ga"], df["y"])
     pear_bmi, spear_bmi = pearsonr(df["bmi"], df["y"]), spearmanr(df["bmi"], df["y"])
+    bs = cluster_bootstrap_probability(df, builder, main_beta, cov_re, draws, ga_grid, median_bmi, b=100)
+    bs.to_csv(results / "table_bootstrap_robust.csv", index=False, encoding="utf-8-sig")
+    mc_se_max = float(np.max(prob["p_marg_se"]))
     long_rows: list[dict[str, object]] = []
     for _, row in comp.iterrows():
         for metric in ["AIC", "BIC", "RMSE", "MAE", "delta_AIC"]:
@@ -611,6 +671,11 @@ def main() -> None:
         long_rows.append({"model": "sens_gc", "metric": "P_ok_diff", "value": row["达标概率最大变化"], "n": row["N_rec"], "note": row["策略"]})
     for _, row in window_table.iterrows():
         long_rows.append({"model": "sens_ga_window", "metric": "P_ok_diff", "value": row["10-25周内P_ok最大差异"], "n": row["N_rec"], "note": row["样本集"]})
+    bs_selected = bs[np.isclose(bs["ga"].to_numpy()[:, None], selected_ga, atol=0.051).any(axis=1)]
+    for _, brow in bs_selected.iterrows():
+        long_rows.append({"model": "bootstrap", "metric": f"p_lo_bs_ga{float(brow['ga']):.0f}", "value": float(brow["p_marg_lo_bs"]), "n": len(df), "note": "median BMI 孕妇层bootstrap 2.5%（B=100）"})
+        long_rows.append({"model": "bootstrap", "metric": f"p_hi_bs_ga{float(brow['ga']):.0f}", "value": float(brow["p_marg_hi_bs"]), "n": len(df), "note": "median BMI 孕妇层bootstrap 97.5%（B=100）"})
+    long_rows.append({"model": "main_model", "metric": "mc_se_max", "value": mc_se_max, "n": len(df), "note": "边缘达标概率MC标准误最大值"})
     save_long_results(out, long_rows)
 
     summary = {
@@ -622,9 +687,16 @@ def main() -> None:
         "beta_precision_phi": phi, "sigma_tech_logit": sigma_tech, "icc": icc,
         "random_effect_structure": random_note,
         "correlations": {"ga_pearson": [float(pear_ga.statistic), float(pear_ga.pvalue)], "ga_spearman": [float(spear_ga.statistic), float(spear_ga.pvalue)], "bmi_pearson": [float(pear_bmi.statistic), float(pear_bmi.pvalue)], "bmi_spearman": [float(spear_bmi.statistic), float(spear_bmi.pvalue)]},
-        "max_sensitivity_changes": {"distribution": float(np.max(np.abs(qmedian["p_quantile"] - median_prob["p_marg"]))), "interaction": float(np.max(np.abs(p_no_int - median_prob["p_marg"]))), "gc": float(np.max(np.abs(p_gc - median_prob["p_marg"]))), "ga_window": float(np.max(np.abs(p_window - median_prob["p_marg"]))), "ga_date_crosscheck": float(np.max(np.abs(p_date - median_prob["p_marg"]))), "health": float(np.max(np.abs(p_health - median_prob["p_marg"])))},
+        "max_sensitivity_changes": {"distribution": float(np.max(np.abs(qmedian["p_quantile"] - median_prob["p_marg"]))), "interaction": float(np.max(np.abs(p_int_curve - median_prob["p_marg"]))), "gc": float(np.max(np.abs(p_gc - median_prob["p_marg"]))), "ga_window": float(np.max(np.abs(p_window - median_prob["p_marg"]))), "ga_date_crosscheck": float(np.max(np.abs(p_date - median_prob["p_marg"]))), "health": float(np.max(np.abs(p_health - median_prob["p_marg"])))},
+        "mc_draws": MC_DRAWS, "mc_se_max": mc_se_max,
+        "bootstrap": {
+            "B": 100, "seed": RANDOM_SEED + 1, "median_bmi": float(median_bmi),
+            "max_band_width": float(np.max(bs["p_marg_hi_bs"] - bs["p_marg_lo_bs"])),
+            "band_width_at_20w": float(bs.loc[int(np.argmin(np.abs(bs["ga"].to_numpy() - 20.0))), "p_marg_hi_bs"] - bs.loc[int(np.argmin(np.abs(bs["ga"].to_numpy() - 20.0))), "p_marg_lo_bs"]),
+        },
         "elapsed_seconds": time.time() - started,
-        "model_note": "two-stage Beta-GAMM: Beta likelihood + REML random intercept/slope variance layer",
+        "interaction_lr_p": float(p_int),
+        "model_note": "two-stage Beta spline regression + linear mixed variance layer (approximate Beta-GAMM); main model excludes GA x BMI interaction",
         "clinical_threshold": Y_THR, "confidence_level_for_intervals": 0.95,
     }
     (results / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")

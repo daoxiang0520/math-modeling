@@ -14,9 +14,9 @@
     0.234217554
   ],
   "below_threshold_rate": 0.13401109057301294,
-  "beta_precision_phi": 70.6366796700572,
+  "beta_precision_phi": 70.24447912000612,
   "sigma_tech_logit": 0.13293552621663884,
-  "icc": 0.8094308811313089,
+  "icc": 0.8090501271255424,
   "random_effect_structure": "random intercept + centered-GA slope",
   "correlations": {
     "ga_pearson": [
@@ -37,15 +37,25 @@
     ]
   },
   "max_sensitivity_changes": {
-    "distribution": 0.11637284139713533,
-    "interaction": 0.0285661294562638,
-    "gc": 0.0004253793427207997,
-    "ga_window": 0.03436841906611943,
-    "ga_date_crosscheck": 0.02519021643718722,
-    "health": 0.014119504504864655
+    "distribution": 0.1130654053677641,
+    "interaction": 0.02801796725840089,
+    "gc": 0.00011558136957401377,
+    "ga_window": 0.047356954860384826,
+    "ga_date_crosscheck": 0.024488497994136438,
+    "health": 0.013395462546581083
   },
-  "elapsed_seconds": 4.300631284713745,
-  "model_note": "two-stage Beta-GAMM: Beta likelihood + REML random intercept/slope variance layer",
+  "mc_draws": 1000,
+  "mc_se_max": 0.007997471874619456,
+  "bootstrap": {
+    "B": 100,
+    "seed": 2026,
+    "median_bmi": 31.8115975966851,
+    "max_band_width": 0.1377758327043811,
+    "band_width_at_20w": 0.09811766834285751
+  },
+  "elapsed_seconds": 34.32618045806885,
+  "interaction_lr_p": 0.7656709430443138,
+  "model_note": "two-stage Beta spline regression + linear mixed variance layer (approximate Beta-GAMM); main model excludes GA x BMI interaction",
   "clinical_threshold": 0.04,
   "confidence_level_for_intervals": 0.95
 }
