@@ -1,0 +1,1974 @@
+{
+  "task": "coder_implementation",
+  "sub_question": {
+    "index": 3,
+    "text": "问题4  由于孕妇和女胎都不携带Y 染色体，重要的是如何判定女胎是否异常。试以女胎孕妇的21\n号、18 号和13 号染色体非整倍体（AB 列）为判定结果，综合考虑X 染色体及上述染色体的Z 值、GC\n含量、读段数及相关比例、BMI 等因素，给出女胎异常的判定方法。 \n \n \n \n \n \n \n \n\n附录1  附件中各列数据的说明 \n \n \n附录2  Z 值（Z-score） \nZ 值（Z-score）的计算公式： \n𝑍= 𝑋−𝜇\n𝜎\n \n其中X 为待检测样本中目标染色体的相对计数比例，𝜇 为正常对照群体中该染色体计数比例的均值，𝜎 \n为正常群体中该比例的标准差。在NIPT 中，对于常见染色体非整倍体检测，通常采用Z 值分析方法进\n行统计判定。已知染色体非整倍体通常定义为该染色体存在一个或三个拷贝，正常为两个拷贝，且每条\n染色体所采集到的读段数量与该染色体长度成正比。 \n列 \n说明 \n列 \n说明 \nA \n样本序号 \nQ \n13 号染色体的Z 值 \nB \n孕妇代码 \nR \n18 号染色体的Z 值 \nC \n孕妇年龄 \nS \n21 号染色体的Z 值 \nD \n孕妇身高 \nT \nX 染色体的Z 值 \nE \n孕妇体重 \nU \nY 染色体的Z 值（女胎数据此列为空白） \nF \n末次月经时间 \nV \nY 染色体浓度，即Y 染色体游离DNA 片\n段的比例（女胎数据此列为空白） \nG \nIVF 妊娠方式 \nW \nX 染色体浓度（其数值是通过生物信息学在\n一定假设下通过数据分析估计得出，可能出\n现负值） \nH \n检测时间 \nX \n13 号染色体的GC 含量 \nI \n检测抽血次数 \nY \n18 号染色体的GC 含量 \nJ \n孕妇本次检测时的孕周（周数+天数） \nZ \n21 号染色体的GC 含量 \nK \n孕妇BMI 指标 \nAA \n被过滤掉的读段数占总读段数的比例 \nL \n原始测序数据的总读段数（个） \nAB \n检测出的13 号，18 号，21 号染色体非整\n倍体，即数量异常，空白即为无异常 \nM \n总读段数中在参考基因组上比对的比例 \nAC \n孕妇的怀孕次数 \nN \n总读段数中重复读段的比例 \nAD \n孕妇的生产次数 \nO \n总读段数中唯一比对的读段数（个） \nAE \n胎儿是否健康（婴儿出生后的结果） \nP \nGC 含量，序列中碱基 G（鸟嘌呤）和 C\n（胞嘧啶）所占的比例，是测序数据质量\n评估中的一个重要指标，正常 GC 含量范\n围为40% ~ 60%，GC 含量过高、过低、\n或分布异常可能意味着测序质量存在问题",
+    "total": 4
+  },
+  "previous_sub_results": [
+    {
+      "index": 0,
+      "status": "passed",
+      "ltm_version": "v5.0",
+      "result_paths": [
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\results\\q1.csv",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\results\\output.csv"
+      ],
+      "figure_paths": [
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_anchor_threshold.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_data_quality.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_diag_resid.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_model_comparison.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_model_principle.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_q1_3d_relationship.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_q1_prob_curves.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_q1_quantile_curves.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_q1_scatter.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_q1_smooth_bmi_int.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_q1_smooth_ga.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_roadmap.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_sens_dist.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_sens_ga_crosscheck.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_sens_ga_window.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_sens_gc.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_sens_health.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_sens_interaction.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_sens_marginal.png"
+      ]
+    },
+    {
+      "index": 1,
+      "status": "passed",
+      "ltm_version": "v2.0",
+      "result_paths": [
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\results\\q2.csv"
+      ],
+      "figure_paths": [
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_q2_bmi_bins_tstar.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_q2_bootstrap_boundary_heatmap.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_q2_calibration.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_q2_error_shift_sigma.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_q2_fnr_fpr_sigma.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_q2_ga_bmi_prob_curves.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_q2_joint_k_selection.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_q2_loss_curves_optimal.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_q2_monotone_diagnostic.png",
+        "C:\\Users\\lingi\\Desktop\\Research\\test1\\outputs\\figures\\fig_q2_rho_sensitivity.png"
+      ]
+    },
+    {
+      "index": 2,
+      "status": "passed",
+      "ltm_version": "v3.0",
+      "result_paths": [
+        "outputs\\results\\q3.csv"
+      ],
+      "figure_paths": [
+        "outputs\\figures\\all_figures_contact_sheet.png",
+        "outputs\\figures\\fig_anchor_threshold.pdf",
+        "outputs\\figures\\fig_anchor_threshold.png",
+        "outputs\\figures\\fig_anchor_threshold.svg",
+        "outputs\\figures\\fig_data_quality.pdf",
+        "outputs\\figures\\fig_data_quality.png",
+        "outputs\\figures\\fig_data_quality.svg",
+        "outputs\\figures\\fig_diag_resid.pdf",
+        "outputs\\figures\\fig_diag_resid.png",
+        "outputs\\figures\\fig_diag_resid.svg",
+        "outputs\\figures\\fig_model_comparison.pdf",
+        "outputs\\figures\\fig_model_comparison.png",
+        "outputs\\figures\\fig_model_comparison.svg",
+        "outputs\\figures\\fig_model_principle.pdf",
+        "outputs\\figures\\fig_model_principle.png",
+        "outputs\\figures\\fig_model_principle.svg",
+        "outputs\\figures\\fig_q1_3d_relationship.pdf",
+        "outputs\\figures\\fig_q1_3d_relationship.png",
+        "outputs\\figures\\fig_q1_3d_relationship.svg",
+        "outputs\\figures\\fig_q1_prob_curves.pdf",
+        "outputs\\figures\\fig_q1_prob_curves.png",
+        "outputs\\figures\\fig_q1_prob_curves.svg",
+        "outputs\\figures\\fig_q1_quantile_curves.pdf",
+        "outputs\\figures\\fig_q1_quantile_curves.png",
+        "outputs\\figures\\fig_q1_quantile_curves.svg",
+        "outputs\\figures\\fig_q1_scatter.pdf",
+        "outputs\\figures\\fig_q1_scatter.png",
+        "outputs\\figures\\fig_q1_scatter.svg",
+        "outputs\\figures\\fig_q1_smooth_bmi_int.pdf",
+        "outputs\\figures\\fig_q1_smooth_bmi_int.png",
+        "outputs\\figures\\fig_q1_smooth_bmi_int.svg",
+        "outputs\\figures\\fig_q1_smooth_ga.pdf",
+        "outputs\\figures\\fig_q1_smooth_ga.png",
+        "outputs\\figures\\fig_q1_smooth_ga.svg",
+        "outputs\\figures\\fig_q2_bmi_bins_tstar.png",
+        "outputs\\figures\\fig_q2_bootstrap_boundary_heatmap.png",
+        "outputs\\figures\\fig_q2_calibration.png",
+        "outputs\\figures\\fig_q2_error_shift_sigma.png",
+        "outputs\\figures\\fig_q2_fnr_fpr_sigma.png",
+        "outputs\\figures\\fig_q2_ga_bmi_prob_curves.png",
+        "outputs\\figures\\fig_q2_joint_k_selection.png",
+        "outputs\\figures\\fig_q2_loss_curves_optimal.png",
+        "outputs\\figures\\fig_q2_monotone_diagnostic.png",
+        "outputs\\figures\\fig_q2_rho_sensitivity.png",
+        "outputs\\figures\\fig_q3_bmi_boundary_bootstrap.pdf",
+        "outputs\\figures\\fig_q3_bmi_boundary_bootstrap.png",
+        "outputs\\figures\\fig_q3_bmi_boundary_bootstrap.svg",
+        "outputs\\figures\\fig_q3_covariate_selection.pdf",
+        "outputs\\figures\\fig_q3_covariate_selection.png",
+        "outputs\\figures\\fig_q3_covariate_selection.svg",
+        "outputs\\figures\\fig_q3_data_profile.pdf",
+        "outputs\\figures\\fig_q3_data_profile.png",
+        "outputs\\figures\\fig_q3_data_profile.svg",
+        "outputs\\figures\\fig_q3_equivalence_check.pdf",
+        "outputs\\figures\\fig_q3_equivalence_check.png",
+        "outputs\\figures\\fig_q3_equivalence_check.svg",
+        "outputs\\figures\\fig_q3_error_shift_sigma.pdf",
+        "outputs\\figures\\fig_q3_error_shift_sigma.png",
+        "outputs\\figures\\fig_q3_error_shift_sigma.svg",
+        "outputs\\figures\\fig_q3_group_t_tradeoff.pdf",
+        "outputs\\figures\\fig_q3_group_t_tradeoff.png",
+        "outputs\\figures\\fig_q3_group_t_tradeoff.svg",
+        "outputs\\figures\\fig_q3_individual_tp_hist.pdf",
+        "outputs\\figures\\fig_q3_individual_tp_hist.png",
+        "outputs\\figures\\fig_q3_individual_tp_hist.svg",
+        "outputs\\figures\\fig_q3_model_coef_dualchannel.pdf",
+        "outputs\\figures\\fig_q3_model_coef_dualchannel.png",
+        "outputs\\figures\\fig_q3_model_coef_dualchannel.svg",
+        "outputs\\figures\\fig_q3_model_structure_sensitivity.pdf",
+        "outputs\\figures\\fig_q3_model_structure_sensitivity.png",
+        "outputs\\figures\\fig_q3_model_structure_sensitivity.svg",
+        "outputs\\figures\\fig_q3_monotone_diagnostic.pdf",
+        "outputs\\figures\\fig_q3_monotone_diagnostic.png",
+        "outputs\\figures\\fig_q3_monotone_diagnostic.svg",
+        "outputs\\figures\\fig_q3_prob_curves.pdf",
+        "outputs\\figures\\fig_q3_prob_curves.png",
+        "outputs\\figures\\fig_q3_prob_curves.svg",
+        "outputs\\figures\\fig_q3_p_sensitivity.pdf",
+        "outputs\\figures\\fig_q3_p_sensitivity.png",
+        "outputs\\figures\\fig_q3_p_sensitivity.svg",
+        "outputs\\figures\\fig_q3_risk_sensitivity.pdf",
+        "outputs\\figures\\fig_q3_risk_sensitivity.png",
+        "outputs\\figures\\fig_q3_risk_sensitivity.svg",
+        "outputs\\figures\\fig_roadmap.pdf",
+        "outputs\\figures\\fig_roadmap.png",
+        "outputs\\figures\\fig_roadmap.svg",
+        "outputs\\figures\\fig_sens_dist.pdf",
+        "outputs\\figures\\fig_sens_dist.png",
+        "outputs\\figures\\fig_sens_dist.svg",
+        "outputs\\figures\\fig_sens_ga_crosscheck.pdf",
+        "outputs\\figures\\fig_sens_ga_crosscheck.png",
+        "outputs\\figures\\fig_sens_ga_crosscheck.svg",
+        "outputs\\figures\\fig_sens_ga_window.pdf",
+        "outputs\\figures\\fig_sens_ga_window.png",
+        "outputs\\figures\\fig_sens_ga_window.svg",
+        "outputs\\figures\\fig_sens_gc.pdf",
+        "outputs\\figures\\fig_sens_gc.png",
+        "outputs\\figures\\fig_sens_gc.svg",
+        "outputs\\figures\\fig_sens_health.pdf",
+        "outputs\\figures\\fig_sens_health.png",
+        "outputs\\figures\\fig_sens_health.svg",
+        "outputs\\figures\\fig_sens_interaction.pdf",
+        "outputs\\figures\\fig_sens_interaction.png",
+        "outputs\\figures\\fig_sens_interaction.svg",
+        "outputs\\figures\\fig_sens_marginal.pdf",
+        "outputs\\figures\\fig_sens_marginal.png",
+        "outputs\\figures\\fig_sens_marginal.svg"
+      ]
+    }
+  ],
+  "previous_sub_ltms": [
+    {
+      "objective": "对男胎样本建立Y染色体浓度与孕周数和BMI等指标之间具有统计显著性的关系模型，以Beta-GAMM为主模型、分位数回归为辅助验证，并输出达标概率曲线、达标孕周反演方法和测量误差估计。",
+      "assumptions": [
+        "假设1：分析对象限定为男胎样本，依据孕妇代码、Y染色体浓度（V列）与Y染色体Z值（U列）具有有效数值交叉核查男胎，不能仅凭Y列缺失率判定女胎。依据：数据概要显示Y染色体浓度列缺失率为0，与“女胎Y染色体相关列为空白”存在矛盾；风险：误纳女胎会引入Y≈0噪声；可验证：交叉表检查Y浓度/Y-Z值与孕妇代码、X染色体浓度及胎儿健康列的一致性。",
+        "假设2：数据记录结构为非独立的纵向重复测量，每行是一次检测记录，同一孕妇可能多次检测；同一孕妇的多条记录必须按组内相关处理，不得把每行当作独立个体。依据：数据智能摘要显示1082条记录/267位孕妇；风险：行级独立假设会低估标准误；可验证：随机效应模型与行级独立模型的参数显著性差异及孕妇层分组交叉验证误差。",
+        "假设3：孕周变量必须解析为数值周数：ga=w+d/7，兼容纯周格式；用末次月经与检测日期交叉核对，容差±1周写入代码。依据：数据概要显示检测孕周为文本格式（如11w+6，且存在26w、11w等纯周写法）；风险：孕周解析错误会直接污染GA效应；可验证：核对后的异常记录占比及剔除前后模型比较。",
+        "假设4【关键假设】：Y染色体浓度y在(0,1)内且有界、非正态（Shapiro-Wilk p<0.05），主模型采用Beta分布；实测y范围0.010–0.234，无0/1、无缺失、无零膨胀，因此边界修正仅作注记、不进入主流程。依据：数据概要及正态性检验；风险：Beta分布尾部若失配会影响达标概率估计；可验证：DHARMa残差诊断及Beta模型与高斯/logit-GAM基准比较。",
+        "假设5【关键假设】：Y染色体浓度的条件均值与孕周、BMI存在非线性和交互关系，设定logit尺度包含s1(ga)、s2(bmi)、ti(ga,bmi)、s3(age)，并用GA分段线性基准检验非线性必要性。依据：文献qiao 2019显示GA分段斜率差异；风险：忽略交互或非线性会扭曲达标孕周反演；可验证：平滑项H0:s_j=0的edf、p值、δAIC及与分段线性基准的比较。",
+        "假设6【关键假设】：纵向重复测量下随机效应按设计进入，设置随机截距b0i和孕周随机斜率b1i（ga中心化），不依赖ICC显著性检验；报告方差组分与ICC。依据：同一孕妇多次检测的纵向结构；风险：缺失随机斜率会低估个体间达标时间差异；可验证：带/不带随机斜率的AIC/BIC、方差组分及95%置信区间比较。",
+        "假设7：协变量选择为年龄与IVF指示必入；BMI、体重、身高+体重三种形态显式比较；孕产次候选并在VIF/concurvity检查后决定。依据：qiao 2023显示IVF与胎儿分数显著负相关，hou 2015提示体重可能优于BMI；风险：共线性导致系数不稳定；可验证：VIF、concurvity及三种形态AIC/BIC。",
+        "假设8【关键假设】：GC含量不采用40%–60%硬阈值剔除（原文：正常GC含量范围为40% ~ 60%）；因实测GC全距0.386–0.421，42%行低于0.4、无高于0.6，判断为检测平台系统偏差；将GC作为连续质量协变量或质量权重并做敏感性分析。依据：原文事实与实测数据；风险：硬剔除会损失451/1082行并引入选择偏差；可验证：GC纳入或加权前后主效应及达标概率变化。",
+        "假设9：孕周外推界限为10.0–25.0周（原文：通常孕妇的孕期在10 周~25 周之间可以检测胎儿性染色体浓度）；保留超窗样本（最大27.7周）但仅作描述，不在10–25周外做推断。风险：外推可能高估晚期浓度；可验证：排除大于25周样本后的敏感性分析。",
+        "假设10：技术重复与纵向重复分别处理：同一（孕妇,抽血次数）多行共40组101行（9.3%）用于估计测量误差σ_tech；同一孕妇不同孕周的多次检测作为纵向重复。依据：数据智能摘要；可验证：技术重复组内方差与纵向方差比较。",
+        "假设11：胎儿不健康记录38条不默认剔除，进行剔除vs保留敏感性分析。依据：核型-胎儿分数关系在文献中有争议（rava 2014显示差异、deng 2023大样本相似）；风险：不当剔除会改变主效应或达标概率；可验证：两种样本集模型效应差异。",
+        "假设12：序号、年龄的lag-1自相关来自数据按孕妇或检测时间排序，不按时间序列建模；以孕妇随机效应吸收组内相关。依据：数据发现lag-1自相关大于0.5；可验证：按孕妇分组检查残差自相关。",
+        "假设13【关键假设】：分位数回归作为辅助验证模型，在logit(y)尺度建模，τ∈{0.05,0.10,...,0.95}，施加单调性约束，不放ga×bmi交互，用于与Beta-GAMM后验达标概率交叉验证。依据：Grantz 2023、Rava 2014；风险：尾部分位数稀疏时过拟合；可验证：分位数预测与Beta-GAMM后验达标概率一致性、尾部覆盖。",
+        "假设14【关键假设】：对新孕妇的达标概率必须采用边缘预测（对随机效应积分），拟合曲线仅作为随机效应=0的条件轨迹；阈值y_thr=4.0%（原文：如果男胎的Y染色体浓度达到或高于4%）与分位数概率τ严格区分。依据：随机效应模型；风险：条件曲线低估个体差异导致达标概率乐观；可验证：边缘与条件达标概率曲线差异。",
+        "假设15：测序质量相关列（读段数、GC、比对比例等）不作为主模型默认预测变量，仅在质量权重或敏感性分析中使用，以保持主链可解释性。依据：问题1要求刻画Y浓度与孕周、BMI等指标关系；可验证：逐步纳入质量变量后的模型比较与显著性变化。"
+      ],
+      "equations": [
+        "孕周数值解析：ga_ij = w_ij + d_ij/7，其中w_ij为整数周、d_ij为天数；纯周格式d_ij=0。",
+        "logit变换：logit(u)=ln(u/(1-u))，定义域u∈(0,1)。",
+        "Beta-GAMM主模型：y_ij ~ Beta(μ_ij,φ)，η_ij = logit(μ_ij) = β0 + s1(ga_ij) + s2(bmi_ij) + ti(ga_ij,bmi_ij) + s3(age_i) + β_ivf·ivf_i + b0i + b1i·(ga_ij−ḡ)。",
+        "随机效应分布：b_i=(b0i,b1i)' ~ N(0,Σ_b)，Σ_b=[[σ_b0²,σ_b01],[σ_b01,σ_b1²]]。",
+        "Beta条件方差：Var(y_ij|b_i)=μ_ij(1−μ_ij)/(1+φ)。",
+        "分位数回归辅助模型：q_logit_y(τ;ga_ij,bmi_ij)=β0τ+g1τ(ga_ij)+g2τ(bmi_ij)，τ∈{0.05,0.10,...,0.95}，对g1τ和g2τ施加单调性约束。",
+        "达标概率反演：设y_thr=0.04，P_ok(ga,bmi)=1−τ_star(ga,bmi)，其中τ_star满足q_logit_y(τ_star;ga,bmi)=logit(y_thr)=ln(0.04/0.96)。",
+        "边缘达标概率：P_marg(ga,bmi)=∫ P_ok(ga,bmi|b_i) f(b_i;0,Σ_b) db_i。",
+        "技术重复测量误差：σ_tech=√MS_within，MS_within为同一(孕妇,抽血次数)技术重复组内logit(y)的REML/单因素方差组内均方。",
+        "基准对照模型：线性回归y_ij=β0+β_ga·ga_ij+β_bmi·bmi_ij+e_ij；logit(y)高斯GAM；GA分段线性基准（10–12.5/12.5–20/>20周，qiao 2019文献先验）。",
+        "模型比较：AIC=2k−2lnL，BIC=k·ln(N_rec)−2lnL，δAIC=AIC_model−AIC_min；预测误差采用按孕妇分组的交叉验证RMSE和MAE。"
+      ]
+    },
+    {
+      "objective": "对男胎孕妇按BMI合理分组，输出每组BMI区间和最佳NIPT时点，使潜在风险最小，并分析检测误差对时点推荐的影响。",
+      "assumptions": [
+        "假设1：分析对象限定为男胎样本；依据孕妇代码、Y染色体浓度（V列）与Y染色体Z值（U列）具有有效数值交叉核查，不能仅依据缺失率判定女胎。依据：数据概要显示Y染色体浓度列缺失率为0，与“女胎数据此列为空白”存在矛盾；风险：误纳女胎会引入Y≈0噪声；可验证：交叉表核对Y浓度/Y-Z值与胎儿健康列一致性。",
+        "假设2：数据结构为孕妇层纵向重复测量，每行是一次检测记录，同一孕妇可能多次检测；分组、达标时间与不确定性推断均以孕妇为聚类单位，不得把行当作独立样本。依据：数据智能摘要显示1082条检测记录、267位孕妇，且年龄列lag-1自相关0.999；风险：行级独立会低估标准误并产生信息泄漏；可验证：行级独立模型与孕妇随机效应/聚类bootstrap的标准误差异。",
+        "假设3：孕周变量解析为数值周数：ga_ij=w_ij+d_ij/7，纯周格式d_ij=0；并用末次月经与检测日期交叉核对，容差±1周写入报告。依据：检测孕周为文本格式，如“11w+6”，且存在纯周格式；风险：孕周解析错误会直接扭曲达标时间；可验证：核对后的异常记录占比及剔除前后t_p变化。",
+        "假设4【关键假设】：Q2决策层采用GA纯线性Beta混合模型，logit尺度固定效应为GA线性项+BMI线性项+年龄+IVF，保留随机截距与中心化GA随机斜率，不放入GA-BMI交互项或平滑项；代码断言固定效应β_ga>0。依据：架构评审R3指出旧分段模型在12.5–20周负hinge导致P_marg非单调、t_p不适定，且孕妇层五折CV RMSE纯线性0.03301与分段0.03275差异可忽略（该RMSE值为架构反馈运行值，非题目常量）；风险：若真实关系强非线性，主模型可能偏差；可验证：与分段模型S2比较RMSE、AIC/BIC，并检查GA线性项置信区间是否包含0。",
+        "假设5【关键假设】：Y染色体浓度y_ij取值于(0,1)，服从Beta分布；达标阈值为y_thr=0.04（原文：男胎Y染色体浓度达到或高于4%）。Q2的达标概率阈值p_guarantee=0.80为决策保证水平，与y_thr严格区分；敏感性p∈{0.75,0.85,0.90}。依据：题目常量与架构评审R3；风险：Beta尾部参数失配会影响达标概率；可验证：DHARMa类残差诊断、Beta与高斯/logit-GAM基准比较。",
+        "假设6【关键假设】：Q2反演中边缘达标概率P_marg(t,b)只作为BMI的函数：年龄和IVF固定在男胎样本参考值age_ref和ivf_ref（年龄取男胎个体中位数，IVF取众数），连续BMI b由个体代表值b_i=median_j(bmi_ij)给出。依据：问题2要求以BMI为主要分组因素，问题3再纳入身高、体重、年龄等；风险：若固定参考值远离个体值，个体t_p代表性降低；可验证：替换age_ref/ivf_ref为四分位值后组推荐的敏感性。",
+        "假设7【关键假设】：边缘概率P_marg(t,b)在t∈[10.0,25.0]上对t严格单调不减；主模型不使用PAVA后处理，而是在0.1周网格上数值断言ΔP_marg≥0。若不满足，则回退为固定效应GA线性+BMI且不引入GA随机斜率，或对b1i施加截断使β_ga+b1i>0。依据：架构评审R3要求t_p首次穿越适定；风险：随机斜率为负可能破坏个体曲线单调性；可验证：网格差分检验及截断前后t_p分布比较。",
+        "假设8【关键假设】：主交付始终保持具体时点，不允许“降级为方向性结论”。个体最早达标时间定义为t_p0.80(b)=inf{t∈[10.0,25.0]:P_marg(t,b)≥0.80}；若窗口内无解，按右删失处理：t_p0.80(b)=25.0，指标c_i=1表示≥25周，并报告n_unsolved和删失比例r_cens。若r_cens>0.20，组推荐以未删失个体中位数为主口径，并显式标注“部分孕妇窗口内未达80%达标保证”；CI上界可等于25.0，不确定性只影响区间宽度，不改变每组给出具体推荐周数的形态。依据：人工架构审核R4明确删除降级规则；风险：右删失会压缩组内变异；可验证：报告删除c_i=1后的未删失中位数与全样本右删失中位数差异，并进行不同窗口上界25/26周敏感性。",
+        "假设9【关键假设】：BMI分组固定K=2、边界τ_BMI=30.0 kg/m²；G1=[20,30)，G2=[30,+∞)∩样本范围。20.0来自题目示例下限，30.0为人工架构固定边界（该值未在原文中明确给出，为分组边界设定）。候选边界bootstrap重现频率按C={24,26,28,30,32,34,36}诊断，固定边界仍为主口径。依据：架构评审R3；风险：两分组可能掩盖BMI连续效应；可验证：报告bootstrap边界重现频率，并将30.0扰动到28.0/32.0做敏感性。",
+        "假设10【关键假设】：组推荐时点t_g(0.80)=组内个体t_p0.80中位数；组间差异Δ_t_p=t_p_med_G2−t_p_med_G1，distinct_required=(|Δ_t_p|≥0.5周)。若distinct_required=false，必须给出统计证据（差异点估计及其bootstrap CI）说明数据支持统一时点，并给出统一建议时点=全体男胎个体t_p0.80合并中位数及其CI，不得只给方向。依据：人工架构审核R4；风险：0.5周为人工阈值，可能过小或过大；可验证：阈值0.25/0.75周敏感性及差异CI报告。",
+        "假设11【关键假设】：风险函数采用连续增函数r_delay(t)=(t−10.0)/17，定义域t∈[10.0,27.0]；不使用旧方案中“12周及以下零风险平台”的阶梯损失。该函数与原文风险等级兼容：12周以内较低、13–27周风险高、28周以后极高（原文：早期发现12周以内风险较低；中期发现13－27周风险高；晚期发现28周以后风险极高）。依据：架构评审R3诊断旧主结果被12周零风险平台压平；风险：线性风险是最简假设；可验证：指数风险r_delay^α或分段风险与主结果对比。",
+        "假设12：t*参考列仅作为二级风险视角，不作为主交付时点。t*由L_ρ(t;b)=r_delay(t)+ρ[1−P_marg(t,b)]在t∈[10.0,27.0]上的最小化给出，取ρ=1、t0=10.0，搜索用0.1周网格加三点抛物线细分。依据：架构评审R3；风险：ρ=1权重为假设；可验证：ρ∈{0.5,1,2}敏感性。",
+        "假设13：检测误差双通道语义分离：通道B为参数/抽样bootstrap，B=100次孕妇层cluster重抽样并重拟合模型，得到t_p与组差异的主区间；通道A为σ_tech卷积，σ∈{0,0.5σ_tech,σ_tech,2σ_tech}，只作为独立敏感性列，不叠加到通道B主区间。σ_tech沿用问题1估计，定义为同一孕妇同一抽血次数技术重复的logit(y)组内标准差。依据：架构评审R3及问题1LTM；风险：σ_tech只代表技术重复误差，不代表全部测序误差；可验证：σ_tech与纵向方差对比。",
+        "假设14：测序质量列（GC含量、读段数、比对比例、重复比例、被过滤比例）不默认进入主模型，避免主链黑箱化；若GC作为连续质量协变量或质量权重，仅进入敏感性分析。GC不采用40.0%–60.0%硬阈值剔除（原文：正常GC含量范围为40% ~ 60%），因该数据集GC全距0.386–0.421，判断存在平台系统偏差。依据：问题1LTM假设及原文常量；风险：硬剔除会损失大量记录并造成选择偏差；可验证：纳入质量权重前后t_p偏移。",
+        "假设15：Coder必须按parse_hints解析字符串列：孕妇代码用df['孕妇代码'].str.replace('A','',regex=False).astype(float)，末次月经用pd.to_datetime，染色体的非整倍体用df['染色体的非整倍体'].str.replace('T','',regex=False).astype(float)，检测孕周需自行解析w/d格式。依据：机器数据列解析建议；风险：字符串解析错误会导致样本错误；可验证：输出解析后唯一值与前若干行核对。"
+      ],
+      "equations": [
+        "孕周数值解析：ga_ij=w_ij+d_ij/7；纯周格式d_ij=0。",
+        "logit变换：logit(u)=ln(u/(1-u))，定义域u∈(0,1)。",
+        "Q2主模型：y_ij~Beta(μ_ij,φ)，η_ij=logit(μ_ij)=β0+β_ga·ga_ij+β_bmi·bmi_ij+β_age·age_i+β_ivf·ivf_i+b0i+b1i·(ga_ij−ḡ)。",
+        "随机效应分布：b_i=(b0i,b1i)'~N(0,Σ_b)，Σ_b=[[σ_b0²,σ_b01],[σ_b01,σ_b1²]]。",
+        "边缘达标概率：P_marg(t,b)=∫[1−F_Beta(y_thr;μ(t,b,b_i),φ)]f_N(b_i;0,Σ_b)db_i。",
+        "数值单调性断言：对t_k∈{10.0,10.1,...,25.0}，要求P_marg(t_k,b)−P_marg(t_{k−1},b)≥0。",
+        "个体最早达标时点：t_p,p(b)=inf{t∈[10.0,25.0]:P_marg(t,b)≥p}；主值p=0.80。",
+        "右删失规则：若{t∈[10.0,25.0]:P_marg(t,b)≥0.80}=∅，则t_p0.80(b)=25.0且c_i=1。",
+        "组推荐：t_g(0.80)=median_{i∈g}(t_p0.80(b_i))。",
+        "组间差异：Δ_t_p=t_p_med_2−t_p_med_1；distinct_required=1(|Δ_t_p|≥0.5)。",
+        "统一时点（当distinct_required=false）：t_unified=median_{all male}(t_p0.80(b_i))，并报告其bootstrap CI。",
+        "延迟风险：r_delay(t)=(t−10.0)/17，t∈[10.0,27.0]。",
+        "参考损失：L_ρ(t;b)=r_delay(t)+ρ[1−P_marg(t,b)]。",
+        "参考最优时点：t*=argmin_{t∈[10.0,27.0]}L_ρ(t;b)；数值实现采用0.1周网格搜索后三点抛物线细分。",
+        "通道A噪声达标概率：P_marg_σ(t,b;σ)=E_{b_i,z,ε}[1{expit(logit(z)+ε)≥y_thr}]，其中z~Beta(μ(t,b,b_i),φ)，ε~N(0,σ²)。",
+        "通道A错分率：κ_σ(t,b)=E_{b_i,z,ε}[1{(z≥y_thr且z_obs<y_thr)或(z<y_thr且z_obs≥y_thr)}]，z_obs=expit(logit(z)+ε)。",
+        "通道B主区间：CI_low_g=Q_{0.025}({t_p_med_g^b}_{b=1}^{B})，CI_high_g=Q_{0.975}({t_p_med_g^b}_{b=1}^{B})。",
+        "误差敏感性时点偏移：delta_t_sigma_tech=t_g,p_σ−t_g,p_0，其中p主值0.80，σ∈{0,0.5σ_tech,σ_tech,2σ_tech}。",
+        "候选边界bootstrap重现频率：freq_30=B^{-1}Σ_{b=1}^{B}1(c*_b=30.0)，其中c*_b=argmin_{c∈C}组内损失和。"
+      ]
+    },
+    {
+      "objective": "对男胎孕妇综合考虑身高、体重、年龄、检测误差和Y染色体浓度≥4%的达标比例，按BMI给出合理分组及每组最佳NIPT时点，使延迟风险最小，并分析检测误差对分组时点的影响。",
+      "assumptions": [
+        "假设1：分析对象限定为男胎样本；以孕妇代码、Y染色体浓度（V列）与Y染色体Z值（U列）同时具有有效数值交叉核查男胎，不能仅依据缺失率判定女胎。依据：数据概要显示Y染色体浓度列缺失率为0，与“女胎数据此列为空白”存在矛盾；风险：误纳女胎会引入Y≈0噪声；可验证：交叉表核对Y浓度/Y-Z值与孕妇代码、X染色体浓度及胎儿是否健康列的一致性。",
+        "假设2：数据结构为孕妇层纵向重复测量，每行是一次检测记录，同一孕妇可能多次检测；分组、达标时间与不确定性推断均以孕妇为聚类单位，不得把行当作独立样本。依据：数据智能摘要显示1082条检测记录、267位孕妇，且年龄列lag-1自相关约0.999（该值为数据自相关估计，非题目常量）；风险：行级独立会低估标准误并产生信息泄漏；可验证：行级独立模型与孕妇随机效应/聚类bootstrap的标准误差异。",
+        "假设3：孕周变量必须解析为数值周数，并分离天数符号与二元达标事件符号：ga_ij=w_ij+day_ij/7，day_ij为天数部分；D_ij=1(y_obs,ij≥y_thr)为二元达标事件指示，禁止再使用d_ij同时表示天数与达标事件。依据：人类架构审核指出旧LTM中d_ij符号重载；风险：符号重载会使核心公式不可推导；可验证：输出解析后孕周与该孕妇记录行核对，公式中不再出现歧义d_ij。",
+        "假设4【关键假设】：主交付采用约束风险最小化语义：对给定个体协变量x_i，最佳时点为最小化延迟风险r_delay(t)，同时满足边缘达标保证π_marg(t,x_i)≥p；当r_delay(t)在[10.0,25.0]上严格递增且π_marg(t,x_i)对t单调不减时，该约束最优解等价于达标保证首穿时点t_p,i=inf{t∈[10.0,25.0]:π_marg(t,x_i)≥p}，主值p=0.80。依据：题目要求“使得潜在风险最小”，人类审核要求解决主交付与风险最小化目标的矛盾；风险：若π_marg非单调或r_delay非严格递增，该等价性失效，需回退为显式约束优化求解；可验证：在0.1周网格上同时计算约束最优解与首穿时点，比较二者差异；并对单调度做数值检查。",
+        "假设5【关键假设】：个体边缘达标概率π_marg(t,x_i)在t∈[10.0,25.0]上对t单调不减；主模型不使用PAVA后处理，而是在0.1周网格上数值断言差分Δπ_marg≥0。若违反，则回退为固定效应孕周线性且不引入孕周随机斜率，或对孕周随机斜率截断使孕周效应保持为正。依据：t_p首穿时点适定性与约束风险最小化等价性均依赖单调性；风险：随机斜率为负可能破坏个体曲线单调性；可验证：网格差分检验、截断前后t_p分布比较，以及与分段线性模型S2的RMSE比较。",
+        "假设6【关键假设】：临床达标阈值y_thr=0.04（原文：如果男胎的Y染色体浓度达到或高于4%）；决策保证水平p_guarantee=0.80与浓度阈值严格区分。敏感性p∈{0.75,0.85,0.90}。依据：题目常量与人类架构反馈；风险：Beta尾部参数失配会影响达标概率；可验证：DHARMa类残差诊断、Beta与高斯/logit-GAM基准比较、不同p值下t_p偏移。",
+        "假设7【关键假设】：问题3主模型采用“主二项模型+辅助Beta混合模型”的二元-连续双通道结构。主二项模型直接对达标事件D_ij建模；辅助Beta模型对观测Y浓度y_obs,ij建模，用于生成边缘达标比例π_marg并传播测量误差。线性预测器默认形态为“体重+身高+年龄+IVF”（体重优先，身高校正），但必须显式比较BMI/体重/身高+体重/三者全入四种形态，以AIC/BIC/孕妇层CV和1SE规则确定最终报告形态；残差化身高体重仅作敏感性，且残差估计不确定不传播进主结果。依据：qiao 2023显示IVF与胎儿分数负相关，hou 2015提示体重优于BMI，mousavi 2022显示二元LFF与连续FF可能受不同因素支配；风险：BMI与体重/身高共线性会导致系数不稳定；可验证：VIF、concurvity、四种形态AIC/BIC、孕妇层五折CV RMSE。",
+        "假设8【关键假设】：纵向重复测量下随机效应按设计进入：主二项模型和辅助Beta模型均设置孕妇随机截距与中心化孕周随机斜率；报告方差组分、ICC及随机斜率是否必要的比较。依据：同一孕妇多次检测的纵向结构；风险：缺失随机斜率会低估个体间达标时间差异；可验证：带/不带随机斜率的AIC/BIC、方差组分及CI比较。",
+        "假设9【关键假设】：边缘达标概率π_marg(t,x_i)定义为对随机效应和logit尺度测量误差的积分：π_marg(t,x_i)=E_{b_i,z,ε}[1(expit(logit(z)+ε)≥0.04)|t,x_i]；其组内均值π_g(t)=n_g^{-1}Σ_{i∈g}π_marg(t,x_i)即题目所称“Y染色体浓度达标比例”的分组估计，并报告bootstrap置信区间。依据：人类反馈要求π_g为FF分布积分，并对照外部量级；风险：若忽略随机效应或测量误差会高估组达标比例；可验证：提取多组报告π_g(t)及其CI，与Ashoor 2013体重-FF<4%曲线趋势和Wright 2015 FF=4%检出率约62%（该检出率为文献值，非题目常量）做量级对照。",
+        "假设10【关键假设】：检测误差双通道分离。通道A为浓度测量误差：在logit尺度将ε~N(0,σ²)卷积，σ∈{0,0.5σ_tech,σ_tech,2σ_tech}，进入主达标概率敏感性和错分率κ_σ；σ_tech沿用问题1技术重复估计，定义为同一孕妇同一抽血次数技术重复的logit(y)组内标准差。技术失败类误差（如平台偏差）作独立敏感性，不混入通道A。必须显式声明σ_tech可能低估总误差。依据：palomaki 2018区分低FF与技术失败，人类反馈要求独立处理；风险：只报告技术重复误差会低估真实决策不确定性；可验证：σ_tech与纵向误差/GC技术失败敏感性对比，报告κ_σ随σ变化。",
+        "假设11【关键假设】：GC含量不采用40.0%–60.0%硬阈值剔除（原文：正常GC含量范围为40% ~ 60%）；因实测GC全距约0.386–0.421，约42%（该比例为数据比例推断值，非题目常量）行低于0.40、无高于0.60，判断为检测平台系统偏差。GC仅作为连续质量协变量或质量权重进入敏感性分析；技术失败类偏差独立敏感性。风险：硬剔除会损失大量记录并引入选择偏差；可验证：纳入GC质量权重前后t_p偏移及技术失败行影响。",
+        "假设12【关键假设】：推荐窗口端点采用右删失语义。个体t_p,i在[10.0,25.0]内无穿越时记t_p,i=25.0，指标c_i=1表示窗口内未达80%保证；报告n_unsolved和删失比例r_cens。组推荐仍给出具体周数，不降级为方向性结论；若r_cens>0.20，以未删失个体中位数为主口径并显式标注。依据：人类反馈要求保留具体时点并采用右删失；风险：右删失会压缩组内变异；可验证：报告删失/未删失时点差异与上下界25/26周敏感性。",
+        "假设13【关键假设】：必须报告个体达标时点分布形态，包括直方图、分位数和双峰/多峰检测；若出现双峰，需说明是否由协变量分层或删失造成。依据：q2个体t_p80曾现双峰，人类反馈要求Q3继续报告；风险：双峰分布会使组中位数掩盖重要亚组结构；可验证：直方图与高斯混合模型BIC比较，按BMI/年龄/IVF分层检查峰值。",
+        "假设14【关键假设】：BMI分组采用数据驱动K∈{2,3,4}，边界和K选择使用一标准误差规则；不得把样本内最优边界表述为精确医学阈值。分组验收必须报告：组间时点差异点估计及bootstrap CI、组内异质性下降、损失改进、边界bootstrap重现频率。依据：q2固定边界30.0 kg/m²重现频率仅24%（该值为历史运行诊断值，非题目常量），人类反馈要求1SE；风险：过细分组会过拟合而不稳定；可验证：1SE与最佳损失选K比较、边界重现频率报告。",
+        "假设15：组推荐时点t_g采用与个体主交付一致的约束风险最小化语义：t_g=argmin_{t∈[10.0,25.0]}r_delay(t) s.t. π_g(t)≥0.80，在π_g单调下等价于t_g=inf{t∈[10.0,25.0]:π_g(t)≥0.80}；同时报告组内个体t_p,i中位数作为描述性结果。依据：人类反馈要求组级也直接满足达标比例约束；风险：个体中位数与约束最优在右删失或非单调时可能不一致；可验证：比较组中位数与组级首穿一致性，报告差异CI。",
+        "假设16：延迟风险函数采用连续增函数r_delay(t)=(t−10.0)/17，定义域t∈[10.0,27.0]，分母17由原文窗口10周可检、中期发现13－27周风险高计算；不采用“12周及以下零风险平台”。该函数兼容原文风险等级：早期发现12周以内风险较低、13－27周风险高、28周以后风险极高（原文：早期发现12周以内风险较低；中期发现13－27周风险高；晚期发现28周以后风险极高）。风险：线性风险是最简假设；可验证：指数风险或分段风险与主结果对比。",
+        "假设17：软损失参考列t*仅作二级风险视角，不作为主交付：L_{ρ,γ}(t;x_i)=r_delay(t)+ρ[1−π_marg(t,x_i)]+γ·κ_σ(t,x_i)，搜索域t∈[10.0,25.0]；ρ∈{0.5,1,2}，γ∈{0,0.5,1,2}扩展敏感性。依据：人类反馈第一条将argmin损失降为二级参考列；风险：权重γ/ρ假设会影响二级参考值；可验证：ρ×γ网格下t*偏移报告。",
+        "假设18：身高、体重列入模型前必须先画像：检查缺失率、范围、BMI=体重/身高²自洽性；BMI个体代表值取个体内中位数，身高/体重取个体内中位数以减少检测时间点波动。依据：数据智能摘要提示身高体重无缺失但分布非正态，且BMI可直接使用；风险：BMI与体重/身高不一致的记录会污染分组或模型；可验证：输出自洽性异常记录数，剔除前后主结果变化。",
+        "假设19：AE列“胎儿是否健康”为出生后结果标签，仅作敏感性分层，明确禁止进入问题3实时决策主模型；对其中不健康记录做剔除/保留敏感性。依据：deng 2023显示核型不改变FF，支持保留38条（该数值为标签统计值，非题目常量）做敏感性；风险：不当剔除会改变协变量效应；可验证：剔除AE不健康记录前后t_p及分组结果比较。",
+        "假设20：Coder必须按parse_hints解析字符串列：孕妇代码用df['孕妇代码'].str.replace('A', '', regex=False).astype(float)，末次月经用pd.to_datetime，染色体的非整倍体用df['染色体的非整倍体'].str.replace('T', '', regex=False).astype(float)，检测孕周自行解析w+d格式。依据：机器数据列解析建议及人类反馈；风险：字符串解析错误会导致样本错误；可验证：输出解析后唯一值与前若干行核对。",
+        "假设21【关键假设】：结果解释须主动讨论“二元达标事件与连续Y染色体浓度可能受不同因素支配”，以回应mousavi 2022荟萃中BMI/体重对低FF不显著但与FF连续关系可能仍存在的矛盾；方法引用应成组给出Beta回归（Ferrari 2004）、GAMM/Wood 2017、随机效应纵向模型（Laird & Ware 1982）；McKanna FFBR作为按协变量建立FF分布的方法对照；Scheffer 2021作为低FF不良妊娠风险与延迟风险r_delay的临床依据。依据：人类反馈第8条；风险：若仅用一个连续模型或仅用二元模型，会遗漏信号；可验证：主二项与辅助Beta模型中BMI/年龄/体重系数的符号和显著性差异报告。"
+      ],
+      "equations": [
+        "孕周数值解析：ga_ij = w_ij + day_ij/7；纯周格式day_ij=0，0≤day_ij<7。",
+        "logit变换与反变换：logit(u)=ln(u/(1-u))，定义域u∈(0,1)；expit(v)=1/(1+exp(-v))。",
+        "二元达标事件定义：D_ij=1(y_obs_ij≥y_thr)，y_thr=0.04。",
+        "主二项模型：D_ij~Bernoulli(π_ij)，ηD_ij=logit(π_ij)=α0+α_ga·ga_ij+Σ_m α_m·z_mi+u0i+u1i·(ga_ij−ḡ)。",
+        "辅助Beta连续模型：y_obs_ij~Beta(μ_ij,φ)，η_ij=logit(μ_ij)=β0+β_ga·ga_ij+Σ_m β_m·z_mi+b0i+b1i·(ga_ij−ḡ)。",
+        "随机效应分布：u_i=(u0i,u1i)'~N(0,Σ_u)，b_i=(b0i,b1i)'~N(0,Σ_b)；Σ_u=[[σ_u0²,σ_u01],[σ_u01,σ_u1²]]，Σ_b=[[σ_b0²,σ_b01],[σ_b01,σ_b1²]]。",
+        "测量误差模型（通道A）：真实浓度z~Beta(μ_ij,φ)，观测值为y_obs=expit(logit(z)+ε)，ε~N(0,σ²)。",
+        "边缘达标概率：π_marg(t,x_i)=E_{b_i,z,ε}[1(expit(logit(z)+ε)≥0.04)|ga=t,x_i]。",
+        "数值单调性断言：对t_k∈{10.0,10.1,...,25.0}，要求π_marg(t_k,x_i)−π_marg(t_{k−1},x_i)≥0；若违反，执行假设5回退。",
+        "个体约束风险最小化等价式：t_p,i=argmin_{t∈[10.0,25.0]} r_delay(t) s.t. π_marg(t,x_i)≥p = inf{t∈[10.0,25.0]:π_marg(t,x_i)≥p}；主值p=0.80。等价成立条件：r_delay(t)严格递增且π_marg(t,x_i)单调不减。",
+        "个体右删失规则：若{t∈[10.0,25.0]:π_marg(t,x_i)≥0.80}=∅，则t_p,i:=25.0且c_i=1。",
+        "组级达标比例：π_g(t)=n_g^{-1}Σ_{i∈g}π_marg(t,x_i)。",
+        "组级约束风险最小化等价式：t_g=argmin_{t∈[10.0,25.0]} r_delay(t) s.t. π_g(t)≥p = inf{t∈[10.0,25.0]:π_g(t)≥p}；主值p=0.80。",
+        "延迟风险函数：r_delay(t)=(t−10.0)/17，t∈[10.0,27.0]；分母17=27.0−10.0，由原文10周可检与13－27周高风险窗口端点计算。",
+        "通道A错分率：κ_σ(t,x_i)=E_{b_i,z,ε}[1{(z≥0.04且z_obs<0.04)或(z<0.04且z_obs≥0.04)}]，其中z_obs=expit(logit(z)+ε)。",
+        "二级软损失参考时点：L_{ρ,γ}(t,x_i)=r_delay(t)+ρ[1−π_marg(t,x_i)]+γ·κ_σ(t,x_i)；t*_i=argmin_{t∈[10.0,25.0]}L_{ρ,γ}(t,x_i)；ρ∈{0.5,1,2}，γ∈{0,0.5,1,2}。",
+        "分组边界总损失：Q(c_K)=Σ_{g=1}^{K}Σ_{i∈g}L_{ρ,γ}(t_g,x_i)，其中t_g由该边界分组下组级约束最优给出。",
+        "一标准误差分组选择：在K∈{2,3,4}中选择最小的K，使得Q(c_K)≤min_{K'}Q(c_{K'})+SE_boot(Q(c_{K'})）；边界c_K在相应K下按1SE选择。",
+        "边界bootstrap重现频率：fr(c)=B^{-1}Σ_{b=1}^{B}1(c*_b=c)，其中c*_b为第b次cluster bootstrap重拟合后的最优边界。",
+        "通道B组时点区间：CI_low_g=Q_{0.025}({t_g^b}_{b=1}^{B})，CI_high_g=Q_{0.975}({t_g^b}_{b=1}^{B})。",
+        "误差敏感性时点偏移：delta_t_sigma_tech=t_g,p_σ−t_g,p_0，其中p=0.80，σ∈{0,0.5σ_tech,σ_tech,2σ_tech}。"
+      ]
+    }
+  ],
+  "problem_facts": [
+    {
+      "value": 2025.0,
+      "unit": "年",
+      "context": "2025 年高教社杯全国大学生数学建模竞赛题目  （",
+      "role_hint": "",
+      "category": "count"
+    },
+    {
+      "value": 10.0,
+      "unit": "周",
+      "context": "Y，女胎XX）浓度判断。通常孕妇的孕期在10 周~25 周之间可以 检测胎儿性染色体浓度",
+      "role_hint": "",
+      "category": "count"
+    },
+    {
+      "value": 25.0,
+      "unit": "周",
+      "context": "X）浓度判断。通常孕妇的孕期在10 周~25 周之间可以 检测胎儿性染色体浓度，且如果男",
+      "role_hint": "",
+      "category": "count"
+    },
+    {
+      "value": 4.0,
+      "unit": "%",
+      "context": "度，且如果男胎的Y 染色体浓度达到或高于4%、女胎的X 染色体浓度没有异常， 则可认",
+      "role_hint": "",
+      "category": "physical_param"
+    },
+    {
+      "value": 12.0,
+      "unit": "周",
+      "context": "则会带来治疗窗口期缩短的风险，早期发现（12 周以内）风险较低；中期发现（13－27 周",
+      "role_hint": "",
+      "category": "count"
+    },
+    {
+      "value": 27.0,
+      "unit": "周",
+      "context": "12 周以内）风险较低；中期发现（13－27 周） 风险高；晚期发现（28 周以后）风险",
+      "role_hint": "",
+      "category": "count"
+    },
+    {
+      "value": 28.0,
+      "unit": "周",
+      "context": "现（13－27 周） 风险高；晚期发现（28 周以后）风险极高。  实践表明，男胎Y 染",
+      "role_hint": "",
+      "category": "count"
+    },
+    {
+      "value": 40.0,
+      "unit": "%",
+      "context": "的一个重要指标，正常 GC 含量范 围为40% ~ 60%，GC 含量过高、过低、 或",
+      "role_hint": "",
+      "category": "data_range"
+    },
+    {
+      "value": 60.0,
+      "unit": "%",
+      "context": "标，正常 GC 含量范 围为40% ~ 60%，GC 含量过高、过低、 或分布异常可能",
+      "role_hint": "",
+      "category": "data_range"
+    }
+  ],
+  "dynamic_ltm": {
+    "assumptions": [
+      "假设1：分析对象限定为女胎样本；女胎识别直接由工作表特征给出，即Y染色体Z值（U列）与Y染色体浓度（V列）在女胎记录中为空白，不另行设计识别规则。依据：人类架构审核数据画像表明女胎表约605条记录、147位孕妇，且Y相关列U/V全部空白；风险：若存在少量男胎被误标为女胎，会污染可靠性门与z阈值定标；可验证：交叉核查X染色体浓度、X染色体Z值、胎儿是否健康列及孕妇代码的分布一致性。",
+      "假设2：数据结构为孕妇层纵向重复测量，每行是一次检测记录，同一孕妇可能存在多次检测；女胎异常判定必须按孕妇分块处理，不能把每条记录当作独立样本。依据：人类架构审核数据画像显示女胎表605条记录、147位孕妇，每人1–9次检测（均值约4.1次）；风险：行级独立会导致信息泄漏和标准误低估；可验证：行级独立评估与孕妇分块交叉验证/聚类bootstrap的指标差异。",
+      "假设3：女胎异常判定标签以AB列“染色体的非整倍体”为判定结果；AB空白即无异常（阴性），AB文本解析为多标签集合，逐染色体构造标签y_ijc=1( c∈AB_ij )。AB列取值如T18、T13T18、T21、T13、T18T21、T13T21。依据：题目问题4明确以AB列为判定结果，附录列说明“空白即为无异常”；风险：空白可能包含未检出或缺失情形而非真阴性；可验证：孕妇内混合标签敏感性分析，比较“空白即阴性”与“剔除孕妇内存在混合标签记录”的指标变化。",
+      "假设4【关键假设】：女胎表中AE列“胎儿是否健康”全部为“健康”，不能作为金标准或主标签修正依据；主标签采用AB列语义，禁止使用AE列做交叉标签清洗。依据：人类架构审核数据画像显示女胎表605/605条AE均为“健康”，任何“确认阳性=AB异常且AE不健康”的标签方案在女胎表上得到0例；风险：若强制使用AE会抹掉全部阳性信号；可验证：输出AE列取值计数，并展示“AB异常且AE不健康”的确认为0例。",
+      "假设5【关键假设】：X染色体浓度w_ij不是胎儿浓度代理，而作为NIPT可靠性/平台信号。女胎表w范围约-0.070～0.121，中位数约-0.008，约67%为负值（数据估计值，非题目常量）；负值予以保留，不截断为0。依据：题目原文“女胎的X染色体浓度没有异常，则可认为NIPT的结果是基本准确的，否则难以保证结果准确性要求”以及数据画像显示w呈平台信号特征；风险：将w当作胎儿浓度会锚定错误的拷贝数机制，截断负值会损失平台偏差信息；可验证：保留负值与截断为0两种口径下可靠性门覆盖率-准确率对比，并检查w与孕周/BMI的相关性。",
+      "假设6【关键假设】：第一层可靠性门以X染色体浓度w_ij为输入，主判据采用w_ij<q10_f（女胎w的经验第10百分位，约-0.0272，该值为数据估计值）；备选界为q5_f、q25_f。门输出为可判定/无法判定（建议重测）。依据：题目原文可靠性条件及人类架构审核数据聚集性：w<q5时24%阳性 vs 3%阴性，w<q10时40% vs 6%，w<q25时61% vs 20%；风险：分位界依赖本数据集且在小样本分组中可能不稳定；可验证：绘制q5/q10/q25下覆盖率-准确率权衡曲线，并用分层bootstrap报告门界稳定性。",
+      "假设7【关键假设】：门控优先级高于z阈值层；被门判为“无法判定”的记录不进入后续染色体z阈值决策，最终输出为三分类：阳性/阴性/无法判定。依据：题目要求“女胎X染色体浓度没有异常，则可认为NIPT结果基本准确，否则难以保证结果准确性要求”；风险：门界过严会降低覆盖率，过松会纳入不可靠记录；可验证：报告覆盖率（可判定记录占比），并与z阈值层在可判定子集上的混淆结构对照。",
+      "假设8【关键假设】：第二层逐染色体z阈值仅在“可判定”记录上执行，染色体c∈{13,18,21}，判定式d_ijc=1{z_ijc≥τ_c}；女胎z阈值不能照搬男胎阈值，必须在女胎表上重新定标。依据：人类架构审核数据画像显示女胎z判别力弱：AUC t13约0.42、t18约0.55、t21约0.51，男胎分别为0.74/0.76/0.84（数据估计值）；风险：照搬男胎阈值会高估女胎z信号；可验证：输出女胎vs男胎各染色体z的AUC对比表，并报告女胎可靠子集上z≥3的命中情况。",
+      "假设9【关键假设】：τ_c选择采用孕妇分层交叉验证内部代价敏感优化；默认漏检:误报=3:1，目标为最小化CV内的代价Cost_c(τ)=3·FN_c(τ)+1·FP_c(τ)；敏感性取1:1、2:1、5:1。若CV选不出稳定操作点，则如实报告临床惯例阈值z≥3在本数据可靠子集上的表现，不伪造性能。依据：临床漏检代价高于误报，且女胎阳性稀疏、z信号弱；风险：代价权重不同会明显改变τ_c；可验证：输出各代价值下τ_c、灵敏度/特异度及bootstrap稳定性区间。",
+      "假设10【关键假设】：可选校准层不默认启用。校准定义为将z_ijc对X染色体浓度w_ij、染色体特异GC含量gc_ijc、被过滤读段比例filt_rate_ij、读段相关比例及BMI做残差化，得到z_adj_ijc；仅当校准后τ_c及性能有实质改善时才采纳校准版本，否则采用未校正确认版本。依据：人类架构审核要求奥卡姆剃刀，z判别力弱，校准细节应降级；风险：引入残差化可能造成过拟合和不稳定；可验证：比较校准前后CV性能、AIC/BIC和τ_c稳定性。",
+      "假设11【关键假设】：孕妇级判定与记录级判定必须分开报告。孕妇级在主方案采用保守合并：对染色体c，任一记录阳性即孕妇级阳性D_cons_ic=1(∃j:d_ijc=1)；同时报告多数票与最大风险得分两种合并规则。依据：人类架构审核数据画像显示44位阳性孕妇中43位同时存在AB阴性记录，其中26位仅1条阳性记录；风险：简单合并多数票可能漏检单次阳性；可验证：比较三种孕妇级合并规则（任一阳性、多数票、最大z/最大校准得分）的灵敏度/特异度/阳性一致率。",
+      "假设12【关键假设】：验证必须采用孕妇分块5折交叉验证（同一孕妇全部记录同折），cluster bootstrap采样次数B≥200，并做置换检验确认信号非随机。依据：重复测量结构与标签稀疏；风险：未分块验证会因同孕妇记录泄漏导致乐观指标；可验证：报告孕妇分块CV指标与行级独立CV指标的差异，并输出置换检验零位分布。",
+      "假设13【关键假设】：GC含量不采用40.0%–60.0%硬阈值剔除（原文：正常GC含量范围为40% ~ 60%）；女胎表GC范围约0.368–0.443，约36%低于0.40，无高于0.60（数据估计值），判断为平台系统偏差。GC仅作为连续协变量、质量权重或可选校准残差项进入分析，并做独立敏感性；不把低GC行直接剔除。风险：硬剔除会损失约1/3女胎样本并产生选择偏差；可验证：GC连续协变量 vs 质量权重 vs 硬阈值三种处理的覆盖率、混淆指标变化。",
+      "假设14：数值列多为非正态且部分列存在较强时序自相关（数据发现：多数数值列Shapiro-Wilk p<0.05，序号/年龄lag-1自相关>0.5），因此本问题主模型不假设独立正态；可靠性门采用中位数/MAD等稳健统计，验证采用孕妇分块重采样。依据：数据认知更新与数据智能摘要；风险：若忽视非正态或组内相关会低估不确定性；可验证：残差/得分分布诊断和按孕妇分块bootstrap区间。",
+      "假设15：临床背景常量仅作解释性边界，不进入三层判定主模型：可检测窗口为10.0–25.0周（原文：通常孕妇的孕期在10周~25周之间可以检测胎儿性染色体浓度）；男胎Y染色体浓度达标阈值4.0%仅适用于男胎，不用于女胎X浓度门（原文：如果男胎的Y染色体浓度达到或高于4%）；早期发现12.0周以内风险较低、中期发现13–27周风险高、晚期发现28.0周以后风险极高（原文：早期发现12周以内风险较低；中期发现13－27周风险高；晚期发现28周以后风险极高）。风险：把时间风险窗误入女胎异常判定会混淆时点优化与异常判定两个决策；可验证：输出无时间变量的主方案与加入孕周敏感性时的指标变化。",
+      "假设16：Coder必须按parse_hints解析字符串列：孕妇代码用df['孕妇代码'].str.replace('A', '', regex=False).astype(float)，末次月经用pd.to_datetime；AB列“染色体的非整倍体”的原始机器parse_hint为df['染色体的非整倍体'].str.replace('T', '', regex=False).astype(float)，但本问题必须扩展为多标签集合解析，不能将T13T18简单转成数值1318；检测孕周自行解析w+d格式。依据：机器数据列解析建议及AB列组合文本特征；风险：错误解析AB会破坏标签；可验证：输出AB列解析后的唯一值/多标签计数与前若干行核对。"
+    ],
+    "nomenclature": {
+      "N_f_rec": "女胎检测记录总数，数据画像估计约605（该值为数据估计值，非题目常量）",
+      "n_f": "女胎孕妇总数，数据画像估计约147（该值为数据估计值，非题目常量）",
+      "n_i": "第i位女胎孕妇的检测记录数，i=1,...,n_f",
+      "i": "孕妇索引，i=1,...,n_f",
+      "j": "孕妇内检测记录索引，j=1,...,n_i",
+      "c": "目标常染色体索引，c∈{13,18,21}",
+      "w_ij": "第i位孕妇第j次检测的X染色体浓度，无量纲比例，可能为负",
+      "med_w": "女胎样本X染色体浓度的中位数",
+      "MAD_w": "女胎样本X染色体浓度的MAD，MAD_w=median(|w_ij-med_w|)",
+      "w_star_ij": "X染色体浓度的稳健参考值，w_star_ij=(w_ij-med_w)/(1.4826·MAD_w)",
+      "q10_f": "女胎样本w_ij的经验第10百分位，主门界，约-0.0272（该值为数据估计值）",
+      "q5_f": "女胎样本w_ij的经验第5百分位，备选门界（数据估计值）",
+      "q25_f": "女胎样本w_ij的经验第25百分位，备选门界（数据估计值）",
+      "gate_ij": "第i位孕妇第j次记录的可靠性门输出，gate_ij=1表示w_ij<门界，判为无法判定；gate_ij=0表示可判定",
+      "z_ijc": "第i位孕妇第j次记录的染色体c Z值，无量纲",
+      "gc_ijc": "第i位孕妇第j次记录的染色体c特异GC含量，小数",
+      "gc_total_ij": "第i位孕妇第j次记录的总GC含量，小数",
+      "filt_rate_ij": "第i位孕妇第j次记录的被过滤读段数占总读段数的比例，小数",
+      "map_rate_ij": "第i位孕妇第j次记录的总读段数中在参考基因组上比对的比例，小数",
+      "unique_reads_ij": "第i位孕妇第j次记录的唯一比对读段数，个",
+      "bmi_ij": "第i位孕妇第j次记录的BMI，单位：kg/m²",
+      "x_ij": "校准协变量向量，默认包含w_ij、gc_ijc、filt_rate_ij、map_rate_ij、bmi_ij；用于可选残差化校准",
+      "z_adj_ijc": "可选校准后的染色体c Z值残差，z_adj_ijc=z_ijc - f_ijc(x_ij)，其中f_ijc为线性回归拟合",
+      "tau_c": "第c号染色体的z阈值，在孕妇分层CV内部按代价敏感选择",
+      "lambda_FNFP": "漏检:误报代价比，主值3:1，敏感性取1:1、2:1、5:1",
+      "d_ijc": "记录级逐染色体判定指示，d_ijc=1{z_ijc≥tau_c}，仅在gate_ij=0时执行",
+      "y_ijc": "记录级AB标签，y_ijc=1(染色体c出现在AB_ij的解析集合中)；AB空白时全部为0",
+      "AB_ij": "第i位孕妇第j次记录的AB列原始文本，如T18、T13T18、T21",
+      "Y_ij": "AB列解析出的多标签集合，Y_ij⊆{T13,T18,T21}",
+      "p_hat_ijc": "可选逐记录染色体c阳性风险得分，由z_c或其校准值经回归/单调映射得到；仅用于合并规则比较，不强制进入主判定",
+      "risk_ijc": "逐记录染色体c风险得分，主口径可取z_ijc或p_hat_ijc",
+      "D_cons_ic": "孕妇级保守合并判定：任一记录阳性则阳性，D_cons_ic=1(Σ_j d_ijc≥1)",
+      "D_maj_ic": "孕妇级多数票合并判定：D_maj_ic=1(Σ_j d_ijc > n_i/2)",
+      "D_max_ic": "孕妇级最大风险得分合并判定：D_max_ic=1(max_j risk_ijc ≥ tau_c)",
+      "coverage": "覆盖率，可判定记录数占女胎总记录数比例，coverage=(Σ_ij 1(gate_ij=0))/N_f_rec",
+      "TP_c": "染色体c真阳性数",
+      "FN_c": "染色体c假阴性数",
+      "FP_c": "染色体c假阳性数",
+      "TN_c": "染色体c真阴性数",
+      "sens_c": "染色体c灵敏度，sens_c=TP_c/(TP_c+FN_c)",
+      "spec_c": "染色体c特异度，spec_c=TN_c/(TN_c+FP_c)",
+      "ppv_c": "染色体c阳性预测值，ppv_c=TP_c/(TP_c+FP_c)",
+      "npv_c": "染色体c阴性预测值，npv_c=TN_c/(TN_c+FN_c)",
+      "f1_c": "染色体c的F1分数，f1_c=2·TP_c/(2·TP_c+FP_c+FN_c)",
+      "auc_c": "染色体c在可靠子集上的AUC，数据估计值见表",
+      "Cost_c(tau)": "染色体c阈值tau对应的CV代价，Cost_c=λ_FNFP·FN_c+FP_c，λ_FNFP默认3",
+      "B": "cluster bootstrap次数，B≥200",
+      "CI_low_c": "染色体c评估指标的bootstrap 2.5%分位",
+      "CI_high_c": "染色体c评估指标的bootstrap 97.5%分位",
+      "perm_p_c": "染色体c置换检验p值，衡量指标是否高于随机零位",
+      "K_fold": "孕妇分块交叉验证折数，K_fold=5"
+    },
+    "equations": [
+      "AB多标签解析：Y_ij=parse_set(AB_ij)⊆{T13,T18,T21}；AB_ij空白时Y_ij=∅。标签y_ijc=1(c∈Y_ij)，c∈{13,18,21}。",
+      "X浓度稳健参考：w_star_ij=(w_ij-med_w)/(1.4826·MAD_w)，med_w=median_ij(w_ij)，MAD_w=median_ij(|w_ij-med_w|)。",
+      "可靠性门主判据：gate_ij=1{w_ij<q10_f}；q10_f为女胎w的经验第10百分位，主界约-0.0272（数据估计值）。gate=1输出无法判定，不进入z阈值层。",
+      "可靠性门敏感性：门界q∈{q5_f,q10_f,q25_f}，gate_ij(q)=1{w_ij<q}；绘制coverage-准确率权衡曲线。",
+      "逐染色体记录级判定（仅在gate_ij=0）：d_ijc=1{z_ijc≥tau_c}，c∈{13,18,21}。",
+      "可选校准层：拟合z_ijc=α_c+x_ij'γ_c+e_ijc，在校正集上得到z_adj_ijc=z_ijc-x_ij'γ_hat_c；仅当校准后稳定性能和CV代价有实质改善时，tau_c用z_adj_ijc定标，否则采用未校准z_ijc。",
+      "阈值代价函数：Cost_c(tau)=λ_FNFP·FN_c(tau)+FP_c(tau)，λ_FNFP默认3（漏检:误报=3:1）。在孕妇分块CV内对tau进行网格搜索，tau_c=argmin_tau Cost_c(tau)。",
+      "敏感性代价比：λ_FNFP∈{1,2,3,5}对应1:1、2:1、3:1、5:1，输出不同λ下tau_c及指标。",
+      "记录级混淆指标：sens_c=TP_c/(TP_c+FN_c)，spec_c=TN_c/(TN_c+FP_c)，ppv_c=TP_c/(TP_c+FP_c)，npv_c=TN_c/(TN_c+FN_c)，f1_c=2·TP_c/(2·TP_c+FP_c+FN_c)。",
+      "覆盖率：coverage=(Σ_ij 1(gate_ij=0))/N_f_rec；三分类输出分布：n_invalid=Σ_ij gate_ij，n_positive_c=Σ_ij 1(gate_ij=0,d_ijc=1)，n_negative_c=Σ_ij 1(gate_ij=0,d_ijc=0)。",
+      "孕妇级保守合并：D_cons_ic=1(Σ_j d_ijc≥1)，主口径用此规则；同时报告多数票D_maj_ic=1(Σ_j d_ijc > n_i/2)和最大风险得分D_max_ic=1(max_j risk_ijc ≥ tau_c)。",
+      "风险得分定义：risk_ijc=z_ijc（主口径）或risk_ijc=p_hat_ijc（可选校准映射）。最大风险得分合并仅在记录级tau_c下比较，不单独重选阈值。",
+      "孕妇分块5折CV：将n_f位孕妇随机均分为5折，每折包含该孕妇所有记录；训练折内选tau_c，验证折内计算标签级指标，合并为CV estimate。",
+      "Cluster bootstrap区间：对n_f位孕妇有放回重采样B≥200次，每次在重采样样本内执行门界+CV阈值+合并，得到指标集，CI_low_c=Q_{0.025}({metric_c^b})，CI_high_c=Q_{0.975}({metric_c^b})。",
+      "置换检验：随机打乱AB标签（保持孕妇结构）重复计算指标，构造零位分布，perm_p_c=零位中指标≥观测指标的比例；若perm_p_c≥0.05，信号不显著。",
+      "GC连续协变量/权重敏感性：主模型按连续gc_total_ij/gc_ijc纳入校准或加权；硬阈值对照仅报告，不采用；硬阈值判据依据原文正常GC含量范围为40.0% ~ 60.0%，但女胎表GC范围约0.368–0.443，因此硬阈值会损失大量记录。",
+      "X浓度处理敏感性：主口径保留负值；对照口径w_trunc_ij=max(w_ij,0)，比较两种口径的coverage和指标。",
+      "女胎vs男胎对照：对同一z阈值法在女胎可靠子集与男胎表数据上分别估计AUC并报告差异，作为女胎必须单独定方法的证据。"
+    ],
+    "objective": "以女胎孕妇的21号、18号和13号染色体非整倍体AB列结果为判定目标，建立“X染色体浓度可靠性门—逐染色体z阈值—孕妇级保守合并与验证”的三层最小结构判定方法，输出记录级/孕妇级三分类（阳性/阴性/无法判定）及可验证的灵敏度、特异度、PPV、NPV、F1、AUC和覆盖率。",
+    "solution_outline": "步骤1：读取附件.xlsx。Coder必须按照parse_hints解析字符串列：孕妇代码用df['孕妇代码'].str.replace('A', '', regex=False).astype(float)；末次月经用pd.to_datetime；AB列“染色体的非整倍体”的机器parse_hint为df['染色体的非整倍体'].str.replace('T', '', regex=False).astype(float)，但本问题必须扩展为多标签集合解析，不能将T13T18简单转为数值1318；检测孕周自行解析w+d格式。步骤2：筛选女胎子集：U列Y染色体Z值与V列Y染色体浓度为空白/缺失的记录构成女胎表，交叉核查孕妇代码、X染色体浓度W列及AE列；输出女胎记录数约605、孕妇数约147的数据画像。步骤3：数据画像：报告年龄、身高、体重、BMI、GC、各染色体GC、读段比例、被过滤比例、z值、X浓度的缺失率/范围/非正态性；检查BMI=体重/身高²自洽性；统计AB组合计数（T13/T18/T21/多标签）和孕妇内标签稳定性；确认AE列全部“健康”。步骤4：构造逐染色体标签：解析AB→y_ijc，空白全0；明确不采用AE交叉清洗。步骤5：第一层可靠性门：对女胎全样本w_ij计算med_w、MAD_w、w_star_ij及q5_f/q10_f/q25_f；主界采用w_ij<q10_f（约-0.0272）判无法判定，q5_f/q25_f为敏感性；输出gate_ij与覆盖率。步骤6：第二层逐染色体z阈值：仅在gate_ij=0的记录上，对c∈{13,18,21}在孕妇分块5折CV内部按代价敏感目标选择τ_c，默认漏检:误报=3:1，敏感性1:1、2:1、5:1；可选校准：将z_ijc对w_ij、染色体GC、被过滤比例、比对比例、BMI做线性残差化，比较校准前后CV代价和τ_c稳定性，若无实质改善则采用未校准z。输出d_ijc及可靠子集混淆矩阵、sens/spec/ppv/npv/f1/auc。诚实边界：若CV选不出稳定操作点，报告临床惯例z≥3在可靠子集上的表现。步骤7：孕妇级合并：对每染色体分别计算任一记录阳性（主）、多数票、最大风险得分三种合并规则；报告孕妇级混淆指标。步骤8：验证：孕妇分块5折CV防止同孕妇记录泄漏；cluster bootstrap≥200给出指标区间；置换检验检验信号非随机。步骤9：敏感性分析：门界q5/q10/q25的coverage-准确率曲线；AB标签空白=阴性 vs 剔除孕妇内混合标签；GC连续协变量/质量权重/硬阈值；X浓度保留负值 vs 截断0；主方案 vs 全特征惩罚逻辑回归 vs 男胎同一方法对照。步骤10：交付图表：三层判定流程图、可靠性门覆盖率-准确率曲线、各染色体阈值表和可靠子集混淆矩阵、记录级与孕妇级对比表、女胎/男胎z判别力对比表、孕妇级合并规则比较表；论文主动讨论“门价值＞阈值层”以及女胎必须单独定标的证据。"
+  },
+  "artifacts": {
+    "outline": {
+      "摘要": "针对问题4女胎异常判定，建立“X染色体浓度可靠性门—逐染色体Z阈值—孕妇级保守合并”三层最小结构。首先按Y染色体Z值与浓度空白筛选女胎，对AB列做多标签解析并按空白即阴性构造21/18/13号染色体标签；第一层以X染色体浓度w的经验第10百分位作为可靠性门，将低可靠性记录输出为无法判定；第二层仅在可判定记录上对每条染色体z值进行孕妇分块交叉验证下的代价敏感阈值选择；第三层按孕妇保守合并输出三分类，并用cluster bootstrap和置换检验给出不确定性。女胎z判别弱且与男胎不同，必须单独定标，不照搬男胎阈值。",
+      "问题重述": "问题4要求以女胎孕妇的21号、18号和13号染色体非整倍体AB列为判定结果，综合考虑X染色体及目标染色体Z值、GC含量、读段数及相关比例、BMI等因素，给出女胎异常的判定方法。附录说明AB空白即无异常，U/V列为女胎空白，W为X染色体浓度。",
+      "模型假设": "列出动态LTM中16条假设，其中关键假设为：AE列胎儿是否健康在女胎表全部为健康，禁止作为标签修正；X染色体浓度w是可靠性/平台信号而非胎儿浓度代理，负值保留；第一层可靠性门采用w<q10_f主界；门控优先级高于z阈值层；女胎z阈值必须重新定标；阈值选择采用孕妇分层CV内代价敏感3:1漏检:误报；孕妇级保守合并任一记录阳性；GC不按40%-60%硬剔除而作连续协变量/敏感性。",
+      "问题分析": "女胎表约605条记录、147位孕妇，为纵向重复测量，必须按孕妇分块处理。AB列阳性稀疏且存在组合文本，AE列全部健康。女胎z信号弱，AUC约0.42-0.55，男胎约0.74-0.84，故照搬男胎阈值会高估性能。X浓度w中位数约-0.008、约67%为负值，反映平台偏差而非胎儿浓度。GC范围约0.368-0.443，硬剔除会损失样本。因此采用可靠性门隔离低质量记录，再在可靠子集上做z阈值判定。",
+      "模型建立": "三层判定模型：第一层gate_ij=1{w_ij<q10_f}，q10_f为女胎w第10百分位；第二层仅在gate=0时d_ijc=1{z_ijc≥tau_c}，c∈{13,18,21}；第三层孕妇级合并D_cons_ic=1(Σ_j d_ijc≥1)。阈值tau_c在孕妇分块5折CV内最小化Cost_c(τ)=3·FN_c+FP_c。可选校准层将z对w/GC/过滤比例/比对比例/BMI做线性残差化，仅在实质改善时采纳。验证采用cluster bootstrap B≥200和孕妇结构下的置换检验。",
+      "模型求解": "按步骤执行：数据读取与解析→女胎筛选与画像→AB多标签标签构造→可靠性门→分组CV阈值选择→记录级判定→孕妇级合并→指标计算与bootstrap/置换检验→敏感性分析→导出结果。算法复杂度控制：网格步长≥0.5，B=200，5折CV，总迭代约5.7万次，90秒内可完成。",
+      "结果分析": "报告女胎数据画像、可靠性门覆盖率与q5/q10/q25权衡、各染色体tau_c及记录级混淆指标、孕妇级三种合并规则指标、女胎vs男胎AUC对照、以及bootstrap置信区间和置换p值。结论强调门价值高于阈值层，女胎必须单独定标。",
+      "灵敏度分析": "关键假设扰动/对照实验包括：门界q5/q10/q25；代价比1:1/2:1/3:1/5:1；X浓度负值保留vs截断0；GC连续vs硬阈值剔除；AB空白即阴性vs剔除孕妇内混合标签；校准层开启vs关闭；临床时间窗变量加入敏感性；女胎与男胎同一方法对照。每个实验对应图表和表格，结论写入相应章节。",
+      "模型评价": "模型优点在于最小结构、孕妇分块防泄漏、保守合并降低漏检、诚实报告弱信号；局限在于门界依赖本数据集、空白阴性假设可能受未检出污染、小样本阳性稀疏导致区间较宽。"
+    },
+    "pseudocode": [
+      "步骤1: 读取附件.xlsx；按parse_hints解析：孕妇代码=str.replace('A','',regex=False).astype(float)，末次月经=pd.to_datetime，检测孕周解析w+d，AB列不做数值转换而保留原文本。",
+      "步骤2: 筛选女胎子集 df_female = df[df['Y染色体Z值'].isna() & df['Y染色体浓度'].isna()]；输出记录数N_f_rec=len(df_female)、孕妇数n_f=df_female['孕妇代码'].nunique()；交叉核查孕妇代码、X染色体浓度W列、AE列，确认AE列全部为'健康'。",
+      "步骤3: 构造多标签：定义 parse_ab(s) -> set，若s为空返回空集合；对c∈{13,18,21}设置 y_ijc = 1(c in parse_ab(AB_ij))；输出AB列唯一组合计数与前若干行核对。",
+      "步骤4: 数据画像：计算w_ij范围、中位数med_w、MAD_w、q5_f/q10_f/q25_f；统计GC总/染色体特异范围及低于0.40比例；统计AB组合计数和孕妇内标签稳定性；AE列取值计数。",
+      "步骤5: 第一层可靠性门：gate_ij = 1(w_ij < q10_f)；coverage = 1 - mean(gate_ij)；输出q5/q10/q25下覆盖率和可靠子集阳性/阴性标签比例。",
+      "步骤6: 准备第二层：仅使用gate_ij==0的记录；定义候选tau网格 = np.arange(-3.0, 6.0, 0.5)，保证步长≥0.5；染色体列表c_list=[13,18,21]。",
+      "步骤7: 孕妇分块5折CV阈值选择：使用sklearn.model_selection.GroupKFold(n_splits=5)，groups=df_female['孕妇代码']；在每个训练折内对每个染色体c，遍历tau网格，计算标签级FN_c和FP_c（记录级），代价Cost=3*FN_c+FP_c；选择最小代价tau_c_train；在验证折上应用d_ijc=1(z_ijc>=tau_c_train)并与y_ijc比较，累计混淆计数。",
+      "步骤8: 若某折某染色体训练集中无阳性导致所有tau代价相同，则tau_c_train设为临床惯例3.0，并在结果中标注；若验证折AUC无法计算（单类），使用try-except将auc设为np.nan后填充为0.5。",
+      "步骤9: 可选校准层仅作敏感性：对可判定记录拟合线性回归 z_ijc ~ w_ij + gc_ijc + gc_total_ij + filt_rate_ij + map_rate_ij + bmi_ij，得到残差z_adj_ijc；在训练折内重选tau_c_adj；比较未校准与校准CV代价及稳定性；主方案采用未校准。",
+      "步骤10: 记录级判定整合：对全部女胎记录，若gate_ij=1则输出无法判定；若gate_ij=0且d_ijc=1输出阳性；否则阴性；生成记录级三分类表df_pred_record。",
+      "步骤11: 孕妇级合并：对每染色体c，计算任一记录阳性D_cons_ic=1(Σ_j d_ijc>=1)；多数票D_maj_ic=1(Σ_j d_ijc>n_i/2)；最大风险得分D_max_ic=1(max_j z_ijc>=tau_c)；分别计算孕妇级混淆矩阵和指标。",
+      "步骤12: 指标计算：定义函数metrics(y_true, y_pred)返回TP,FN,FP,TN,sens,spec,ppv,npv,f1；所有概率/比例指标用np.clip限制在[0,1]；AUC使用roc_auc_score，单类时返回0.5。",
+      "步骤13: Cluster bootstrap：B=200；对n_f个孕妇有放回重采样（保持孕妇所有记录），每次重采样在重采样集上重新计算q10_f、CV内tau_c、记录级d及孕妇级合并，记录coverage、sens、spec、ppv、f1、auc等指标；得到B个bootstrap样本。",
+      "步骤14: 置换检验：保持孕妇结构，随机打乱AB标签（在孕妇代码内重排标签或跨孕妇保持块结构），重复计算记录级AUC或F1，构造零位分布；perm_p = (1+Σ(metric_perm>=metric_obs))/(1+B_perm)；B_perm=100；若perm_p>=0.05则不宣称信号非随机。",
+      "步骤15: 敏感性分析循环：依次改变门界q∈{q5_f,q10_f,q25_f}，代价比λ∈{1,2,3,5}，X浓度截断vs保留，GC硬阈值剔除vs连续协变量vs质量权重，AB混合标签剔除，校准层开关，加入孕周变量，男胎同一方法对照；每个场景输出关键指标到sensitivity_results列表。",
+      "步骤16: 导出结果：df_summary（含层级、染色体、规则、tau、coverage、sens、spec、ppv、npv、f1、auc及bootstrap上下限）保存到 MODELING_OUTPUT_DIR/results/q4.csv；同时生成 output.csv 为兼容输出，包含主要指标；确保无NaN/Inf，数值列clip。"
+    ],
+    "algorithms_summary": "",
+    "figures_plan": [
+      {
+        "id": "fig_roadmap",
+        "figure_type": "roadmap",
+        "kind": "flowchart",
+        "purpose": "总体技术路线图，展示数据流与三层判定结构",
+        "data_source": "",
+        "caption": "图1 女胎异常判定三层方法总体技术路线：数据读取→女胎筛选→AB多标签标签→X浓度可靠性门→逐染色体Z阈值CV选择→孕妇级合并→验证与敏感性",
+        "section": "2_analysis.tex",
+        "content_spec": "流程图节点包含：附件.xlsx读取、女胎筛选(U/V空)、多标签解析(AB→y_ijc)、第一层门gate=1(w<q10)、第二层z阈值CV tau_c、第三层孕妇合并D_cons、验证(cluster bootstrap/置换检验)、敏感性。箭头连接，突出门控优先级。",
+        "required": true
+      },
+      {
+        "id": "fig_q1_scatter",
+        "figure_type": "scatter",
+        "kind": "data",
+        "purpose": "",
+        "data_source": "",
+        "caption": "男胎Y染色体浓度与孕周、BMI的散点图及logit尺度趋势",
+        "section": "5_problem1.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_q1_smooth_ga",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "",
+        "data_source": "",
+        "caption": "孕周平滑函数s1(ga)的点估计与置信区间",
+        "section": "5_problem1.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_q1_smooth_bmi_int",
+        "figure_type": "heatmap",
+        "kind": "data",
+        "purpose": "",
+        "data_source": "",
+        "caption": "孕周与BMI交互效应ti(ga,bmi)的等高线图",
+        "section": "5_problem1.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_q1_quantile_curves",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "",
+        "data_source": "",
+        "caption": "logit(y)分位数回归曲线（τ=0.05,0.25,0.50,0.75,0.95）",
+        "section": "5_problem1.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_q1_prob_curves",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "",
+        "data_source": "",
+        "caption": "达标概率P(y≥4.0%)曲线：边缘预测与条件预测对比",
+        "section": "5_problem1.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_diag_resid",
+        "figure_type": "scatter",
+        "kind": "data",
+        "purpose": "",
+        "data_source": "",
+        "caption": "模型残差诊断图",
+        "section": "5_problem1.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_sens_dist",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "",
+        "data_source": "",
+        "caption": "关键假设4敏感性：Beta/logit-GAMM与高斯GAM的达标概率对比",
+        "section": "8_sensitivity.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_sens_interaction",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "",
+        "data_source": "",
+        "caption": "关键假设5敏感性：有无ga×bmi交互项时的达标概率曲线",
+        "section": "8_sensitivity.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_sens_gc",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "",
+        "data_source": "",
+        "caption": "关键假设8敏感性：GC处理策略对孕周平滑效应的影响",
+        "section": "8_sensitivity.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_sens_marginal",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "",
+        "data_source": "",
+        "caption": "关键假设14敏感性：边缘与条件达标概率的差异幅度",
+        "section": "8_sensitivity.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_sens_ga_window",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "",
+        "data_source": "",
+        "caption": "关键假设9敏感性：排除>25周样本后的孕周平滑效应对比",
+        "section": "8_sensitivity.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_anchor_threshold",
+        "figure_type": "scatter",
+        "kind": "data",
+        "purpose": "",
+        "data_source": "",
+        "caption": "数据锚点：Y浓度分布与4.0%阈值的关系",
+        "section": "5_problem1.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_q2_ga_bmi_prob_curves",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "Q2 联合优化结果图",
+        "data_source": "",
+        "caption": "",
+        "section": "",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_q2_bmi_bins_tstar",
+        "figure_type": "scatter",
+        "kind": "data",
+        "purpose": "Q2 联合优化结果图",
+        "data_source": "",
+        "caption": "",
+        "section": "",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_q2_loss_curves_optimal",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "Q2 联合优化结果图",
+        "data_source": "",
+        "caption": "",
+        "section": "",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_q2_error_shift_sigma",
+        "figure_type": "scatter",
+        "kind": "data",
+        "purpose": "Q2 联合优化结果图",
+        "data_source": "",
+        "caption": "",
+        "section": "",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_q2_bootstrap_boundary_heatmap",
+        "figure_type": "scatter",
+        "kind": "data",
+        "purpose": "Q2 联合优化结果图",
+        "data_source": "",
+        "caption": "",
+        "section": "",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_q2_calibration",
+        "figure_type": "scatter",
+        "kind": "data",
+        "purpose": "Q2 联合优化结果图",
+        "data_source": "",
+        "caption": "",
+        "section": "",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_q2_rho_sensitivity",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "Q2 联合优化结果图",
+        "data_source": "",
+        "caption": "",
+        "section": "",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_q2_fnr_fpr_sigma",
+        "figure_type": "scatter",
+        "kind": "data",
+        "purpose": "Q2 联合优化结果图",
+        "data_source": "",
+        "caption": "",
+        "section": "",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_q2_monotone_diagnostic",
+        "figure_type": "scatter",
+        "kind": "data",
+        "purpose": "Q2 联合优化结果图",
+        "data_source": "",
+        "caption": "",
+        "section": "",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_q2_joint_k_selection",
+        "figure_type": "scatter",
+        "kind": "data",
+        "purpose": "Q2 联合优化结果图",
+        "data_source": "",
+        "caption": "",
+        "section": "",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "fig_q3_data_profile",
+        "figure_type": "scatter",
+        "kind": "data",
+        "purpose": "展示数据纵向结构、BMI分布及达标事件随孕周的分布，支持决策窗口与双通道建模",
+        "data_source": "results/q3_data_profile.csv",
+        "caption": "图2 男胎样本BMI分布与Y染色体浓度随孕周变化散点图（颜色区分是否达到4%阈值）",
+        "section": "6_problem3.tex",
+        "content_spec": "左面板：BMI个体代表值直方图；右面板：x=ga_ij，y=y_obs_ij，按D_ij着色，加y=0.04水平参考线。",
+        "required": true
+      },
+      {
+        "id": "fig_q3_covariate_selection",
+        "figure_type": "bar",
+        "kind": "data",
+        "purpose": "支持主报告协变量形态选择，回应身高、体重、年龄同时纳入而非仅用BMI的原因",
+        "data_source": "results/q3_covariate_forms.csv",
+        "caption": "图3 四种协变量形态的AIC/BIC与孕妇层五折CV RMSE比较",
+        "section": "6_problem3.tex",
+        "content_spec": "x=形态标签（BMI/体重/身高+体重/三项全入），y=AIC、BIC、CV RMSE三组并列柱；标注1SE最优形态。",
+        "required": true
+      },
+      {
+        "id": "fig_q3_prob_curves",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "展示组级达标比例随孕周单调上升及组间差异，为组最佳时点首穿提供直观依据",
+        "data_source": "results/q3_group_prob_curves.csv",
+        "caption": "图4 各组边缘达标比例π_g(t)曲线与个体边缘π_marg(t,x_i)轨迹",
+        "section": "6_problem3.tex",
+        "content_spec": "x=孕周t∈[10,25]，y=π_marg或π_g；按BMI分组绘制多条曲线，加p=0.80水平线并标记t_g首穿点；灰色背景显示每一条个体曲线。",
+        "required": true
+      },
+      {
+        "id": "fig_q3_individual_tp_hist",
+        "figure_type": "histogram",
+        "kind": "data",
+        "purpose": "报告个体推荐时点分布形态、删失聚集于25周的比例，回答“具体时点”而非方向性结论",
+        "data_source": "results/q3_individual_tp.csv",
+        "caption": "图5 个体最佳NIPT时点t_p,i分布及双峰/多峰检测",
+        "section": "6_problem3.tex",
+        "content_spec": "直方图t_p,i频率，标注25周右删失柱与非删失柱颜色；叠加高斯混合模型BIC选择的分量数与位置；若出现双峰，说明是否由BMI/年龄/IVF分层造成。",
+        "required": true
+      },
+      {
+        "id": "fig_q3_group_t_tradeoff",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "展示每组最佳时点的不确定性和组间差异，验证组级约束风险最小化结果",
+        "data_source": "results/q3_main.csv",
+        "caption": "图6 各组组推荐时点t_g及其bootstrap置信区间与组达标比例对应关系",
+        "section": "6_problem3.tex",
+        "content_spec": "x=BMI组，y=时点（周），点=t_g，误差棒=CI_low_g~CI_high_g；右侧标注π_g(t_g)和n_unsolved。",
+        "required": true
+      },
+      {
+        "id": "fig_q3_equivalence_check",
+        "figure_type": "scatter",
+        "kind": "data",
+        "purpose": "验证单调性条件下主交付可等价为达标保证首穿时点",
+        "data_source": "results/q3_equivalence.csv",
+        "caption": "图7 约束风险最小化等价性检查：显式argmin r_delay(t)与首穿时点对比",
+        "section": "6_problem3.tex",
+        "content_spec": "x=首穿时点inf{t:π_marg≥0.80}，y=显式argmin r_delay(t)；绘制45°参考线；统计最大绝对差异与差异分布。",
+        "required": true
+      },
+      {
+        "id": "fig_q3_monotone_diagnostic",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "检验关键假设5（π_marg单调不减）是否满足，若不满足展示回退策略影响",
+        "data_source": "results/q3_monotone_diagnostic.csv",
+        "caption": "图8 边缘概率单调性诊断：网格差分分布及随机斜率截断前后个体t_p对比",
+        "section": "8_sensitivity.tex",
+        "content_spec": "左面板：所有个体在0.1周网格上的Δπ_marg分布直方图，标出负差分比例；右面板：x=截断前t_p，y=截断后t_p，45°线对比。",
+        "required": true
+      },
+      {
+        "id": "fig_q3_error_shift_sigma",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "分析检测误差对分组时点的影响，并量化错分率随误差扩大",
+        "data_source": "results/q3_error_sensitivity.csv",
+        "caption": "图9 通道A测量误差敏感性：不同σ下组时点偏移δt与错分率κ_σ",
+        "section": "8_sensitivity.tex",
+        "content_spec": "左y轴=δt（时点偏移，周），右y轴=κ_σ，x=σ∈{0,0.5σ_tech,σ_tech,2σ_tech}；分BMI组绘制多条曲线。",
+        "required": true
+      },
+      {
+        "id": "fig_q3_bmi_boundary_bootstrap",
+        "figure_type": "heatmap",
+        "kind": "data",
+        "purpose": "检验数据驱动BMI分组方案的边界稳定性，避免把样本内最优边界表述为精确医学阈值",
+        "data_source": "results/q3_boundary_bootstrap.csv",
+        "caption": "图10 BMI分组边界bootstrap重现频率热图",
+        "section": "8_sensitivity.tex",
+        "content_spec": "行=K∈{2,3,4}，列=候选边界；颜色=freq(c)；标注1SE选择的最优K与边界。",
+        "required": true
+      },
+      {
+        "id": "fig_q3_p_sensitivity",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "检验决策保证水平对主推荐时点的影响",
+        "data_source": "results/q3_p_sensitivity.csv",
+        "caption": "图11 保证水平p敏感性：p∈{0.75,0.85,0.90}下各组t_g变化",
+        "section": "8_sensitivity.tex",
+        "content_spec": "x=p，y=t_g（周），分BMI组连线；标注主值p=0.80。",
+        "required": true
+      },
+      {
+        "id": "fig_q3_risk_sensitivity",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "检验关键假设16（线性延迟风险）对结论的稳健性",
+        "data_source": "results/q3_risk_sensitivity.csv",
+        "caption": "图12 风险函数形式敏感性：线性风险与指数风险下个体t_p分布对比",
+        "section": "8_sensitivity.tex",
+        "content_spec": "双直方图或累积分布曲线：线性r_delay与指数r_delay^α得到的个体t_p分布；报告主推荐是否改变。",
+        "required": true
+      },
+      {
+        "id": "fig_q3_model_structure_sensitivity",
+        "figure_type": "scatter",
+        "kind": "data",
+        "purpose": "检验关键假设7（二元与连续双通道）是否必要，回应单通道可能遗漏信号的风险",
+        "data_source": "results/q3_model_structure_sensitivity.csv",
+        "caption": "图13 双通道模型结构敏感性：仅辅助Beta与仅主二项得到的个体t_p对比",
+        "section": "8_sensitivity.tex",
+        "content_spec": "x=双通道t_p，y=单通道t_p；按BMI组分色；报告相关性、偏差和删失比例变化。",
+        "required": true
+      },
+      {
+        "id": "fig_q3_model_coef_dualchannel",
+        "figure_type": "bar",
+        "kind": "data",
+        "purpose": "支撑假设21：二元达标事件与连续Y浓度可能受不同因素支配，报告双通道系数差异",
+        "data_source": "results/q3_model_coef.csv",
+        "caption": "图14 主二项模型与辅助Beta模型固定效应系数方向与显著性对比",
+        "section": "6_problem3.tex",
+        "content_spec": "并列条形图：x=协变量（孕周、体重、身高、年龄、IVF），y=系数估计；两组条形分别为主二项和辅助Beta，带置信区间。",
+        "required": true
+      },
+      {
+        "id": "fig_q4_data_profile",
+        "figure_type": "boxplot",
+        "kind": "data",
+        "purpose": "展示女胎X浓度分布特征、负值比例、AB标签组合及AE列计数，支撑数据构造物证",
+        "data_source": "results/q4_data_profile.csv",
+        "caption": "图2 女胎数据画像：X染色体浓度w分布箱线图和AB标签组合计数",
+        "section": "7_problem4.tex",
+        "content_spec": "左图：w_ij箱线图，标注med_w、q5/q10/q25，显示约67%负值；右图：AB列组合计数柱状图（T13/T18/T21/多标签/空白）。需在caption中说明AE列全部健康。",
+        "required": true
+      },
+      {
+        "id": "fig_q4_gate_curve",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "展示不同门界下覆盖率和可靠子集准确率的变化，验证门界选择及其不确定性",
+        "data_source": "results/q4_gate_sensitivity.csv",
+        "caption": "图3 X浓度可靠性门覆盖率-准确率权衡曲线（q5/q10/q25）",
+        "section": "7_problem4.tex",
+        "content_spec": "横轴为门界q∈{q5,q10,q25}的覆盖率，纵轴为可靠子集阳性命中准确率或整体准确率（用标记点标明）；叠加cluster bootstrap误差条。",
+        "required": true
+      },
+      {
+        "id": "fig_q4_z_roc",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "展示女胎z值判别力弱，说明必须单独定标，且与男胎对照",
+        "data_source": "results/q4_z_roc.csv",
+        "caption": "图4 女胎可靠子集上13/18/21号染色体z值的ROC曲线",
+        "section": "7_problem4.tex",
+        "content_spec": "对每条染色体绘制ROC曲线，标注AUC；同一图中用虚线绘制男胎对应AUC（用不同颜色）；x轴FPR，y轴TPR。",
+        "required": true
+      },
+      {
+        "id": "fig_q4_cost_sens",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "展示代价权重λ对tau_c和代价曲线的影响，验证关键假设9",
+        "data_source": "results/q4_cost_sensitivity.csv",
+        "caption": "图5 不同漏检:误报代价比下各染色体代价函数与阈值关系",
+        "section": "8_sensitivity.tex",
+        "content_spec": "对每个λ∈{1,2,3,5}和每染色体，绘制Cost_c(τ)随τ变化的曲线，标记最优tau；横轴τ，纵轴代价。",
+        "required": true
+      },
+      {
+        "id": "fig_q4_merge_compare",
+        "figure_type": "bar",
+        "kind": "data",
+        "purpose": "比较保守合并与其他合并规则，支持任一阳性作为主规则",
+        "data_source": "results/q4_merge_metrics.csv",
+        "caption": "图6 孕妇级三种合并规则（任一阳性/多数票/最大z）的灵敏度与特异度对比",
+        "section": "7_problem4.tex",
+        "content_spec": "分组柱状图，x轴为合并规则和染色体，y轴为sens/spec；每种染色体并列三组。",
+        "required": true
+      },
+      {
+        "id": "fig_q4_calibration",
+        "figure_type": "scatter",
+        "kind": "data",
+        "purpose": "验证校准层是否需要开启，展示未校准与校准的差异",
+        "data_source": "results/q4_calibration_sens.csv",
+        "caption": "图7 可选校准层前后z值残差分布及CV代价对比",
+        "section": "8_sensitivity.tex",
+        "content_spec": "左右两列散点：左未校准z_ijc vs w_ij，右校准后残差z_adj_ijc vs w_ij；下方或附加表列出校准前后各染色体CV代价和tau_c稳定性。",
+        "required": true
+      },
+      {
+        "id": "fig_q4_gc_sens",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "验证GC不硬剔除假设，展示硬剔除会损失样本并改变指标",
+        "data_source": "results/q4_gc_sens.csv",
+        "caption": "图8 GC处理方式敏感性：连续协变量 vs 质量权重 vs 硬阈值剔除的覆盖率与混淆指标",
+        "section": "8_sensitivity.tex",
+        "content_spec": "以条形图或点线图比较三种GC处理下coverage、sens、spec、AUC；硬阈值对应正常范围40%-60%标志，但女胎GC低，导致样本损失。",
+        "required": true
+      },
+      {
+        "id": "fig_q4_w_trunc",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "验证关键假设5和17，展示负值信息不可丢弃",
+        "data_source": "results/q4_w_trunc_sens.csv",
+        "caption": "图9 X浓度负值保留 vs 截断0对可靠性门覆盖率与指标的影响",
+        "section": "8_sensitivity.tex",
+        "content_spec": "比较保留负值和w_trunc=max(w,0)下q5/q10/q25的覆盖率、可靠子集阳性命中比例、各染色体AUC；用点线图显示偏移。",
+        "required": true
+      },
+      {
+        "id": "fig_q4_cv_bootstrap",
+        "figure_type": "boxplot",
+        "kind": "data",
+        "purpose": "展示不确定性区间和信号显著性，验证孕妇分块假设",
+        "data_source": "results/q4_bootstrap_metrics.csv",
+        "caption": "图10 cluster bootstrap指标分布与置换检验零位分布",
+        "section": "8_sensitivity.tex",
+        "content_spec": "上部分每染色体AUC或F1的bootstrap箱线图，叠加2.5%-97.5%区间；下部分置换检验零位分布直方图与观测值竖线。",
+        "required": true
+      },
+      {
+        "id": "fig_male_female_auc",
+        "figure_type": "bar",
+        "kind": "data",
+        "purpose": "证明女胎必须单独定标，不照搬男胎阈值",
+        "data_source": "results/q4_male_female_auc.csv",
+        "caption": "图11 女胎与男胎同一z阈值方法下AUC对比",
+        "section": "7_problem4.tex",
+        "content_spec": "分组柱状图，x轴染色体c，两组：女胎可靠子集AUC，男胎AUC；误差条用bootstrap CI；若区间重叠则结论降级。",
+        "required": true
+      },
+      {
+        "id": "fig_q4_time_sens",
+        "figure_type": "line",
+        "kind": "data",
+        "purpose": "验证临床时间窗变量不进入主模型假设",
+        "data_source": "results/q4_time_sens.csv",
+        "caption": "图12 加入孕周变量 vs 主方案对记录级AUC的影响",
+        "section": "8_sensitivity.tex",
+        "content_spec": "对每染色体比较主方案AUC与加入孕周后AUC，点线图显示差异，标注CI。",
+        "required": true
+      }
+    ],
+    "tables_plan": [
+      {
+        "id": "table_model_comparison",
+        "title": "模型比较结果",
+        "columns": [],
+        "purpose": "",
+        "section": "5_problem1.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "table_smooth_terms",
+        "title": "平滑项显著性检验",
+        "columns": [],
+        "purpose": "",
+        "section": "5_problem1.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "table_random_effects",
+        "title": "随机效应方差组分与ICC",
+        "columns": [],
+        "purpose": "",
+        "section": "5_problem1.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "table_covariate_forms",
+        "title": "BMI/体重/身高+体重三种协变量形态比较",
+        "columns": [],
+        "purpose": "",
+        "section": "5_problem1.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "table_sens_gc",
+        "title": "GC处理策略敏感性",
+        "columns": [],
+        "purpose": "",
+        "section": "8_sensitivity.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "table_sens_ga_window",
+        "title": "孕周外推界限敏感性",
+        "columns": [],
+        "purpose": "",
+        "section": "8_sensitivity.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "table_sens_marginal",
+        "title": "边缘与条件达标概率差异",
+        "columns": [],
+        "purpose": "",
+        "section": "8_sensitivity.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "table_quantile_check",
+        "title": "分位数回归与Beta-GAMM达标概率一致性",
+        "columns": [],
+        "purpose": "",
+        "section": "8_sensitivity.tex",
+        "content_spec": "",
+        "required": true
+      },
+      {
+        "id": "table_q3_main_result",
+        "title": "问题3主结果：BMI分组与最佳NIPT时点",
+        "columns": [
+          "group",
+          "bmi_low",
+          "bmi_high",
+          "n",
+          "median_bmi",
+          "t_g",
+          "ci_low",
+          "ci_high",
+          "pi_g_at_tg",
+          "median_uncensored",
+          "n_unsolved",
+          "r_cens",
+          "t_star",
+          "delta_t_sigma_tech"
+        ],
+        "purpose": "给出每组BMI区间、最佳NIPT时点、不确定性及删失信息",
+        "section": "6_problem3.tex",
+        "content_spec": "每行一组；t_g、ci_low、ci_high保留两位小数；不同组t_g不得全部相同，若数据导致全部相同需显式输出差异不足的统计证据。",
+        "required": true
+      },
+      {
+        "id": "table_q3_covariate_forms",
+        "title": "四种协变量形态的模型比较",
+        "columns": [
+          "form",
+          "AIC",
+          "BIC",
+          "CV_RMSE",
+          "VIF_max",
+          "chosen_by_1se"
+        ],
+        "purpose": "支持主报告协变量形态选择",
+        "section": "6_problem3.tex",
+        "content_spec": "行=BMI/体重/身高+体重/三项全入；1SE规则标记选中形态。",
+        "required": true
+      },
+      {
+        "id": "table_q3_model_coef",
+        "title": "主二项与辅助Beta模型固定效应及随机效应组分",
+        "columns": [
+          "model",
+          "term",
+          "estimate",
+          "ci_low",
+          "ci_high",
+          "p_value",
+          "sigma2_intercept",
+          "sigma2_slope",
+          "corr_intercept_slope",
+          "phi"
+        ],
+        "purpose": "报告双通道模型系数显著性和随机效应结构",
+        "section": "6_problem3.tex",
+        "content_spec": "分别列出主二项和辅助Beta的孕周、体重、身高、年龄、IVF系数；随机效应方差与协方差；辅助Beta报告精度φ。",
+        "required": true
+      },
+      {
+        "id": "table_q3_error_sensitivity",
+        "title": "通道A测量误差敏感性",
+        "columns": [
+          "group",
+          "sigma",
+          "t_g_sigma",
+          "delta_t_sigma",
+          "kappa_sigma",
+          "pi_g_at_tg"
+        ],
+        "purpose": "分析σ∈{0,0.5σ_tech,σ_tech,2σ_tech}对组时点和错分率的影响",
+        "section": "8_sensitivity.tex",
+        "content_spec": "σ=0为基准；δt=t_g_sigma−t_g_0；κ_σ为错分率，clip到[0,1]。",
+        "required": true
+      },
+      {
+        "id": "table_q3_sensitivity_summary",
+        "title": "关键假设扰动与对照实验汇总",
+        "columns": [
+          "experiment",
+          "control_group",
+          "perturbation",
+          "metric",
+          "main_result",
+          "sensitivity_result",
+          "conclusion"
+        ],
+        "purpose": "逐条覆盖关键假设的扰动或对照实验，形成‘实验→结论’成对证据",
+        "section": "8_sensitivity.tex",
+        "content_spec": "至少包含：单调性截断前后t_p；p∈{0.75,0.85,0.90}；窗口上界25/26周；GC质量权重纳入与否；AE不健康剔除/保留；线性vs指数风险；带/不带随机斜率；单通道vs双通道。",
+        "required": true
+      },
+      {
+        "id": "tab_q4_data_profile",
+        "title": "表1 女胎数据画像与标签构造核查",
+        "columns": [
+          "指标",
+          "值",
+          "备注"
+        ],
+        "purpose": "呈现女胎记录数、孕妇数、w中位数/范围、负值比例、AB组合计数、AE列计数、GC范围，支撑数据画像和构造验证",
+        "section": "7_problem4.tex",
+        "content_spec": "行包含：N_f_rec=605（约）、n_f=147（约）、med_w≈-0.008、q10_f≈-0.0272、w负值比例≈67%、GC范围0.368-0.443、AB组合计数表、AE='健康'计数=605/605、孕妇内阳性混合情况。",
+        "required": true
+      },
+      {
+        "id": "tab_q4_gate",
+        "title": "表2 X浓度可靠性门覆盖率与可靠子集标签分布",
+        "columns": [
+          "门界",
+          "q值",
+          "覆盖率",
+          "可靠子集阳性比例",
+          "可靠子集阴性比例",
+          "无法判定记录数"
+        ],
+        "purpose": "展示q5/q10/q25三种门界下的覆盖率和标签结构，验证门控优先级与门界敏感性",
+        "section": "7_problem4.tex",
+        "content_spec": "三行对应q5_f、q10_f、q25_f；数据来自results/q4_gate_sensitivity.csv。",
+        "required": true
+      },
+      {
+        "id": "tab_q4_thresholds",
+        "title": "表3 各染色体z阈值及记录级指标",
+        "columns": [
+          "染色体",
+          "tau_c",
+          "代价比λ",
+          "TP",
+          "FN",
+          "FP",
+          "TN",
+          "sens",
+          "spec",
+          "ppv",
+          "npv",
+          "f1",
+          "auc",
+          "bootstrap_CI"
+        ],
+        "purpose": "报告第二层阈值选择结果和记录级性能，体现CV代价敏感选择",
+        "section": "7_problem4.tex",
+        "content_spec": "每染色体一行或多行（λ=3主方案及敏感性λ=1,2,5）；指标在可靠子集上计算，概率clip[0,1]。",
+        "required": true
+      },
+      {
+        "id": "tab_q4_merge",
+        "title": "表4 孕妇级合并规则指标对比",
+        "columns": [
+          "染色体",
+          "合并规则",
+          "TP",
+          "FN",
+          "FP",
+          "TN",
+          "sens",
+          "spec",
+          "ppv",
+          "f1"
+        ],
+        "purpose": "比较任一阳性、多数票、最大风险得分三种合并规则，支持保守合并主规则",
+        "section": "7_problem4.tex",
+        "content_spec": "按染色体和规则分组，利用保守合并D_cons=Σ_j d_ijc≥1，多数票D_maj，最大z得分D_max。",
+        "required": true
+      },
+      {
+        "id": "tab_q4_sensitivity",
+        "title": "表5 关键假设敏感性实验汇总",
+        "columns": [
+          "关键假设",
+          "扰动/对照",
+          "比较指标",
+          "期望结论"
+        ],
+        "purpose": "逐条覆盖关键假设4,5,6,7,8,9,11,13，提供扰动实验证据",
+        "section": "8_sensitivity.tex",
+        "content_spec": "行分别对应：AE禁用vs使用、w负值保留vs截断0、门界q5/q10/q25、门控优先vs并行、女胎单独定标vs男胎阈值、代价比1/2/3/5、孕妇合并三规则、GC连续vs硬阈值、临床时间窗加入。",
+        "required": true
+      },
+      {
+        "id": "tab_q4_bootstrap",
+        "title": "表6 cluster bootstrap和置换检验结果",
+        "columns": [
+          "染色体",
+          "指标",
+          "观测值",
+          "CI_low",
+          "CI_high",
+          "perm_p"
+        ],
+        "purpose": "报告不确定性和信号显著性，验证孕妇分块与置换检验",
+        "section": "8_sensitivity.tex",
+        "content_spec": "每染色体记录级AUC、F1等，B=200，CI取2.5%-97.5%分位；perm_p如≥0.05不宣称信号非随机。",
+        "required": true
+      }
+    ],
+    "result_contract": {
+      "description": "女胎异常判定方法的关键指标与阈值表，包含记录级和孕妇级结果，按染色体分层输出三分类指标和不确定性",
+      "allow_single_row": false,
+      "min_rows": 12,
+      "max_rows": 200,
+      "columns": [
+        {
+          "name": "level",
+          "dtype": "category",
+          "min": null,
+          "max": null,
+          "distinct_required": false,
+          "description": "记录级record或孕妇级pregnant"
+        },
+        {
+          "name": "chrom",
+          "dtype": "category",
+          "min": null,
+          "max": null,
+          "distinct_required": false,
+          "description": "目标染色体c，取13/18/21"
+        },
+        {
+          "name": "rule",
+          "dtype": "category",
+          "min": null,
+          "max": null,
+          "distinct_required": false,
+          "description": "孕妇级合并规则，conservative/majority/max_risk；记录级填na"
+        },
+        {
+          "name": "tau",
+          "dtype": "float",
+          "min": -5.0,
+          "max": 10.0,
+          "distinct_required": false,
+          "description": "该染色体z阈值，临床惯例3.0为备选"
+        },
+        {
+          "name": "coverage",
+          "dtype": "float",
+          "min": 0.0,
+          "max": 1.0,
+          "distinct_required": false,
+          "description": "可靠性门覆盖率，可判定记录占比"
+        },
+        {
+          "name": "sens",
+          "dtype": "float",
+          "min": 0.0,
+          "max": 1.0,
+          "distinct_required": false,
+          "description": "灵敏度/召回率"
+        },
+        {
+          "name": "spec",
+          "dtype": "float",
+          "min": 0.0,
+          "max": 1.0,
+          "distinct_required": false,
+          "description": "特异度"
+        },
+        {
+          "name": "ppv",
+          "dtype": "float",
+          "min": 0.0,
+          "max": 1.0,
+          "distinct_required": false,
+          "description": "阳性预测值"
+        },
+        {
+          "name": "npv",
+          "dtype": "float",
+          "min": 0.0,
+          "max": 1.0,
+          "distinct_required": false,
+          "description": "阴性预测值"
+        },
+        {
+          "name": "f1",
+          "dtype": "float",
+          "min": 0.0,
+          "max": 1.0,
+          "distinct_required": false,
+          "description": "F1分数"
+        },
+        {
+          "name": "auc",
+          "dtype": "float",
+          "min": 0.0,
+          "max": 1.0,
+          "distinct_required": false,
+          "description": "ROC曲线下面积，单类时为0.5"
+        },
+        {
+          "name": "ci_low",
+          "dtype": "float",
+          "min": 0.0,
+          "max": 1.0,
+          "distinct_required": false,
+          "description": "cluster bootstrap 2.5%分位"
+        },
+        {
+          "name": "ci_high",
+          "dtype": "float",
+          "min": 0.0,
+          "max": 1.0,
+          "distinct_required": false,
+          "description": "cluster bootstrap 97.5%分位"
+        }
+      ],
+      "allow_extra_columns": true
+    }
+  },
+  "data": {
+    "file_paths": [
+      "C:\\Users\\lingi\\Desktop\\Research\\test1\\C题\\附件.xlsx"
+    ],
+    "data_intelligence": [
+      "附件为单个Excel表：每行是一次NIPT检测/样本记录，共1082行、31列；列混合孕妇基本信息、测序质量指标、染色体浓度/Z值及异常标签。建模时应按分析问题切分列，不能把全部行当作独立样本。",
+      "表内是重复测量/纵向结构：同一孕妇代码出现多条记录（孕妇代码唯一数约267，行数约1082），可能存在多次采血或一次采血多次检测。问题2、3的最佳时点/最早达标时间需按孕妇代码分组寻找，不能混行统计。",
+      "时间列需要预处理：检测孕周为文本格式（如11w+6），必须解析为数值孕周；末次月经和检测日期可用于孕周交叉校验，末次月经存在少量缺失。",
+      "问题1-3核心变量是Y染色体浓度与检测孕周、孕妇BMI；Y浓度达标阈值为4%。需先筛选男胎样本，并根据Y染色体相关列/性染色体信息区分男女胎。孕妇BMI可直接使用，身高、体重、年龄、怀孕/生产次数、IVF妊娠等可作为协变量。",
+      "同孕妇多条记录会引入组内相关性；数据概要显示多数数值列非正态且部分列存在较强时序自相关，建模时应考虑按孕妇分组的混合效应、适当变换或稳健方法，不能默认独立正态假设。",
+      "问题4中目标标签为AB列“染色体的非整倍体”，该列缺失率约88%，且取值为组合文本如T18、T13T18、T21；空白可能表示无异常或未检出，需结合胎儿是否健康AE列谨慎构造标签，不能简单删除或插补。",
+      "问题4的候选特征应聚焦21/18/13号染色体Z值、X染色体Z值与浓度、总读段数、唯一比对读段数、比对比例、重复比例、过滤比例、GC含量及各染色体GC含量，这些与测序质量和染色体异常信号相关；对问题2、3分析检测误差时，可借助同孕妇多次检测的波动以及测序质量指标度量误差。",
+      "样本序号、孕妇代码、末次月经、检测日期等主要用于索引、分组和时间计算，不适合作为普通回归特征；胎儿是否健康AE是最终结果，若用于辅助标注需避免与训练过程发生标签泄漏。"
+    ],
+    "data_findings": [
+      "序号 列正态性: Shapiro-Wilk 统计量=0.955, p=0.0000 < 0.05（非正态）",
+      "年龄 列正态性: Shapiro-Wilk 统计量=0.969, p=0.0000 < 0.05（非正态）",
+      "身高 列正态性: Shapiro-Wilk 统计量=0.990, p=0.0000 < 0.05（非正态）",
+      "体重 列正态性: Shapiro-Wilk 统计量=0.962, p=0.0000 < 0.05（非正态）",
+      "检测抽血次数 列正态性: Shapiro-Wilk 统计量=0.861, p=0.0000 < 0.05（非正态）",
+      "孕妇BMI 列正态性: Shapiro-Wilk 统计量=0.943, p=0.0000 < 0.05（非正态）",
+      "原始读段数 列正态性: Shapiro-Wilk 统计量=0.972, p=0.0000 < 0.05（非正态）",
+      "在参考基因组上比对的比例 列分布形态: 偏度=-2.997, 超额峰度=30.436（显著偏离正态）",
+      "在参考基因组上比对的比例 列正态性: Shapiro-Wilk 统计量=0.837, p=0.0000 < 0.05（非正态）",
+      "重复读段的比例 列分布形态: 偏度=0.897, 超额峰度=3.270（显著偏离正态）",
+      "重复读段的比例 列正态性: Shapiro-Wilk 统计量=0.958, p=0.0000 < 0.05（非正态）",
+      "唯一比对的读段数   列正态性: Shapiro-Wilk 统计量=0.975, p=0.0000 < 0.05（非正态）",
+      "GC含量 列分布形态: 偏度=0.507, 超额峰度=3.290（显著偏离正态）",
+      "GC含量 列正态性: Shapiro-Wilk 统计量=0.970, p=0.0000 < 0.05（非正态）",
+      "13号染色体的Z值 列正态性: Shapiro-Wilk 统计量=0.992, p=0.0000 < 0.05（非正态）",
+      "18号染色体的Z值 列正态性: Shapiro-Wilk 统计量=0.990, p=0.0000 < 0.05（非正态）",
+      "X染色体的Z值 列正态性: Shapiro-Wilk 统计量=0.975, p=0.0000 < 0.05（非正态）",
+      "Y染色体的Z值 列正态性: Shapiro-Wilk 统计量=0.959, p=0.0000 < 0.05（非正态）",
+      "Y染色体浓度 列正态性: Shapiro-Wilk 统计量=0.968, p=0.0000 < 0.05（非正态）",
+      "X染色体浓度 列正态性: Shapiro-Wilk 统计量=0.988, p=0.0000 < 0.05（非正态）",
+      "13号染色体的GC含量 列分布形态: 偏度=1.081, 超额峰度=5.832（显著偏离正态）",
+      "13号染色体的GC含量 列正态性: Shapiro-Wilk 统计量=0.944, p=0.0000 < 0.05（非正态）",
+      "18号染色体的GC含量 列分布形态: 偏度=0.830, 超额峰度=4.367（显著偏离正态）",
+      "18号染色体的GC含量 列正态性: Shapiro-Wilk 统计量=0.957, p=0.0000 < 0.05（非正态）",
+      "21号染色体的GC含量 列分布形态: 偏度=0.441, 超额峰度=3.100（显著偏离正态）",
+      "21号染色体的GC含量 列正态性: Shapiro-Wilk 统计量=0.972, p=0.0000 < 0.05（非正态）",
+      "被过滤掉读段数的比例 列正态性: Shapiro-Wilk 统计量=0.976, p=0.0000 < 0.05（非正态）",
+      "生产次数 列分布形态: 偏度=1.704, 超额峰度=2.669（显著偏离正态）",
+      "生产次数 列正态性: Shapiro-Wilk 统计量=0.625, p=0.0000 < 0.05（非正态）",
+      "序号 列样本独立性（时序自相关）: lag-1 自相关系数=0.994（>0.5，存在强时序自相关）",
+      "年龄 列样本独立性（时序自相关）: lag-1 自相关系数=0.999（>0.5，存在强时序自相关）"
+    ],
+    "profile_summary": {
+      "total_rows": 1082,
+      "total_cols": 31,
+      "issues": [
+        "以下列缺失率超过 50%：['染色体的非整倍体']"
+      ],
+      "files": [
+        {
+          "path": "C:\\Users\\lingi\\Desktop\\Research\\test1\\C题\\附件.xlsx",
+          "rows": 1082,
+          "cols": 31,
+          "issues": [
+            "以下列缺失率超过 50%：['染色体的非整倍体']"
+          ],
+          "columns": [
+            {
+              "name": "序号",
+              "dtype": "int",
+              "missing_rate": 0.0,
+              "min": 1.0,
+              "max": 1082.0,
+              "mean": 541.5,
+              "std": 312.490799864572,
+              "unique_count": 1082,
+              "sample_values": [
+                "1",
+                "2",
+                "3"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "孕妇代码",
+              "dtype": "text",
+              "missing_rate": 0.0,
+              "min": null,
+              "max": null,
+              "mean": null,
+              "std": null,
+              "unique_count": 267,
+              "sample_values": [
+                "A001",
+                "A001",
+                "A001"
+              ],
+              "parse_hint": "df['孕妇代码'].str.replace('A', '', regex=False).astype(float)"
+            },
+            {
+              "name": "年龄",
+              "dtype": "int",
+              "missing_rate": 0.0,
+              "min": 21.0,
+              "max": 43.0,
+              "mean": 28.93992606284658,
+              "std": 3.6562638956254556,
+              "unique_count": 21,
+              "sample_values": [
+                "31",
+                "31",
+                "31"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "身高",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": 144.0,
+              "max": 175.0,
+              "mean": 161.0637707948244,
+              "std": 5.23217645959195,
+              "unique_count": 29,
+              "sample_values": [
+                "160.0",
+                "160.0",
+                "160.0"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "体重",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": 53.0,
+              "max": 140.0,
+              "mean": 83.8948336414048,
+              "std": 9.917950284907176,
+              "unique_count": 513,
+              "sample_values": [
+                "72.0",
+                "73.0",
+                "73.0"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "末次月经",
+              "dtype": "text",
+              "missing_rate": 0.011090573012939002,
+              "min": null,
+              "max": null,
+              "mean": null,
+              "std": null,
+              "unique_count": 189,
+              "sample_values": [
+                "2023-02-01 00:00:00",
+                "2023-02-01 00:00:00",
+                "2023-02-01 00:00:00"
+              ],
+              "parse_hint": "pd.to_datetime(df['末次月经'])"
+            },
+            {
+              "name": "IVF妊娠",
+              "dtype": "category",
+              "missing_rate": 0.0,
+              "min": null,
+              "max": null,
+              "mean": null,
+              "std": null,
+              "unique_count": 3,
+              "sample_values": [
+                "自然受孕",
+                "自然受孕",
+                "自然受孕"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "检测日期",
+              "dtype": "text",
+              "missing_rate": 0.0,
+              "min": null,
+              "max": null,
+              "mean": null,
+              "std": null,
+              "unique_count": 379,
+              "sample_values": [
+                "20230429",
+                "20230531",
+                "20230625"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "检测抽血次数",
+              "dtype": "int",
+              "missing_rate": 0.0,
+              "min": 1.0,
+              "max": 5.0,
+              "mean": 2.487985212569316,
+              "std": 1.1275475042916057,
+              "unique_count": 5,
+              "sample_values": [
+                "1",
+                "2",
+                "3"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "检测孕周",
+              "dtype": "category",
+              "missing_rate": 0.0,
+              "min": null,
+              "max": null,
+              "mean": null,
+              "std": null,
+              "unique_count": 108,
+              "sample_values": [
+                "11w+6",
+                "15w+6",
+                "20w+1"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "孕妇BMI",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": 20.703125,
+              "max": 46.875,
+              "mean": 32.28879078882743,
+              "std": 2.972432009058641,
+              "unique_count": 783,
+              "sample_values": [
+                "28.125",
+                "28.515625",
+                "28.515625"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "原始读段数",
+              "dtype": "int",
+              "missing_rate": 0.0,
+              "min": 1342544.0,
+              "max": 9895358.0,
+              "mean": 4692190.2356746765,
+              "std": 948737.9532073574,
+              "unique_count": 1082,
+              "sample_values": [
+                "5040534",
+                "3198810",
+                "3848846"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "在参考基因组上比对的比例",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": 0.5986381,
+              "max": 0.846620403,
+              "mean": 0.7974720650804067,
+              "std": 0.014951434940374831,
+              "unique_count": 1080,
+              "sample_values": [
+                "0.8067259",
+                "0.8063927",
+                "0.8038578"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "重复读段的比例",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": 0.02115006,
+              "max": 0.04651945,
+              "mean": 0.030473940258780037,
+              "std": 0.0027470825667931806,
+              "unique_count": 1082,
+              "sample_values": [
+                "0.0276035",
+                "0.02827083",
+                "0.03259621"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "唯一比对的读段数  ",
+              "dtype": "int",
+              "missing_rate": 0.0,
+              "min": 980606.0,
+              "max": 7342907.0,
+              "mean": 3546560.647874307,
+              "std": 712817.8684176581,
+              "unique_count": 1082,
+              "sample_values": [
+                "3845411",
+                "2457402",
+                "2926292"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "GC含量",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": 0.3862499,
+              "max": 0.4213731,
+              "mean": 0.4006764933197782,
+              "std": 0.003307198507781393,
+              "unique_count": 1080,
+              "sample_values": [
+                "0.3992619",
+                "0.3932988",
+                "0.3998897"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "13号染色体的Z值",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": -3.527318775,
+              "max": 5.676687906,
+              "mean": 0.31214734582347503,
+              "std": 1.211392468132073,
+              "unique_count": 1082,
+              "sample_values": [
+                "0.782096634",
+                "0.692855699",
+                "-0.888701998"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "18号染色体的Z值",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": -3.262149334,
+              "max": 6.076343685,
+              "mean": 0.5832121545295749,
+              "std": 1.2885900722044448,
+              "unique_count": 1082,
+              "sample_values": [
+                "-2.321211659",
+                "1.168520758",
+                "-1.01823645"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "21号染色体的Z值",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": -3.289375849,
+              "max": 3.137182924,
+              "mean": -0.11570941281977819,
+              "std": 1.0989187042609343,
+              "unique_count": 1082,
+              "sample_values": [
+                "-1.026002604",
+                "-2.595098987",
+                "-1.308661706"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "X染色体的Z值",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": -3.919147889,
+              "max": 7.867669632,
+              "mean": 0.32517843544177455,
+              "std": 1.2928932169573666,
+              "unique_count": 1082,
+              "sample_values": [
+                "-0.062103083",
+                "0.582182673",
+                "-0.342563969"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "Y染色体的Z值",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": -4.005487139,
+              "max": 7.000856057,
+              "mean": 0.15614253445194085,
+              "std": 1.3077288631066426,
+              "unique_count": 1082,
+              "sample_values": [
+                "-1.035610255",
+                "-0.363518671",
+                "-0.734502556"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "Y染色体浓度",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": 0.010003887,
+              "max": 0.234217554,
+              "mean": 0.07718697843807763,
+              "std": 0.03351841045704469,
+              "unique_count": 1082,
+              "sample_values": [
+                "0.02593584",
+                "0.034886856",
+                "0.066171003"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "X染色体浓度",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": -0.076508263,
+              "max": 0.223932573,
+              "mean": 0.057024936271719034,
+              "std": 0.041464976956572246,
+              "unique_count": 1082,
+              "sample_values": [
+                "0.038061019",
+                "0.059572251",
+                "0.075994548"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "13号染色体的GC含量",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": 0.366486967,
+              "max": 0.402934581,
+              "mean": 0.3786933978410351,
+              "std": 0.0031643940914512212,
+              "unique_count": 1081,
+              "sample_values": [
+                "0.377068639",
+                "0.3715415",
+                "0.377449453"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "18号染色体的GC含量",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": 0.378464788,
+              "max": 0.412192792,
+              "mean": 0.39147874860905735,
+              "std": 0.0030202677864658084,
+              "unique_count": 1082,
+              "sample_values": [
+                "0.389803052",
+                "0.384770662",
+                "0.390582472"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "21号染色体的GC含量",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": 0.385214418,
+              "max": 0.425052136,
+              "mean": 0.40085072870332716,
+              "std": 0.0038095896395479436,
+              "unique_count": 1082,
+              "sample_values": [
+                "0.399399221",
+                "0.391706139",
+                "0.399479687"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "被过滤掉读段数的比例",
+              "dtype": "float",
+              "missing_rate": 0.0,
+              "min": 0.011982671,
+              "max": 0.037834786,
+              "mean": 0.023043272059149723,
+              "std": 0.0034032095124037457,
+              "unique_count": 1082,
+              "sample_values": [
+                "0.027483794",
+                "0.01961667",
+                "0.022312402"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "染色体的非整倍体",
+              "dtype": "category",
+              "missing_rate": 0.8835489833641405,
+              "min": null,
+              "max": null,
+              "mean": null,
+              "std": null,
+              "unique_count": 5,
+              "sample_values": [
+                "T18",
+                "T13T18",
+                "T21"
+              ],
+              "parse_hint": "df['染色体的非整倍体'].str.replace('T', '', regex=False).astype(float)"
+            },
+            {
+              "name": "怀孕次数",
+              "dtype": "category",
+              "missing_rate": 0.0,
+              "min": null,
+              "max": null,
+              "mean": null,
+              "std": null,
+              "unique_count": 3,
+              "sample_values": [
+                "1",
+                "1",
+                "1"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "生产次数",
+              "dtype": "int",
+              "missing_rate": 0.0,
+              "min": 0.0,
+              "max": 3.0,
+              "mean": 0.3798521256931608,
+              "std": 0.6371775009776978,
+              "unique_count": 4,
+              "sample_values": [
+                "0",
+                "0",
+                "0"
+              ],
+              "parse_hint": ""
+            },
+            {
+              "name": "胎儿是否健康",
+              "dtype": "category",
+              "missing_rate": 0.0,
+              "min": null,
+              "max": null,
+              "mean": null,
+              "std": null,
+              "unique_count": 2,
+              "sample_values": [
+                "是",
+                "是",
+                "是"
+              ],
+              "parse_hint": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "recent_stderr": "LTM 中出现 '60.0 %'，但题目常量为 [4.0] %（可能 LLM 记错了数值）",
+  "constraints": {
+    "allowed_libraries": [
+      "numpy",
+      "pandas",
+      "scipy",
+      "sklearn",
+      "statsmodels",
+      "matplotlib",
+      "networkx",
+      "pulp"
+    ],
+    "execution_timeout_seconds": 90,
+    "output_path": "MODELING_OUTPUT_DIR/results/q4.csv"
+  }
+}
