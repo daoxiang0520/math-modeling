@@ -1,7 +1,11 @@
 """Q2 Plan 1 revised: monotone linear Beta random-intercept decision model.
 
-Outputs follow q2_plan1_coder_task.md.  The clinical concentration threshold is
-4%; p=0.80 is a decision guarantee level and is explicitly sensitivity-tested.
+This module provides the shared data/model/bootstrap primitives used by the
+joint optimizer (solution_q2_joint.py), which is the authoritative Plan 1
+pipeline and produces the outputs in results/.  The clinical concentration
+threshold is 4%; p=0.80 is a decision guarantee level and is explicitly
+sensitivity-tested.  The former fixed K=2 / median-recommendation pipeline in
+main_legacy_deprecated() is superseded and kept only as historical reference.
 """
 from __future__ import annotations
 
@@ -278,7 +282,13 @@ def misclassification(model: Model, week: float, bmi: float, sigma: float,
     return float(fnr), float(fpr)
 
 
-def main() -> None:
+def main_legacy_deprecated() -> None:
+    """DEPRECATED: superseded fixed K=2 / median-recommendation pipeline.
+
+    Kept only as historical reference.  The active Plan 1 contract jointly
+    selects K, half-BMI boundaries and 80%-coverage group times; run
+    solution_q2_joint.py (or this module as __main__) instead.
+    """
     start = time.time()
     data_path, out = resolve_paths()
     results = out / "results"
@@ -516,6 +526,6 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    # The current Plan 1 contract jointly selects K, BMI cuts and group times.
+    # Active Plan 1 contract: jointly selects K, BMI cuts and group times.
     from solution_q2_joint import main as joint_main
     joint_main()

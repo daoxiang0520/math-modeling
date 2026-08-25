@@ -14,6 +14,10 @@
 个体保证概率固定为0.80，组覆盖率主值也为0.80；用过早:延迟=4:1的非对称绝对损失选择组时点，
 并以孕妇层bootstrap区间量化模型不确定性。不允许降级为方向性结论；双通道误差语义分离。
 
+> 本版取代 `outputs/tasks/q2/coder_task.md` 的旧口径：组推荐由“组内个体 t_p0.80 中位数”
+> 改为“4:1 非对称损失下的 80% 分位组时点（覆盖率 0.80 约束）”；ρ 由 t* 风险损失权重
+> （ρ=1）改为过早风险权重乘数（4×ρ:1）。论文引用 LTM 时以本版为准。
+
 ## 2. 关键建模设定（15 条假设摘要，完整见动态 LTM）
 1. 男胎筛选：孕妇代码 + Y浓度(V列) + Y-Z值(U列) 有效值交叉核查。
 2. 孕妇层纵向重复测量；主决策模型采用孕妇随机截距 b0i，不以行为独立样本；随机斜率仅作单调性诊断，不进入主决策概率。
@@ -31,7 +35,8 @@
     Σ_i[4·max(t_i−T_g,0)+max(T_g−t_i,0)]，等价于组内t_i的80%分位数，目标组覆盖率q=0.80。
     分组用连续区间动态规划求解；K用300次条件选择bootstrap的一标准误差规则选取最简单合格模型。
 11. 【关键】联合决策损失为过早检测风险4·max(t_i−T_g,0)与延迟风险max(T_g−t_i,0)之和；不再使用会把主结果压到下界的连续延迟概率损失。
-12. 为兼容既有12列契约，t_star与t_p0.80_median均写入联合优化组时点T_g；rho敏感性解释为过早风险权重乘数ρ∈{0.5,1,2}。
+12. 主表组时点列统一命名 `t_p0.80_p80`（即组内个体 t_p0.80 的80%分位数，列名与语义一致）；
+    t_star 与 t_p0.80_p80 均写入联合优化组时点 T_g；rho敏感性解释为过早风险权重乘数ρ∈{0.5,1,2}。
 13. 【关键】双通道分离：通道 B=孕妇层 cluster bootstrap（B=100）主区间；通道 A=σ_tech 卷积
     （σ∈{0,0.5σ,σ,2σ}）独立敏感性列（Δt 与错分率），不叠加。
 14. GC/测序质量列仅作敏感性；不按 40–60% 硬剔除（实测 0.386–0.421，平台系统偏差）。
@@ -63,12 +68,13 @@
 12. 输出：results/q2.csv（主表）+ 图表数据源 CSV + summary。
 
 ## 4. 结果契约（q2.csv 主表，1–5 行）
-列：group, bmi_low, bmi_high, n, median_bmi, t_p0.80_median, ci_low, ci_high, t_star,
-distinct_required, delta_t_sigma_tech, n_unsolved
-- 为兼容既有12列契约，`t_p0.80_median`字段保存联合优化得到的组统一时点（即组内t_p0.80的80%分位数）；
-- t_p0.80_median/ci_low/ci_high/t_star ∈ [10,25]；bmi ∈ [15,50]；n ∈ [30,267]；
+列：group, bmi_low, bmi_high, n, median_bmi, t_p0.80_p80, median_uncensored, ci_low, ci_high,
+t_star, distinct_required, delta_t_sigma_tech, n_unsolved
+- `t_p0.80_p80` 为联合优化得到的组统一时点（即组内个体 t_p0.80 的80%分位数，覆盖率0.80约束），列名与语义一致；
+- `median_uncensored` 为未删失个体 t_p0.80 的中位数；删失>20% 的组（如 G5）以此为主口径并显式标注；
+- t_p0.80_p80/ci_low/ci_high/t_star ∈ [10,25]；bmi ∈ [15,50]；n ∈ [30,267]；
 - distinct_required 为 True/False；False 时附统一时点建议值；
-- 允许扩展列；禁止 NaN/Inf。
+- 允许扩展列；q2.csv 主表禁止 NaN/Inf（median_uncensored 仅在全删失的极端分组下才可能缺省，正常数据不会出现）。
 
 ## 5. 图表计划（按 plan_id 命名到 figures/）
 - fig_q2_ga_bmi_prob_curves：所选各组中位 BMI 的 P_marg 曲线（含95%带）

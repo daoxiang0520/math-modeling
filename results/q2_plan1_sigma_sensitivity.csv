@@ -1,4 +1,4 @@
-sigma_factor,sigma,group,t_p0.80_median,delta_t,n_unsolved
+sigma_factor,sigma,group,t_p0.80_p80,delta_t,n_unsolved
 0.0,0.0,G1,10.0,0.0,0
 0.0,0.0,G2,12.4,0.0,0
 0.0,0.0,G3,16.1,0.0,0

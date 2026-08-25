@@ -81,13 +81,13 @@ logit(E[Y_ij]) = beta0
 
 最新版 [`q2_plan1_coder_task.md`](q2_plan1_coder_task.md) 已将固定K=2、BMI=30改为联合优化：主概率模型仍唯一采用GA纯线性Beta均值层加孕妇随机截距；决策层在K=1,...,5中用动态规划联合搜索半BMI刻度切点和组统一时点，并把K=1统一策略作为正式基线。
 
-- 正式12列契约：[`results/q2.csv`](results/q2.csv)；
+- 正式结果契约（13列）：[`results/q2.csv`](results/q2.csv)，其中`t_p0.80_p80`为80%覆盖组时点（组内个体t_p0.80的80%分位数），`median_uncensored`为未删失中位数（G5删失42.5%，主口径22.2周）；
 - 选择K=5，切点为`31.0 / 32.0 / 33.5 / 35.0 kg/m²`；
 - 五组样本量为`111 / 33 / 49 / 34 / 40`；
 - 推荐时点为`10.0 / 12.4 / 16.1 / 19.3 / 25.0`周；
 - 前四组可确认覆盖率均超过80%；G5有17人25周内无解，可确认覆盖率仅57.5%，25周只能解释为右删失上界；
 - K由300次条件选择bootstrap的一标准误差规则确定；完整四切点向量精确重现率33.7%，应解释为过渡区而非固定医学阈值；
-- 三次完整运行分别为73.15、67.65和69.79秒；四份核心CSV哈希完全一致。主分析0.1周/1000 MC，重拟合bootstrap按预案为60次、0.2周/500 MC。
+- 固定种子下重跑结果数值稳定；主分析0.1周/1000 MC，重拟合bootstrap按预案为60次、0.2周/500 MC。
 
 完整报告见 [`reports/problem2_plan1_report.md`](reports/problem2_plan1_report.md)。
 
@@ -176,12 +176,17 @@ python .\solution_q2_plan1.py
 python .\figures_q2_plan1.py
 ```
 
+> ⚠️ 旧流水线（`solution.py` / `solution_q2.py` / `figures.py`）与联合优化 Plan 1
+> 共享 `tab_q2_main_results.csv`、`tab_q2_k_selection.csv` 等结果文件名：运行旧流水线会
+> 覆盖 Plan 1 的对应结果。上述复现顺序即旧流水线在前、Plan 1 在后；若只需要 Plan 1
+> 结果，请跳过 `solution.py`、`solution_q2.py` 与 `figures.py`。
+
 运行后：
 
 - `solution.py` 与 `solution_q2.py` 分别生成问题1、问题2结果；
 - `figures.py` 从 `results/` 读取数据并重新生成 `figures/`；
 - 本机完整配置实测 `solution_q2.py` 约289秒；按用户要求不再执行90秒降级，采用100次cluster bootstrap、0.1周bootstrap网格，并在主概率层和每个bootstrap副本中均使用1000次MC。Beta生存函数保留768节点自适应logit查找表优化，审计最大绝对插值误差为`7.04e-7`。
-- 联合优化Plan 1三次完整运行 `solution_q2_plan1.py` 为73.15、67.65和69.79秒；四份核心CSV逐字节一致。主层为0.1周/1000 MC，选择层300次条件bootstrap，重拟合层按预案为60次、0.2周/500 MC；1024节点主查找表最大绝对误差为`7.07e-7`。
+- 联合优化Plan 1（`solution_q2_plan1.py`）固定种子重跑为57.4秒；主层为0.1周/1000 MC，选择层300次条件bootstrap，重拟合层按预案为60次、0.2周/500 MC；1024节点主查找表最大绝对误差为`7.07e-7`。修订后主表列名统一为`t_p0.80_p80`（组内个体t_p0.80的80%分位数）并新增`median_uncensored`（G5未删失中位数22.2周）；关键决策数值（K、切点、组时点、CI端点）与修订前一致，模型参数仅存末位浮点噪声。
 
 ## 可视化质量控制
 

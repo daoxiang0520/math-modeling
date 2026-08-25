@@ -49,7 +49,7 @@ def individual_t80():
                    label="联合选择BMI边界" if j == 0 else None)
     for _, row in main.iterrows():
         lo = row.bmi_low; hi = row.bmi_high
-        ax.hlines(row["t_p0.80_median"], lo, hi, color=COLORS[row.group], linewidth=3.5)
+        ax.hlines(row["t_p0.80_p80"], lo, hi, color=COLORS[row.group], linewidth=3.5)
     ax.set(xlabel="孕妇BMI（kg/m²）", ylabel="最早达到80%保证的孕周（周）",
            title="联合选择的BMI分组、组时点与个体右删失", ylim=(9.5, 25.7))
     ax.legend(frameon=False, ncol=2, loc="upper left")

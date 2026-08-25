@@ -649,7 +649,11 @@ def main() -> None:
         "fig_sens_interaction", "fig_sens_gc", "fig_sens_marginal", "fig_sens_ga_window",
         "fig_sens_ga_crosscheck", "fig_sens_health", "fig_anchor_threshold",
     ]
-    if (RESULTS / "tab_q2_main_results.csv").exists():
+    # Legacy Q2 figures consume solution_q2.py data sources; the joint Plan 1
+    # pipeline shares some result filenames (tab_q2_main_results.csv, ...) with
+    # different schemas, so only run them in a pure legacy workspace.
+    if ((RESULTS / "q2_individual_tstar.csv").exists()
+            and not (RESULTS / "q2_plan1_individual_t80.csv").exists()):
         figure_q2_probability_curves()
         figure_q2_loss_curves()
         figure_q2_bmi_bins()

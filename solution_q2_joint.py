@@ -43,10 +43,14 @@ def group_rows(tp: np.ndarray, censored: np.ndarray, bmi: np.ndarray,
         week = float(np.clip(np.ceil((raw - 1e-12) / GA_STEP) * GA_STEP, GA_MIN, GA_MAX))
         loss = (early_weight * np.maximum(decision_values - week, 0) +
                 LATE_WEIGHT * np.maximum(week - decision_values, 0))
+        uncensored_values = values[~group_censored]
         rows.append({
             "group": f"G{g + 1}", "bmi_low": lows[g], "bmi_high": highs[g],
             "n": int(mask.sum()), "median_bmi": float(np.median(bmi[mask])),
             "recommendation": week,
+            "median_uncensored": (float(np.median(uncensored_values))
+                                  if uncensored_values.size else float("nan")),
+            "n_uncensored": int(uncensored_values.size),
             "coverage": float(np.mean((values <= week + 1e-12) & ~group_censored)),
             "expected_asymmetric_loss": float(np.mean(loss)),
             "n_unsolved": int(np.sum(censored[mask])),
@@ -154,7 +158,7 @@ def main() -> None:
         for row in group_rows(ts, cs, bmi, boundaries):
             delta = row["recommendation"] - base_rec[row["group"]]
             sigma_rows.append({"sigma_factor": factor, "sigma": sigma, "group": row["group"],
-                               "t_p0.80_median": row["recommendation"], "delta_t": delta,
+                               "t_p0.80_p80": row["recommendation"], "delta_t": delta,
                                "n_unsolved": row["n_unsolved"]})
             fnr, fpr = misclassification(
                 model, base_rec[row["group"]], row["median_bmi"], sigma,
@@ -231,8 +235,10 @@ def main() -> None:
                          for k, week in enumerate(t))
     pd.DataFrame(prob_rows).to_csv(results / "q2_plan1_prob_curves.csv", index=False)
 
-    # Legacy 12-column contract.  t_p0.80_median retains its historical name,
-    # but now stores the jointly optimized 80%-coverage group time.
+    # Main result table.  t_p0.80_p80 is the jointly optimized group time
+    # (80th percentile of within-group t_p0.80 under the coverage-0.80 constraint);
+    # median_uncensored reports the uncensored-median metric required by the LTM
+    # for groups with >20% right censoring (G5: 22.2 weeks, n=23).
     delta_sigma = sigma_df[np.isclose(sigma_df["sigma_factor"], 1.0)].set_index("group")["delta_t"].to_dict()
     distinct = selected_k > 1 and bool(np.all(np.diff([r["recommendation"] for r in groups]) >= MIN_TIME_GAP))
     main_rows = []
@@ -241,7 +247,8 @@ def main() -> None:
         main_rows.append({
             "group": row["group"], "bmi_low": row["bmi_low"], "bmi_high": row["bmi_high"],
             "n": row["n"], "median_bmi": row["median_bmi"],
-            "t_p0.80_median": row["recommendation"],
+            "t_p0.80_p80": row["recommendation"],
+            "median_uncensored": row["median_uncensored"],
             "ci_low": float(np.quantile(vals, 0.025)), "ci_high": float(np.quantile(vals, 0.975)),
             "t_star": row["recommendation"], "distinct_required": distinct,
             "delta_t_sigma_tech": float(delta_sigma[row["group"]]),
@@ -308,6 +315,8 @@ def main() -> None:
         "group_coverage_target": GROUP_COVERAGE, "early_weight": EARLY_WEIGHT,
         "late_weight": LATE_WEIGHT, "n_min": N_MIN, "min_time_gap": MIN_TIME_GAP,
         "selection_bootstrap": SELECTION_BOOTSTRAP,
+        "rho_semantics": "multiplier on the early-risk weight (4*rho : 1) in the "
+                         "asymmetric group-time loss; replaces the former rho=1 t* risk-view loss",
         "exact_boundary_vector_stability": exact_boundary_stability,
         "beta_ga": float(model.params[1]), "beta_ga_p": float(model.pvalues[1]),
         "phi": model.phi, "random_intercept_variance": model.var_b0,
