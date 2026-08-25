@@ -1,0 +1,48 @@
+{
+  "records": 1082,
+  "mothers": 267,
+  "selected_covariate_form": "weight",
+  "selected_K": 2,
+  "boundaries": [
+    36.0
+  ],
+  "sigma_tech": 0.13293552621663884,
+  "tech_repeat_groups": 40,
+  "tech_repeat_records": 101,
+  "auxiliary_model": "Beta fixed mean/precision + separate logit(y) ML MixedLM random layer (two-stage approximation)",
+  "auxiliary_phi": 65.79527603015875,
+  "auxiliary_random_structure": "RI+RS",
+  "primary_model": "logistic GLMM by Gauss-Hermite marginal likelihood",
+  "primary_random_structure": "RI",
+  "monotonicity": {
+    "fallback": "RI-only decision integration",
+    "min_delta": 0.00026140124965068345,
+    "violating_individuals_before": 71,
+    "violating_individuals": 0,
+    "lookup_error": 4.824757537935653e-07
+  },
+  "selection_lookup_error": 4.5594262165771227e-07,
+  "bootstrap_requested": 100,
+  "bootstrap_completed": 100,
+  "bootstrap_failures": 15,
+  "selection_bootstrap": 300,
+  "runtime_limit": "disabled by explicit user instruction",
+  "runtime_seconds": 216.63881826400757,
+  "seed": 2025,
+  "output_contract": [
+    "group",
+    "bmi_low",
+    "bmi_high",
+    "n",
+    "median_bmi",
+    "t_g",
+    "ci_low",
+    "ci_high",
+    "pi_g_at_tg",
+    "median_uncensored",
+    "n_unsolved",
+    "r_cens",
+    "t_star",
+    "delta_t_sigma_tech"
+  ]
+}

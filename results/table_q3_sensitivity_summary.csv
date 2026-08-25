@@ -1,0 +1,12 @@
+﻿experiment,control_group,perturbation,metric,main_result,sensitivity_result,conclusion
+male_filter,Y and Y-Z valid cross-check,all 1082 male-sheet records pass,n_records,1082,1082,stable
+longitudinal,row independence,mother grouped CV/bootstrap,analysis_unit,1082,267,267 clusters retained
+covariate_form,minimum CV form,1SE selected form,selected_form,weight,weight,see q3_covariate_forms
+random_slope,RI+RS integration,RI-only decision integration,min_delta_probability,0.00026140124965068345,0.00026140124965068345,monotonicity enforced by prespecified fallback
+guarantee,p=0.80,p=0.75/0.85/0.90,group_times,0.8,multi,see q3_p_sensitivity
+measurement_error,sigma=0,0.5/1/2 sigma_tech,time_shift,0.0,2.9566245410160032,sigma_tech may underestimate total error
+right_censoring,25-week upper bound,uncensored median,max_group_censoring,0.0,0.6923076923076923,explicit censoring semantics
+risk_form,linear delay,quadratic/clinical piecewise,t_star,linear,multi,secondary soft-loss only
+GC,no hard 40-60% filter,continuous QC profile,below_0.40_records,0,451,platform shift disclosed
+AE,retain all,unhealthy-label sensitivity,unhealthy_records,1082,38,AE excluded from real-time model
+dual_channel,auxiliary Beta,primary binomial,group_time_difference,see auxiliary,see binomial,channels may identify different factors

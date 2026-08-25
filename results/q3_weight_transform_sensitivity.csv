@@ -1,0 +1,4 @@
+﻿variant,AIC,BIC,CV_RMSE,note
+linear,-4449.077325865761,-4419.157927109322,0.03286919438870135,piecewise knot=training median weight
+log,-4441.724867253139,-4411.8054684967,0.03299953723285668,piecewise knot=training median weight
+piecewise,-4465.962168720516,-4431.056203504671,0.03277068715060279,piecewise knot=training median weight

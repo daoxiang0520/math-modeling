@@ -175,6 +175,11 @@ python .\figures.py
 # 修订Plan 1（结果契约写入 results/q2.csv）
 python .\solution_q2_plan1.py
 python .\figures_q2_plan1.py
+
+# 问题3（按 q3_coder_task.md；90秒限制依用户要求取消）
+python .\solution_q3.py
+python .\figures_q3.py
+python .\validate_q3.py
 ```
 
 > ⚠️ 旧流水线（`solution.py` / `solution_q2.py` / `figures.py`）与联合优化 Plan 1
@@ -206,5 +211,11 @@ python .\figures_q2_plan1.py
 1. 原始附件以孕妇为重复测量单位，交叉验证必须按孕妇分组，避免行级数据泄漏。
 2. 题目中的 GC 正常范围为 40%-60%，但本数据存在平台性整体偏移，因此不采用硬阈值批量删除，而将 GC 作为连续质量协变量做敏感性分析。
 3. 图中的 95% 区间表示统计置信区间；临床浓度阈值始终为题目给定的 4%。
-4. 当前 `results/output.csv` 遵循问题2主结果契约；问题1结果另保存在 `results/q1.csv`，其余 CSV 是图表和诊断的可审计数据源。
+4. `results/output.csv` 始终对应最近一次运行的小题；问题1、2、3的持久副本分别为 `results/q1.csv`、`results/q2.csv`、`results/q3.csv`，其余 CSV 是图表和诊断的可审计数据源。
+
+## 问题3交付
+
+`solution_q3.py` 实现主二项 GLMM 与辅助 Beta 混合模型双通道、孕妇分组五折交叉验证、1SE 协变量/分组选择、随机效应与测量误差积分、单调性回退、100 次成功孕妇层重拟合 Bootstrap，以及完整敏感性分析。程序固定随机种子 2025，不设置 90 秒中断；本次完整运行约 217 秒。
+
+主契约文件为 `results/output.csv`（同内容备份为 `results/q3.csv`、`results/q3_main.csv`），13 张注册图位于 `figures/fig_q3_*`，第三问报告见 `reports/problem3_report.md`。运行问题3会将 `results/output.csv` 更新为问题3契约；如随后运行问题2，则会被问题2结果覆盖。
 

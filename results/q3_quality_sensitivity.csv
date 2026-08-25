@@ -1,0 +1,7 @@
+﻿experiment,group,t_g,pi_g_at_tg,n_mothers,random_structure,covariate_form
+main,G1,12.125575253305099,0.7998588848851631,241,RI+RS,weight
+main,G2,25.0,0.7750420285588397,26,RI+RS,weight
+gc_continuous,G1,12.091780274313933,0.8000452683170881,241,RI+RS,weight
+gc_continuous,G2,25.0,0.7737025334987042,26,RI+RS,weight
+exclude_unhealthy,G1,11.375176090683244,0.8001298149135012,230,RI+RS,weight_no_ivf
+exclude_unhealthy,G2,25.0,0.7753273373264074,26,RI+RS,weight_no_ivf

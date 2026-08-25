@@ -668,6 +668,11 @@ def main() -> None:
             "fig_q2_bootstrap_boundary_heatmap", "fig_q2_calibration",
             "fig_q2_rho_sensitivity", "fig_q2_fnr_fpr_sigma",
         ]
+    # Question 3 has an isolated renderer because its contract fixes 13 IDs.
+    # Calling the legacy entrypoint must still regenerate every registered Q3 figure.
+    if (RESULTS / "q3_main.csv").exists():
+        from figures_q3 import main as q3_main
+        q3_main()
     contact_sheet(names)
     print(f"generated {len(names)} figures in {FIGURES}")
 
