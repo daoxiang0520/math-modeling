@@ -670,7 +670,7 @@
       }
     ],
     "result_contract": {
-      "description": "问题2主结果表：每个BMI分组一行，给出BMI区间、最佳NIPT时点及不确定性",
+      "description": "问题2主结果表（修订R2）：每个BMI分组一行，主交付=组内孕妇t_p0.80中位数及bootstrap 95%区间；t_star为风险平衡时点参考列",
       "allow_single_row": false,
       "min_rows": 2,
       "max_rows": 6,
@@ -716,12 +716,12 @@
           "description": "组内b_i中位数"
         },
         {
-          "name": "optimal_week",
+          "name": "t_p0.80_median",
           "dtype": "float",
           "min": 10.0,
           "max": 25.0,
           "distinct_required": true,
-          "description": "组最佳NIPT时点，周"
+          "description": "组内孕妇t_p0.80的中位数（主交付），周"
         },
         {
           "name": "ci_low",
@@ -729,7 +729,7 @@
           "min": 10.0,
           "max": 25.0,
           "distinct_required": false,
-          "description": "最佳时点95%区间下界"
+          "description": "t_p0.80中位数95%区间下界（cluster bootstrap B=100）"
         },
         {
           "name": "ci_high",
@@ -737,31 +737,15 @@
           "min": 10.0,
           "max": 25.0,
           "distinct_required": false,
-          "description": "最佳时点95%区间上界"
+          "description": "t_p0.80中位数95%区间上界（cluster bootstrap B=100）"
         },
         {
-          "name": "pbar_at_opt",
+          "name": "t_star",
           "dtype": "float",
-          "min": 0.0,
-          "max": 1.0,
+          "min": 10.0,
+          "max": 25.0,
           "distinct_required": false,
-          "description": "最佳时点组平均达标概率"
-        },
-        {
-          "name": "expected_loss",
-          "dtype": "float",
-          "min": 0.0,
-          "max": 10.0,
-          "distinct_required": false,
-          "description": "最佳时点组期望损失"
-        },
-        {
-          "name": "delta_t_sigma_tech",
-          "dtype": "float",
-          "min": -3.0,
-          "max": 3.0,
-          "distinct_required": false,
-          "description": "σ_tech引起的时点偏移，周"
+          "description": "风险平衡时点参考列：ρ=1、t0=10、r_delay=(t-10)/17"
         },
         {
           "name": "distinct_required",
@@ -769,7 +753,15 @@
           "min": null,
           "max": null,
           "distinct_required": false,
-          "description": "是否达到可报告组间时点差异；False时需附统一时点统计说明"
+          "description": "组间t_p0.80中位数差≥0.5周记True；False时需附统一时点统计说明"
+        },
+        {
+          "name": "delta_t_sigma_tech",
+          "dtype": "float",
+          "min": -3.0,
+          "max": 3.0,
+          "distinct_required": false,
+          "description": "σ=σ_tech下t_p0.80中位数偏移，周"
         }
       ],
       "allow_extra_columns": true
@@ -1355,5 +1347,9 @@
     ],
     "execution_timeout_seconds": 90,
     "output_path": "MODELING_OUTPUT_DIR/results/q2.csv"
+  },
+  "decision_revision": {
+    "revision": "R2",
+    "summary": "主交付改为达标时间反演t_p0.80（组中位数+bootstrap 95%区间）；风险函数去零平台 r_delay(t)=(t-10)/17，t*降为二级参考列；distinct_required判定=组间t_p0.80中位数差≥0.5周；诊断依据须写入报告（旧统一12周系损失函数零风险平台所致，非数据结论）。概率模型/MC/bootstrap/内部校准/s6/s7保留不变。"
   }
 }
