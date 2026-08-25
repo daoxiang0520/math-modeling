@@ -99,18 +99,24 @@ def load_and_parse(path: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
         raw["孕妇代码"].astype(str).str.replace("A", "", regex=False), errors="coerce"
     )
     parsed = raw["检测孕周"].map(parse_ga)
-    raw[["ga", "week_part", "day_part"]] = pd.DataFrame(parsed.tolist(), index=raw.index)
+    # 显式逐列赋值（语义等价）：让框架 AST 列名校验能静态识别 ga/week_part/day_part 派生列
+    _parsed_parts = pd.DataFrame(parsed.tolist(), index=raw.index)
+    raw["ga"] = _parsed_parts[0]
+    raw["week_part"] = _parsed_parts[1]
+    raw["day_part"] = _parsed_parts[2]
     raw["lmp_date"] = pd.to_datetime(raw["末次月经"], errors="coerce")
     raw["test_date"] = parse_test_date(raw["检测日期"])
     raw["ga_from_date"] = (raw["test_date"] - raw["lmp_date"]).dt.days / 7.0
     raw["ga_date_diff"] = raw["ga"] - raw["ga_from_date"]
     raw["aneuploidy_num"] = raw["染色体的非整倍体"].map(parse_aneuploidy)
-    for source, target in [
-        ("Y染色体浓度", "y"), ("Y染色体的Z值", "y_z"),
-        ("孕妇BMI", "bmi"), ("年龄", "age"), ("身高", "height"),
-        ("体重", "weight"), ("GC含量", "gc"),
-    ]:
-        raw[target] = pd.to_numeric(raw[source], errors="coerce")
+    # 显式逐列赋值（语义与 for 循环等价）：让框架的 AST 列名校验能静态识别派生列
+    raw["y"] = pd.to_numeric(raw["Y染色体浓度"], errors="coerce")
+    raw["y_z"] = pd.to_numeric(raw["Y染色体的Z值"], errors="coerce")
+    raw["bmi"] = pd.to_numeric(raw["孕妇BMI"], errors="coerce")
+    raw["age"] = pd.to_numeric(raw["年龄"], errors="coerce")
+    raw["height"] = pd.to_numeric(raw["身高"], errors="coerce")
+    raw["weight"] = pd.to_numeric(raw["体重"], errors="coerce")
+    raw["gc"] = pd.to_numeric(raw["GC含量"], errors="coerce")
     raw["ivf"] = raw["IVF妊娠"].astype(str).str.contains(
         "IVF|试管", case=False, regex=True
     ).astype(int)
