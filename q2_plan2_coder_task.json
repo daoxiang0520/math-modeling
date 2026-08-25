@@ -1,0 +1,157 @@
+{
+  "task": "coder_implementation",
+  "sub_question": {
+    "index": 1,
+    "total": 4,
+    "text": "问题2：按BMI分组给出每组最佳NIPT时点，使潜在风险最小，并分析检测误差对结果的影响。"
+  },
+  "plan": "plan_2_bayesian_monotone_beta_mixed",
+  "decision_revision": "R3+R4（不允许降级；右删失处理；固定边界30.0；t_p0.80主交付）",
+  "dynamic_ltm": {
+    "objective": "贝叶斯单调Beta混合后验决策：组推荐=组内个体t_p0.80后验中位数+95%可信区间；与plan_1对比效果",
+    "key_formulas": [
+      "y_ij~Beta(mu_ij,phi); logit(mu_ij)=b0+b_ga(ga-10)+b_bmi*bmi+b_age*age+b_ivf*ivf+b0i+b1i(ga-10)",
+      "b_ga~TruncNorm(0,inf); t_p0.80(b)=inf{t in [10,25]: P_marg(t,b)>=0.80}; 右删失t_p=25.0",
+      "r_delay(t)=(t-10)/17; L_ref=r_delay+rho[1-P_marg], rho=1"
+    ]
+  },
+  "artifacts": {
+    "figures_plan": [
+      {
+        "id": "fig_q2_ga_bmi_prob_curves",
+        "figure_type": "line",
+        "kind": "data",
+        "required": true
+      },
+      {
+        "id": "fig_q2_bmi_bins_tstar",
+        "figure_type": "scatter",
+        "kind": "data",
+        "required": true
+      },
+      {
+        "id": "fig_q2_loss_curves_optimal",
+        "figure_type": "line",
+        "kind": "data",
+        "required": true
+      },
+      {
+        "id": "fig_q2_error_shift_sigma",
+        "figure_type": "line",
+        "kind": "data",
+        "required": true
+      },
+      {
+        "id": "fig_q2_calibration",
+        "figure_type": "scatter",
+        "kind": "data",
+        "required": true
+      },
+      {
+        "id": "fig_q2_posterior_diag",
+        "figure_type": "hist",
+        "kind": "data",
+        "required": true
+      }
+    ],
+    "tables_plan": [
+      {
+        "id": "tab_q2_main_results_plan2",
+        "title": "贝叶斯方案分组主结果表"
+      }
+    ],
+    "result_contract": {
+      "description": "plan_2主结果表：每组一行，t_p0.80后验中位数+95%可信区间",
+      "min_rows": 2,
+      "max_rows": 6,
+      "allow_single_row": false,
+      "columns": [
+        {
+          "name": "group",
+          "dtype": "category"
+        },
+        {
+          "name": "bmi_low",
+          "dtype": "float",
+          "min": 15.0,
+          "max": 50.0
+        },
+        {
+          "name": "bmi_high",
+          "dtype": "float",
+          "min": 15.0,
+          "max": 50.0
+        },
+        {
+          "name": "n",
+          "dtype": "int",
+          "min": 10.0,
+          "max": 267.0
+        },
+        {
+          "name": "median_bmi",
+          "dtype": "float",
+          "min": 15.0,
+          "max": 50.0
+        },
+        {
+          "name": "t_p0.80_posterior_median",
+          "dtype": "float",
+          "min": 10.0,
+          "max": 25.0,
+          "distinct_required": true
+        },
+        {
+          "name": "ci_low",
+          "dtype": "float",
+          "min": 10.0,
+          "max": 25.0
+        },
+        {
+          "name": "ci_high",
+          "dtype": "float",
+          "min": 10.0,
+          "max": 25.0
+        },
+        {
+          "name": "t_star",
+          "dtype": "float",
+          "min": 10.0,
+          "max": 25.0
+        },
+        {
+          "name": "distinct_required",
+          "dtype": "category"
+        },
+        {
+          "name": "delta_t_sigma_tech",
+          "dtype": "float",
+          "min": -3.0,
+          "max": 3.0
+        },
+        {
+          "name": "n_unsolved",
+          "dtype": "int",
+          "min": 0,
+          "max": 267
+        }
+      ]
+    }
+  },
+  "constraints": {
+    "allowed_libraries": [
+      "numpy",
+      "pandas",
+      "scipy",
+      "sklearn",
+      "statsmodels",
+      "matplotlib",
+      "networkx",
+      "pulp"
+    ],
+    "execution_timeout_seconds": 90,
+    "output_path": "MODELING_OUTPUT_DIR/results/q2_plan2.csv",
+    "no_pymc": true,
+    "inference_fallback": "Laplace approximation if MH not within 90s; disclose in report"
+  }
+}
