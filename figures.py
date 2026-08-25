@@ -16,6 +16,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
+from PIL import Image
 from matplotlib.lines import Line2D
 from matplotlib.patches import FancyBboxPatch, Patch
 import networkx as nx
@@ -90,7 +91,10 @@ def save(fig: plt.Figure, name: str, grayscale: bool = True) -> None:
         image = mpimg.imread(FIGURES / f"{name}.png")
         rgb = image[..., :3]
         lum = rgb @ np.array([0.2126, 0.7152, 0.0722])
-        plt.imsave(GRAY / f"{name}_grayscale.png", lum, cmap="gray", vmin=0, vmax=1)
+        gray8 = np.uint8(np.clip(lum, 0, 1) * 255)
+        Image.fromarray(gray8, mode="L").save(
+            GRAY / f"{name}_grayscale.png", dpi=(300, 300)
+        )
 
 
 def figure_roadmap() -> None:

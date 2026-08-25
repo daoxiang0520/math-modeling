@@ -14,12 +14,17 @@
 ├── 附件.xlsx                       # 男胎与女胎检测数据
 ├── solution.py                     # 数据解析、重复测量模型、检验与敏感性分析
 ├── solution_q2.py                  # Q2简约概率模型、动态分箱、误差传播与校准
+├── solution_q2_plan1.py            # 联合优化Plan 1兼容入口
+├── solution_q2_joint.py            # 联合选择K、BMI切点和组时点的完整流水线
+├── joint_grouping.py               # 连续BMI动态规划与一标准误差选择
+├── figures_q2_plan1.py             # 联合Plan 1十张契约/诊断图
 ├── figures.py                      # 全部图表生成脚本
 ├── requirements.generated.txt      # Python 依赖
 ├── results/                        # 模型结果、诊断数据和图表数据源
 ├── figures/                        # PNG / PDF / SVG 与灰度预览
 ├── reports/problem1_report.md      # 问题1完整建模报告（含图表引用）
-├── reports/problem2_report.md      # 问题2完整建模报告（含图表引用）
+├── reports/problem2_report.md      # 问题2旧损失方案报告
+├── reports/problem2_plan1_report.md # 联合优化Plan 1报告（含十张图引用）
 ├── reports/visualization_report.md # 选图依据和视觉质检记录
 ├── coder_task.md                   # 建模任务与实现约束
 └── coder_task.json                 # 结构化任务描述
@@ -72,7 +77,21 @@ logit(E[Y_ij]) = beta0
 
 完整建模报告见 [`reports/problem1_report.md`](reports/problem1_report.md)；详细结果见 [`results/`](results/)；选图与视觉质检见 [`reports/visualization_report.md`](reports/visualization_report.md)。
 
-## 问题2方法与核心结论
+## 问题2联合优化Plan 1：联合选择组数、BMI切点与组时点
+
+最新版 [`q2_plan1_coder_task.md`](q2_plan1_coder_task.md) 已将固定K=2、BMI=30改为联合优化：主概率模型仍唯一采用GA纯线性Beta均值层加孕妇随机截距；决策层在K=1,...,5中用动态规划联合搜索半BMI刻度切点和组统一时点，并把K=1统一策略作为正式基线。
+
+- 正式12列契约：[`results/q2.csv`](results/q2.csv)；
+- 选择K=5，切点为`31.0 / 32.0 / 33.5 / 35.0 kg/m²`；
+- 五组样本量为`111 / 33 / 49 / 34 / 40`；
+- 推荐时点为`10.0 / 12.4 / 16.1 / 19.3 / 25.0`周；
+- 前四组可确认覆盖率均超过80%；G5有17人25周内无解，可确认覆盖率仅57.5%，25周只能解释为右删失上界；
+- K由300次条件选择bootstrap的一标准误差规则确定；完整四切点向量精确重现率33.7%，应解释为过渡区而非固定医学阈值；
+- 三次完整运行分别为73.15、67.65和69.79秒；四份核心CSV哈希完全一致。主分析0.1周/1000 MC，重拟合bootstrap按预案为60次、0.2周/500 MC。
+
+完整报告见 [`reports/problem2_plan1_report.md`](reports/problem2_plan1_report.md)。
+
+## 问题2旧损失优化方案（保留作对照）
 
 问题2重新拟合“孕周分段线性 + BMI + 年龄 + IVF”的简约 Beta 均值模型，以 REML 方差层保留孕妇随机截距和随机孕周斜率；对随机效应积分得到新孕妇达标概率，并最小化
 
@@ -114,6 +133,7 @@ logit(E[Y_ij]) = beta0
 | [`fig_q2_calibration`](figures/fig_q2_calibration.png) | BMI组与孕周带内部校准 |
 | [`fig_q2_rho_sensitivity`](figures/fig_q2_rho_sensitivity.png) | 损失比rho敏感性 |
 | [`fig_q2_fnr_fpr_sigma`](figures/fig_q2_fnr_fpr_sigma.png) | 测量误差与阈值假阴性/假阳性 |
+| [`fig_q2_monotone_diagnostic`](figures/fig_q2_monotone_diagnostic.png) | 修订Plan 1单调主模型与分段诊断模型 |
 
 其余敏感性图覆盖分布假设、交互项、GC 处理、边缘化、孕周窗口、孕周日期核验和胎儿健康记录处理。每张图均提供：
 
@@ -150,6 +170,10 @@ $env:MODELING_OUTPUT_DIR = (Get-Location).Path
 python .\solution.py
 python .\solution_q2.py
 python .\figures.py
+
+# 修订Plan 1（结果契约写入 results/q2.csv）
+python .\solution_q2_plan1.py
+python .\figures_q2_plan1.py
 ```
 
 运行后：
@@ -157,6 +181,7 @@ python .\figures.py
 - `solution.py` 与 `solution_q2.py` 分别生成问题1、问题2结果；
 - `figures.py` 从 `results/` 读取数据并重新生成 `figures/`；
 - 本机完整配置实测 `solution_q2.py` 约289秒；按用户要求不再执行90秒降级，采用100次cluster bootstrap、0.1周bootstrap网格，并在主概率层和每个bootstrap副本中均使用1000次MC。Beta生存函数保留768节点自适应logit查找表优化，审计最大绝对插值误差为`7.04e-7`。
+- 联合优化Plan 1三次完整运行 `solution_q2_plan1.py` 为73.15、67.65和69.79秒；四份核心CSV逐字节一致。主层为0.1周/1000 MC，选择层300次条件bootstrap，重拟合层按预案为60次、0.2周/500 MC；1024节点主查找表最大绝对误差为`7.07e-7`。
 
 ## 可视化质量控制
 
