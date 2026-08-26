@@ -673,6 +673,9 @@ def main() -> None:
     if (RESULTS / "q3_main.csv").exists():
         from figures_q3 import main as q3_main
         q3_main()
+    if (RESULTS / "q4.csv").exists():
+        from figures_q4 import main as q4_main
+        q4_main()
     contact_sheet(names)
     print(f"generated {len(names)} figures in {FIGURES}")
 

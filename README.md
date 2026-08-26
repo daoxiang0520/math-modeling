@@ -169,7 +169,10 @@ PowerShell：
 $env:MODELING_DATA_PATH = (Resolve-Path '.\附件.xlsx').Path
 $env:MODELING_OUTPUT_DIR = (Get-Location).Path
 
+# 问题1（solution.py 默认入口现按最新任务运行问题4）
+$env:MODELING_QUESTION = '1'
 python .\solution.py
+Remove-Item Env:MODELING_QUESTION
 python .\solution_q2.py
 python .\figures.py
 
@@ -181,6 +184,11 @@ python .\figures_q2_plan1.py
 python .\solution_q3.py
 python .\figures_q3.py
 python .\validate_q3.py
+
+# 问题4：也可直接运行 python .\solution.py
+python .\solution_q4.py
+python .\figures_q4.py
+python .\validate_q4.py
 ```
 
 > ⚠️ 旧流水线（`solution.py` / `solution_q2.py` / `figures.py`）与联合优化 Plan 1
@@ -219,4 +227,10 @@ python .\validate_q3.py
 `solution_q3.py` 实现主二项 GLMM 与辅助 Beta 混合模型双通道、孕妇分组五折交叉验证、1SE 协变量/分组选择、随机效应与测量误差积分、单调性回退、100 次成功孕妇层重拟合 Bootstrap，以及完整敏感性分析。程序固定随机种子 2025，不设置 90 秒中断；本次完整运行约 217 秒。
 
 主契约文件为 `results/output.csv`（同内容备份为 `results/q3.csv`、`results/q3_main.csv`），13 张注册图位于 `figures/fig_q3_*`，第三问报告见 `reports/problem3_report.md`。运行问题3会将 `results/output.csv` 更新为问题3契约；如随后运行问题2，则会被问题2结果覆盖。
+
+## 问题4交付
+
+`solution_q4.py` 实现女胎三层最小结构：X染色体浓度可靠性门、逐染色体代价敏感Z阈值、孕妇级保守合并；采用孕妇分块五折交叉验证、200次cluster bootstrap、100次结构化置换和全套敏感性分析。固定种子2025的完整运行约71秒，满足任务的90秒上限。
+
+主契约保存为 `results/q4.csv` 与 `results/output.csv`；11张注册图由 `figures_q4.py` 生成，报告见 `reports/problem4_report.md`。由于最新Q4任务要求入口名为 `solution.py`，该入口默认转发至Q4；复现Q1时设置 `MODELING_QUESTION=1`。
 

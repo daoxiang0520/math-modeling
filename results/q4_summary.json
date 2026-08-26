@@ -1,0 +1,18 @@
+{
+  "records": 605,
+  "mothers": 147,
+  "ab_positive_records": 67,
+  "ab_positive_mothers": 44,
+  "w_negative_rate": 0.6694214876033058,
+  "q10": -0.027153685,
+  "coverage": 0.8975206611570248,
+  "bootstrap_completed": 200,
+  "permutations_completed": 100,
+  "seed": 2025,
+  "runtime_seconds": 72.55964039999526,
+  "runtime_limit_seconds": 90,
+  "runtime_contract_passed": true,
+  "main_model": "raw chromosome-specific Z thresholds",
+  "calibration_adopted": false,
+  "ci_metric_for_contract": "f1"
+}

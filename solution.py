@@ -704,4 +704,10 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    # The latest coder-task contract executes solution.py for Q4.  Preserve the
+    # established Q1 implementation behind an explicit selector.
+    if os.getenv("MODELING_QUESTION", "4") == "1":
+        main()
+    else:
+        from solution_q4 import main as q4_main
+        q4_main()
